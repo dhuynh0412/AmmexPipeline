@@ -103,15 +103,15 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"IngestRoot": {
-											"value": "@pipeline().parameters.IngestRoot",
+											"value": "@{item().IngestRoot}",
 											"type": "Expression"
 										},
 										"IngestRootPath": {
-											"value": "@pipeline().parameters.IngestRootPath",
+											"value": "@{item().IngestRootPath}",
 											"type": "Expression"
 										},
 										"IngestRootPathFileName": {
-											"value": "@{item().SourceSchema}.@{item().SourceObject}_{utcnow('s')}.parquet",
+											"value": "@{item().SourceSchema}_@{item().SourceObject}_@{convertFromUtc(utcNow('s'), 'Pacific Standard Time') }.parquet",
 											"type": "Expression"
 										}
 									}
