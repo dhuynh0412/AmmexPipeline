@@ -1,0 +1,9 @@
+{
+	"name": "EdwAdfZoomget",
+	"location": "westus2",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "cf2bc201-323f-4252-85b2-94b9e1af4934",
+		"tenantId": "6fe8874b-b6a3-476c-9357-0389bdea5f53"
+	}
+}
