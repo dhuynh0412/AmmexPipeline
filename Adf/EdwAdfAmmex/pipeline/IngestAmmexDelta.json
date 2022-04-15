@@ -27,7 +27,8 @@
 					"dataset": {
 						"referenceName": "DsAsqlDataWarehouse_EdwAdfPipelineReadOnly",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			},
 			{
@@ -106,7 +107,7 @@
 											"type": "Expression"
 										},
 										"IngestRootPathFileName": {
-											"value": "@pipeline().parameters.IngestRootPathFileName",
+											"value": "@{item().SourceSchema}.@{item().SourceObject}_{utcnow('s')}.parquet",
 											"type": "Expression"
 										}
 									}
