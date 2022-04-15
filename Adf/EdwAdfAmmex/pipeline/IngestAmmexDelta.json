@@ -18,7 +18,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "SELECT top 10\n\t\t--DISTINCT\n\t\tSourceSystem = 'Greatplan',\n\t\tSourceDatabase = T.TABLE_CATALOG,\n\t\tSourceSchema = T.TABLE_SCHEMA,\n\t\tSourceObject = T.TABLE_NAME,\n\t\tSourceObjectType = T.TABLE_TYPE,\n\t\tIngestRoot = 'Ingest',\t--'ammex-edw-synase-blob',\n\t\tIngestRootPath = 'ammex/delta',\n\t\tIngestRootPathFileName = 'dbo.Account'\nFROM INFORMATION_SCHEMA.TABLES T\nORDER BY 1, 2, 3, 5, 4",
+							"value": "SELECT \ttop 11\n\t\t--DISTINCT\n\t\tSourceSystem = 'Greatplan',\n\t\tSourceDatabase = T.TABLE_CATALOG,\n\t\tSourceSchema = T.TABLE_SCHEMA,\n\t\tSourceObject = T.TABLE_NAME,\n\t\tSourceObjectType = T.TABLE_TYPE,\n\t\tIngestRoot = 'ingest',\t--'ammex-edw-synase-blob',\n\t\tIngestRootPath = 'ammex/delta',\n\t\tIngestRootPathFileName = T.TABLE_SCHEMA + '.' + T.TABLE_NAME\nFROM INFORMATION_SCHEMA.TABLES T\nORDER BY 1, 2, 3, 5, 4",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -107,7 +107,7 @@
 											"type": "Expression"
 										},
 										"IngestRootPath": {
-											"value": "@{item().IngestRootPath}/",
+											"value": "@{item().IngestRootPath}",
 											"type": "Expression"
 										},
 										"IngestRootPathFileName": {
