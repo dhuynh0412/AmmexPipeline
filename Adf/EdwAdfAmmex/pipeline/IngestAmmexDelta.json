@@ -51,8 +51,54 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "getSourceObjects",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT \n\t\tDISTINCT\n\t\tSourceSystem = 'Greatplan',\n\t\tSourceDatabase = T.TABLE_CATALOG,\n\t\tSourceSchema = T.TABLE_SCHEMA,\n\t\tSourceObject = T.TABLE_NAME,\n\t\tSourceObjectType = T.TABLE_TYPE\nFROM INFORMATION_SCHEMA.TABLES T\nORDER BY 1, 2, 3, 5, 4",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DsAsqlDataWarehouse_EdwAdfPipelineReadOnly",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "getSourceObjects",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": []
 			}
 		],
+		"parameters": {
+			"Schema": {
+				"type": "string"
+			},
+			"Table": {
+				"type": "string"
+			}
+		},
 		"folder": {
 			"name": "1-Ingest"
 		},
