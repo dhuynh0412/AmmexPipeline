@@ -1,0 +1,9 @@
+{
+	"name": "EdwAdfJasonTest",
+	"location": "westus2",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "9c221f83-a030-46de-a0ea-7f8ed8e80da3",
+		"tenantId": "6fe8874b-b6a3-476c-9357-0389bdea5f53"
+	}
+}
