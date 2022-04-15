@@ -95,7 +95,21 @@
 							"outputs": [
 								{
 									"referenceName": "DsAdlsAmmexEdw",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"IngestRoot": {
+											"value": "@pipeline().parameters.IngestRoot",
+											"type": "Expression"
+										},
+										"IngestRootPath": {
+											"value": "@pipeline().parameters.IngestRootPath",
+											"type": "Expression"
+										},
+										"IngestRootPathFileName": {
+											"value": "@pipeline().parameters.IngestRootPathFileName",
+											"type": "Expression"
+										}
+									}
 								}
 							]
 						}
@@ -108,6 +122,15 @@
 				"type": "string"
 			},
 			"Table": {
+				"type": "string"
+			},
+			"IngestRoot": {
+				"type": "string"
+			},
+			"IngestRootPath": {
+				"type": "string"
+			},
+			"IngestRootPathFileName": {
 				"type": "string"
 			}
 		},
