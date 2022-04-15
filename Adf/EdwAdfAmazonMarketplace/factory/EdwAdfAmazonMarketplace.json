@@ -1,0 +1,9 @@
+{
+	"name": "EdwAdfAmazonMarketplace",
+	"location": "westus2",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "8819b489-a999-499b-bc31-e7775e64d6dc",
+		"tenantId": "6fe8874b-b6a3-476c-9357-0389bdea5f53"
+	}
+}
