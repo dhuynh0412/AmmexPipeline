@@ -1,0 +1,22 @@
+{
+	"name": "DsAdlsAmmexEdw",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAdlsAmmexEdw",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Account",
+				"folderPath": "inguest/ammex",
+				"fileSystem": "ammex-edw-synase-blob"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,1277 @@
+{
+	"name": "DsAsqlDataWarehouse_EdwAdfPipelineReadOnly",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAsqlDataWarehouse_EdwAdfPipelineReadOnly",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IsDeleted",
+				"type": "bit"
+			},
+			{
+				"name": "MasterRecordId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ParentId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BillingStreet",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BillingCity",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BillingState",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BillingPostalCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BillingCountry",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BillingLatitude",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "BillingLongitude",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "BillingGeocodeAccuracy",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ShippingStreet",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ShippingCity",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ShippingState",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ShippingPostalCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ShippingCountry",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ShippingLatitude",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "ShippingLongitude",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "ShippingGeocodeAccuracy",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Phone",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Fax",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AccountNumber",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Website",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PhotoUrl",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Sic",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Industry",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AnnualRevenue",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "NumberOfEmployees",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Ownership",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TickerSymbol",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Description",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Rating",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Site",
+				"type": "nvarchar"
+			},
+			{
+				"name": "OwnerId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CreatedDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "CreatedById",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LastModifiedDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "LastModifiedById",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SystemModstamp",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "LastActivityDate",
+				"type": "date"
+			},
+			{
+				"name": "LastViewedDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "LastReferencedDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "IsCustomerPortal",
+				"type": "bit"
+			},
+			{
+				"name": "Jigsaw",
+				"type": "nvarchar"
+			},
+			{
+				"name": "JigsawCompanyId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AccountSource",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SicDesc",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IsBuyer",
+				"type": "bit"
+			},
+			{
+				"name": "Sub_Industry__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Total_Revenue__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Critical_Information__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AMMEX_external_ID__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Account_Status_for_Integration__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Phone2__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LeadSource__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DoNotBulkEmail__c",
+				"type": "bit"
+			},
+			{
+				"name": "CreditLimit__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "Admin__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TaxExemptNumber__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LastSASLaunch__c",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "AccountBalance__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "GroupName__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PrimarySIC__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CustomerClass__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PaymentTerms__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TotalSalesYTD__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "TotalSalesLYR__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "Current__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "Days115__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "Days1630__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "Days3160__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "Days61__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "ManagerHold__c",
+				"type": "bit"
+			},
+			{
+				"name": "TierQty__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "PromoEndDate__c",
+				"type": "date"
+			},
+			{
+				"name": "Promo__c",
+				"type": "bit"
+			},
+			{
+				"name": "ManagerExempt__c",
+				"type": "bit"
+			},
+			{
+				"name": "AuthorizedReseller__c",
+				"type": "bit"
+			},
+			{
+				"name": "Marketing_List__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Freight_Terms__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Critical_Info_2__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADRSCODE__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Order_Entry_Info__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Contact_ID__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Trade_Show_2021__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Last_Order_Date__c",
+				"type": "date"
+			},
+			{
+				"name": "DocLink_Fields_Modified_Date__c",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "Kibo_Account__c",
+				"type": "bit"
+			},
+			{
+				"name": "Terms_Removal_Date__c",
+				"type": "date"
+			},
+			{
+				"name": "Terms_Approval_Date__c",
+				"type": "date"
+			},
+			{
+				"name": "For_Boomi_Import__c",
+				"type": "bit"
+			},
+			{
+				"name": "Freight_Type__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Billing_ADRSCODE__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DBA__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LocationType__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FirstInvoicedDate__c",
+				"type": "date"
+			},
+			{
+				"name": "TradeShow2018__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CSRPriceDeviation__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "KiboAccount__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Credit_Hold__c",
+				"type": "bit"
+			},
+			{
+				"name": "Status__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Last_Login__c",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "Primary_Contact__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "new_pricelevelid__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StatusCode__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "new_salespersonid__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "new_monthlyvolumeunits__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "new_numberofsalesreps__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "new_currentvendors__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "new_willyoubesellingorusingglove__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Days_since_Last_Activity__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "PriceChangeNotice__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "GP_Account_Number__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Current_Id__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Web_Account__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FiscalYearEnd__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Last_Used_In_Campaign__c",
+				"type": "date"
+			},
+			{
+				"name": "Other_Delivery_Instructions__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SPS_Collect_Number__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SPS_Collect_Carrier__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LTL_Collect_Carrier__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Stack_5cs_High__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Stack_4cs_High__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Pallet_Cones__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Corner_Protectors__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Triple_Shrink_Wrap__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Sort_Segregate__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Resedential__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Inside_Delivery__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Lift_Gate__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Appointment__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LimitedAccess__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Trade_Show_2019__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Primary_Contact_Full_Name__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Price_Book__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Region__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DunsNumber__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Currency_ID__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Primary_Contact_Phone__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Primary_Contact_Email__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AMMEX_GP_External_Id__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Date_of_Last_Order__c",
+				"type": "date"
+			},
+			{
+				"name": "Days_since_Last_Order__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "Status_System__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Months_since_Last_Order__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "Days_since_Created__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "DateofOrigination__c",
+				"type": "date"
+			},
+			{
+				"name": "Date_of_First_Order__c",
+				"type": "date"
+			},
+			{
+				"name": "Date_of_Sample_Sent__c",
+				"type": "date"
+			},
+			{
+				"name": "Date_of_Last_Capture_to_Active__c",
+				"type": "date"
+			},
+			{
+				"name": "TradeShow2014__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TradeShow2015__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TradeShow2016__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TradeShow2017__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TradeShow2013__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SF_Created_Date__c",
+				"type": "date"
+			},
+			{
+				"name": "TradeShow2012__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Days_since_First_Order__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "Days_since_Sample_Sent__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "Days_since_Last_Capture_to_Active__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "Account_Closed__c",
+				"type": "bit"
+			},
+			{
+				"name": "Post_Office_Box__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Shipping_ADRSCODE__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Last_Invoice_Date__c",
+				"type": "date"
+			},
+			{
+				"name": "Company_Revenue__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "Segment__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Days_since_First_Invoice__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "Months_since_Last_Invoice__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "Days_since_Last_Invoice__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "Reached_Capture_Back__c",
+				"type": "bit"
+			},
+			{
+				"name": "ID_18__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Customer_Accounts__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Sales_Representatives__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SAS_Kits_Shipped_v2__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "SAS_Status__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SAS_Launch_Date__c",
+				"type": "date"
+			},
+			{
+				"name": "of_SAS_Kits_Shipped_in_Current_Year__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "of_SAS_Kits_Shipped_in_Previous_Years__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "Price_Level_matches_Price_Book__c",
+				"type": "bit"
+			},
+			{
+				"name": "Price_Book_Name__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Old_Price_Level__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Buying_Through_Corp_Warehouse__c",
+				"type": "bit"
+			},
+			{
+				"name": "Group_Name_Legacy__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "User_Email__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Phone_Extension__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Account_Owner_text__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "User_Name__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Previous_Account_Owner_text__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Phone_for_dupe_check__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Agent_Email__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Phone_for_Mitel__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "End_Date__c",
+				"type": "date"
+			},
+			{
+				"name": "Growth_Loyalty_Program__c",
+				"type": "bit"
+			},
+			{
+				"name": "Start_Date__c",
+				"type": "date"
+			},
+			{
+				"name": "Trade_Show_2020__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Phone_8x8__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Brand_2__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Brand_3__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Brand_4__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Brand_5__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Brand_6__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Brand_of_gloves_they_sell_Brand_1__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Checklist_to_become_a_supplier__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Company_description_core_values_ideology__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Core_Product_1__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Core_Product_2__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Core_Product_3__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Core_Product_4__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Do_they_do_biz_by_EDI__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Do_they_have_a_vendor_application__c",
+				"type": "bit"
+			},
+			{
+				"name": "General_notes__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "How_do_they_communicate_to_their_cx__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "How_do_they_go_to_market__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "If_Yes_Contact_1_Lookup__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "If_Yes_Contact_2_Lookup__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "If_Yes_Contact_3_Lookup__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "If_Yes_Contact_4_Lookup__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "If_Yes_Contact_5_Lookup__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "If_Yes_Contact_6_Lookup__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "If_Yes_Contacts_Lookup_dos__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "If_Yes_Date_of_Submission__c",
+				"type": "date"
+			},
+			{
+				"name": "If_Yes_Date_of_presentation__c",
+				"type": "date"
+			},
+			{
+				"name": "If_Yes_Date_of_receipt__c",
+				"type": "date"
+			},
+			{
+				"name": "If_Yes_b_Contacts_Lookup_dor__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Is_there_a_supplier_portal__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Lifetime_Revenue__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "Progress_Status__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Required_Payment_terms__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Segment_Ranking__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "Tradeshow_2__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Tradeshow_3__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Tradeshow_4__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Tradeshows_they_attend_Tradeshow_1__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Vendor_packet_terms_conditions_received__c",
+				"type": "bit"
+			},
+			{
+				"name": "Was_Sales_Guide_used_in_presentation__c",
+				"type": "bit"
+			},
+			{
+				"name": "Whale_Account__c",
+				"type": "bit"
+			},
+			{
+				"name": "When_is_their_annual_meeting__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "of_Employees__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "of_Locations__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "Phone_Primary_Contact__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Phone_Extension_PrimaryContact__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Time_Zone_v1__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Time_Zone_v2__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "OnePath_First_User__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "No_of_Open_Opps__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "Total_Opps__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "First_Name__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Last_Name__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Owner_ID_18__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Pardot_Comments__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Inactive_Reason__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Secondary_Group_Name__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Never_Reactivate__c",
+				"type": "bit"
+			},
+			{
+				"name": "Base_Type__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Base_Type2__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Pardot_Campaign__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Enable_OnePath__c",
+				"type": "bit"
+			},
+			{
+				"name": "First_Name_OnePath__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Last_Name_OnePath__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Email_Address_OnePath__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Already_has_a_OnePath_Account__c",
+				"type": "bit"
+			},
+			{
+				"name": "LTL_Cross_Ship_Collect_Carrier__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Email_Domain__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Account_On_Hold__c",
+				"type": "bit"
+			},
+			{
+				"name": "Primary_Pool__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AVA_MAPPER__Business_Identification_Number__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AVA_MAPPER__Entity_Use_code__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AVA_MAPPER__Exemption_Number__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AVA_MAPPER__Is_Seller_Importer_Of_Record__c",
+				"type": "bit"
+			},
+			{
+				"name": "AVA_B2BLEX__EntityUseCode__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ExternalId__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Tax_Document_Uploaded__c",
+				"type": "bit"
+			},
+			{
+				"name": "OnePath_Customer__c",
+				"type": "bit"
+			},
+			{
+				"name": "DOZISF__ZoomInfo_First_Updated__c",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DOZISF__ZoomInfo_Id__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DOZISF__ZoomInfo_Last_Updated__c",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "ZoomInfo_Enrich_Status__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Trade_Show_2022__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ZoomInfo_Segment__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Lead_Channel__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "zisf__Company_ID__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "zisf__ZoomInfo_Complete_Status__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "zisf__ZoomInfo_Industry__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "zisf__ZoomInfo_Last_Clean_Run__c",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "zisf__Zoom_Clean_Status__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "zisf__zoom_id__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "zisf__zoom_lastupdated__c",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "zisf_ZoomInfo_Complete_Status__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "zisf_Zoom_Clean_Status__c",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Active_Contacts__c",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "Loader",
+			"table": "StageSalesForce_Account"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

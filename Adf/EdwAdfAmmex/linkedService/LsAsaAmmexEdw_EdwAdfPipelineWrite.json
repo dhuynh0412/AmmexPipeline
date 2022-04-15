@@ -1,0 +1,19 @@
+{
+	"name": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDW",
+		"typeProperties": {
+			"connectionString": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=ammexedw.sql.azuresynapse.net;Initial Catalog=AmmexDataWarehouse;User ID=EdwAdfPipelineWrite",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "EdwAdfKeyVault",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "AmmexEdw-AmmexDataWarehouse-EdwAdfPipelineWrite"
+			}
+		}
+	}
+}
