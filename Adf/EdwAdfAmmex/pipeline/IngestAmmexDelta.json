@@ -3,57 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
-				"type": "Copy",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "AzureSqlSource",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
-					},
-					"sink": {
-						"type": "ParquetSink",
-						"storeSettings": {
-							"type": "AzureBlobFSWriteSettings"
-						},
-						"formatSettings": {
-							"type": "ParquetWriteSettings"
-						}
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
-						}
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "DsAsqlDataWarehouse_EdwAdfPipelineReadOnly",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "DsAdlsAmmexEdw",
-						"type": "DatasetReference"
-					}
-				]
-			},
-			{
-				"name": "getSourceObjects",
+				"name": "LkGetSourceObjects",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -67,7 +17,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT \n\t\tDISTINCT\n\t\tSourceSystem = 'Greatplan',\n\t\tSourceDatabase = T.TABLE_CATALOG,\n\t\tSourceSchema = T.TABLE_SCHEMA,\n\t\tSourceObject = T.TABLE_NAME,\n\t\tSourceObjectType = T.TABLE_TYPE\nFROM INFORMATION_SCHEMA.TABLES T\nORDER BY 1, 2, 3, 5, 4",
+						"sqlReaderQuery": {
+							"value": "SELECT \n\t\tDISTINCT\n\t\tSourceSystem = 'Greatplan',\n\t\tSourceDatabase = T.TABLE_CATALOG,\n\t\tSourceSchema = T.TABLE_SCHEMA,\n\t\tSourceObject = T.TABLE_NAME,\n\t\tSourceObjectType = T.TABLE_TYPE,\n\t\tIngestRoot = 'Ingest',\t--'ammex-edw-synase-blob',\n\t\tIngestRootPath = 'ammex/delta',\n\t\tIngestRootPathFileName = 'dbo.Account'\nFROM INFORMATION_SCHEMA.TABLES T\nORDER BY 1, 2, 3, 5, 4",
+							"type": "Expression"
+						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -78,17 +31,76 @@
 				}
 			},
 			{
-				"name": "ForEach1",
+				"name": "LoopingLkGetSourceObjects",
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "getSourceObjects",
+						"activity": "LkGetSourceObjects",
 						"dependencyConditions": [
 							"Succeeded"
 						]
 					}
 				],
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"batchCount": 5,
+					"activities": [
+						{
+							"name": "Copy data1",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"sqlReaderQuery": {
+										"value": "SELECT TOP 1 * FROM @{item().SchemaName}.@{item().TableName}",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "ParquetSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "ParquetWriteSettings"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "DsAsqlDataWarehouse_EdwAdfPipelineReadOnly",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DsAdlsAmmexEdw",
+									"type": "DatasetReference"
+								}
+							]
+						}
+					]
+				}
 			}
 		],
 		"parameters": {
