@@ -75,7 +75,7 @@
 			"name": "2-Load"
 		},
 		"annotations": [],
-		"lastPublishTime": "2022-04-14T22:38:07Z"
+		"lastPublishTime": "2022-04-15T17:17:33Z"
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }
