@@ -121,11 +121,11 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"Schema": {
-											"value": "@pipeline().parameters.SinkSchema",
+											"value": "@{item().SinkSchema}",
 											"type": "Expression"
 										},
 										"Table": {
-											"value": "@pipeline().parameters.SinkTable",
+											"value": "@{item().SinkTable}",
 											"type": "Expression"
 										}
 									}
