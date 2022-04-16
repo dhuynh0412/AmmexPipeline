@@ -5,14 +5,34 @@
 			"referenceName": "LsAdlsAmmexEdw",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"IngestRoot": {
+				"type": "string"
+			},
+			"IngestRootPath": {
+				"type": "string"
+			},
+			"IngestRootPathFileName": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "Parquet",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "Account",
-				"folderPath": "inguest/ammex",
-				"fileSystem": "ammex-edw-synase-blob"
+				"fileName": {
+					"value": "@dataset().IngestRootPathFileName",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().IngestRootPath",
+					"type": "Expression"
+				},
+				"fileSystem": {
+					"value": "@dataset().IngestRoot",
+					"type": "Expression"
+				}
 			},
 			"compressionCodec": "snappy"
 		},
