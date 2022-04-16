@@ -51,7 +51,7 @@
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Copy data1",
+							"name": "CdTableToDataLake",
 							"type": "Copy",
 							"dependsOn": [
 								{
@@ -128,7 +128,14 @@
 						{
 							"name": "LkFixColumnWithSpace",
 							"type": "Lookup",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "Cleanup",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "7.00:00:00",
 								"retry": 0,
@@ -150,6 +157,45 @@
 								"dataset": {
 									"referenceName": "DsAsqlDataWarehouse_EdwAdfPipelineReadOnly",
 									"type": "DatasetReference"
+								}
+							}
+						},
+						{
+							"name": "Cleanup",
+							"type": "Delete",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataset": {
+									"referenceName": "DsAdlsAmmexEdw",
+									"type": "DatasetReference",
+									"parameters": {
+										"IngestRoot": {
+											"value": "@pipeline().parameters.IngestRoot",
+											"type": "Expression"
+										},
+										"IngestRootPath": {
+											"value": "@pipeline().parameters.IngestRootPath",
+											"type": "Expression"
+										},
+										"IngestRootPathFileName": {
+											"value": "@toLower('')",
+											"type": "Expression"
+										}
+									}
+								},
+								"enableLogging": true,
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
 								}
 							}
 						}

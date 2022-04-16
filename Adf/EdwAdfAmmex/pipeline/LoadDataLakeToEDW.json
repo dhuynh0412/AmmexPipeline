@@ -1,10 +1,11 @@
 {
-	"name": "pipeline1",
+	"name": "LoadDataLakeToEDW",
 	"properties": {
+		"description": "Importing Data Lake Parquet files onto Loader schema on EDW",
 		"activities": [
 			{
-				"name": "Copy data1",
-				"type": "Copy",
+				"name": "LkGetSourceObjects",
+				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "7.00:00:00",
@@ -16,59 +17,135 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "ParquetSource",
-						"storeSettings": {
-							"type": "AzureBlobFSReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
-						}
-					},
-					"sink": {
-						"type": "SqlDWSink",
-						"preCopyScript": "IF OBJECT_ID('Loader.Account') IS NOT NULL\n   DROP TABLE Loader.Account;",
-						"allowPolyBase": true,
-						"polyBaseSettings": {
-							"rejectValue": 0,
-							"rejectType": "value",
-							"useTypeDefault": true
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "SELECT\ttop 11\n\t\t--DISTINCT\n\t\tSourceSystem = 'Greatplan',\n\t\tSourceDatabase = QUOTENAME(T.TABLE_CATALOG),\n\t\tSourceSchema = QUOTENAME(T.TABLE_SCHEMA),\n\t\tSourceObject = QUOTENAME(T.TABLE_NAME),\n\t\tSinkSchema = 'Loader',\n\t\tSinkTable = QUOTENAME('StageGreatplan' + '_' + T.TABLE_NAME),\n\t\tSourceObjectType = CASE WHEN T.TABLE_TYPE = 'Base Table' THEN 'Table' ELSE T.TABLE_TYPE END,\n\t\tIngestRoot = 'ingest',\t--'ammex-edw-synase-blob',\n\t\tIngestRootPath = 'ammex/delta',\n\t\tIngestRootPathFileName = T.TABLE_SCHEMA + '.' + T.TABLE_NAME\nFROM INFORMATION_SCHEMA.TABLES T\nWHERE T.TABLE_SCHEMA = 'DBO'\nORDER BY 5, 4",
+							"type": "Expression"
 						},
-						"tableOption": "autoCreate",
-						"disableMetricsCollection": false
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
 					},
-					"enableStaging": false
-				},
-				"inputs": [
-					{
-						"referenceName": "DsAdlsAmmexEdw",
+					"dataset": {
+						"referenceName": "DsAsqlDataWarehouse_EdwAdfPipelineReadOnly",
 						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "LoopingLkGetSourceObjects",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "LkGetSourceObjects",
+						"dependencyConditions": [
+							"Succeeded"
+						]
 					}
 				],
-				"outputs": [
-					{
-						"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
-						"type": "DatasetReference",
-						"parameters": {
-							"Schema": {
-								"value": "@pipeline().parameters.Schema",
-								"type": "Expression"
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('LkGetSourceObjects').output.value",
+						"type": "Expression"
+					},
+					"isSequential": false,
+					"batchCount": 5,
+					"activities": [
+						{
+							"name": "Copy data1",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
 							},
-							"Table": {
-								"value": "@pipeline().parameters.Table",
-								"type": "Expression"
-							}
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "ParquetSource",
+									"storeSettings": {
+										"type": "AzureBlobFSReadSettings",
+										"recursive": true,
+										"enablePartitionDiscovery": false
+									}
+								},
+								"sink": {
+									"type": "SqlDWSink",
+									"preCopyScript": {
+										"value": "IF OBJECT_ID('@{item().SinkSchema}.@{item().SinkTable}') IS NOT NULL\n   DROP TABLE @{item().SinkSchema}.@{item().SinkTable}\n",
+										"type": "Expression"
+									},
+									"allowPolyBase": true,
+									"polyBaseSettings": {
+										"rejectValue": 0,
+										"rejectType": "value",
+										"useTypeDefault": true
+									},
+									"tableOption": "autoCreate",
+									"disableMetricsCollection": false
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "DsAdlsAmmexEdw",
+									"type": "DatasetReference",
+									"parameters": {
+										"IngestRoot": {
+											"value": "@pipeline().parameters.IngestRoot",
+											"type": "Expression"
+										},
+										"IngestRootPath": {
+											"value": "@pipeline().parameters.IngestRootPath",
+											"type": "Expression"
+										},
+										"IngestRootPathFileName": {
+											"value": "@pipeline().parameters.IngestRootPathFileName",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+									"type": "DatasetReference",
+									"parameters": {
+										"Schema": {
+											"value": "@pipeline().parameters.SinkSchema",
+											"type": "Expression"
+										},
+										"Table": {
+											"value": "@pipeline().parameters.SinkTable",
+											"type": "Expression"
+										}
+									}
+								}
+							]
 						}
-					}
-				]
+					]
+				}
 			}
 		],
 		"parameters": {
-			"Schema": {
-				"type": "string",
-				"defaultValue": "Loader"
+			"SinkSchema": {
+				"type": "string"
 			},
-			"Table": {
-				"type": "string",
-				"defaultValue": "Account"
+			"SinkTable": {
+				"type": "string"
+			},
+			"IngestRoot": {
+				"type": "string"
+			},
+			"IngestRootPath": {
+				"type": "string"
+			},
+			"IngestRootPathFileName": {
+				"type": "string"
 			}
 		},
 		"folder": {
