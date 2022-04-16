@@ -1,0 +1,44 @@
+{
+	"name": "MainIngestToPopulateAmmex",
+	"properties": {
+		"activities": [
+			{
+				"name": "IngestAmmexDelta",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "IngestAmmexDelta",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "LoadDataLakeToEDW",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "IngestAmmexDelta",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadDataLakeToEDW",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "4-Orchestration"
+		},
+		"annotations": []
+	}
+}
