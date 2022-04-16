@@ -128,14 +128,7 @@
 						{
 							"name": "LkFixColumnWithSpace",
 							"type": "Lookup",
-							"dependsOn": [
-								{
-									"activity": "Cleanup",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"timeout": "7.00:00:00",
 								"retry": 0,
@@ -159,47 +152,54 @@
 									"type": "DatasetReference"
 								}
 							}
-						},
-						{
-							"name": "Cleanup",
-							"type": "Delete",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "7.00:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"dataset": {
-									"referenceName": "DsAdlsAmmexEdw",
-									"type": "DatasetReference",
-									"parameters": {
-										"IngestRoot": {
-											"value": "@{item().IngestRoot}",
-											"type": "Expression"
-										},
-										"IngestRootPath": {
-											"value": "@{item().IngestRootPath}",
-											"type": "Expression"
-										},
-										"IngestRootPathFileName": {
-											"value": "@toLower('')",
-											"type": "Expression"
-										}
-									}
-								},
-								"enableLogging": false,
-								"storeSettings": {
-									"type": "AzureBlobFSReadSettings",
-									"recursive": false,
-									"enablePartitionDiscovery": false
-								}
-							}
 						}
 					]
+				}
+			},
+			{
+				"name": "Cleanup",
+				"type": "Delete",
+				"dependsOn": [
+					{
+						"activity": "LkGetSourceObjects",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "DsAdlsAmmexEdw",
+						"type": "DatasetReference",
+						"parameters": {
+							"IngestRoot": {
+								"value": "@{item().IngestRoot}",
+								"type": "Expression"
+							},
+							"IngestRootPath": {
+								"value": "@{item().IngestRootPath}",
+								"type": "Expression"
+							},
+							"IngestRootPathFileName": {
+								"value": "@toLower('')",
+								"type": "Expression"
+							}
+						}
+					},
+					"enableLogging": false,
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"recursive": false,
+						"enablePartitionDiscovery": false
+					}
 				}
 			}
 		],
