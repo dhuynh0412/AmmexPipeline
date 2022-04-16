@@ -96,15 +96,15 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"IngestRoot": {
-											"value": "@pipeline().parameters.IngestRoot",
+											"value": "@{item().IngestRoot}",
 											"type": "Expression"
 										},
 										"IngestRootPath": {
-											"value": "@pipeline().parameters.IngestRootPath",
+											"value": "@{item().IngestRootPath}",
 											"type": "Expression"
 										},
 										"IngestRootPathFileName": {
-											"value": "@pipeline().parameters.IngestRootPathFileName",
+											"value": "@toLower('')",
 											"type": "Expression"
 										}
 									}
