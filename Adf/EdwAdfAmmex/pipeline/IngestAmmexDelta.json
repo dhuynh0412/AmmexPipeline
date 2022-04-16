@@ -48,12 +48,19 @@
 						"value": "@activity('LkGetSourceObjects').output.value",
 						"type": "Expression"
 					},
-					"batchCount": 5,
+					"isSequential": true,
 					"activities": [
 						{
 							"name": "Copy data1",
 							"type": "Copy",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "LkFixColumnWithSpace",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "7.00:00:00",
 								"retry": 0,
@@ -66,7 +73,7 @@
 								"source": {
 									"type": "AzureSqlSource",
 									"sqlReaderQuery": {
-										"value": "SELECT TOP 1 * FROM @{item().SourceSchema}.@{item().SourceObject}",
+										"value": "@activity('LkFixColumnWithSpace')",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
@@ -117,6 +124,34 @@
 									}
 								}
 							]
+						},
+						{
+							"name": "LkFixColumnWithSpace",
+							"type": "Lookup",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"sqlReaderQuery": {
+										"value": "@concat('\nDECLARE @SourceColumn VARCHAR(MAX),\n\t\t@SourceObject VARCHAR(500) = ''@{Item().SourceObject}'' \nSELECT @SourceColumn = ISNULL(@SourceColumn + '', '', '''') + QUOTENAME(COLUMN_NAME)\nFROM INFORMATION_SCHEMA.COLUMNS\nWHERE TABLE_NAME = @SourceObject \nSELECT ''SELECT TOP 1 '' + @SourceColumn + '' FROM '' + @SourceObject AS Query \n')",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "DsAsqlDataWarehouse_EdwAdfPipelineReadOnly",
+									"type": "DatasetReference"
+								}
+							}
 						}
 					]
 				}
