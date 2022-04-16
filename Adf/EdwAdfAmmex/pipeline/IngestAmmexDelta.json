@@ -73,7 +73,7 @@
 								"source": {
 									"type": "AzureSqlSource",
 									"sqlReaderQuery": {
-										"value": "@activity('LkFixColumnWithSpace')",
+										"value": "@activity('LkFixColumnWithSpace').output.firstRow.Query",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
