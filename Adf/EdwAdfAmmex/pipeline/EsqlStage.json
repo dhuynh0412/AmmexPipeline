@@ -1,0 +1,10 @@
+{
+	"name": "EsqlStage",
+	"properties": {
+		"description": "UpSert the objects on Stage schema",
+		"folder": {
+			"name": "3-Populate"
+		},
+		"annotations": []
+	}
+}
