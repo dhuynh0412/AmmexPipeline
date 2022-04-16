@@ -53,7 +53,7 @@
 					"batchCount": 5,
 					"activities": [
 						{
-							"name": "Copy data1",
+							"name": "LoadDataLakeToEdw",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
