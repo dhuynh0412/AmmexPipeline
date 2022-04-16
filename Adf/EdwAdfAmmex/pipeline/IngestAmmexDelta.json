@@ -178,11 +178,11 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"IngestRoot": {
-											"value": "@pipeline().parameters.IngestRoot",
+											"value": "@{item().IngestRoot}",
 											"type": "Expression"
 										},
 										"IngestRootPath": {
-											"value": "@pipeline().parameters.IngestRootPath",
+											"value": "@{item().IngestRootPath}",
 											"type": "Expression"
 										},
 										"IngestRootPathFileName": {
@@ -191,10 +191,10 @@
 										}
 									}
 								},
-								"enableLogging": true,
+								"enableLogging": false,
 								"storeSettings": {
 									"type": "AzureBlobFSReadSettings",
-									"recursive": true,
+									"recursive": false,
 									"enablePartitionDiscovery": false
 								}
 							}
