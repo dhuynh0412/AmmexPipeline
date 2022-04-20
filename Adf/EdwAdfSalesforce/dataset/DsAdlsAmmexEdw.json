@@ -1,0 +1,21 @@
+{
+	"name": "DsAdlsAmmexEdw",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAdlsAmmexEdw",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "[dbo]_[Account]_Albert_2022-04-16T01:56:35.parquet",
+				"folderPath": "ammex/delta/dbo.Account",
+				"fileSystem": "ingest"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
