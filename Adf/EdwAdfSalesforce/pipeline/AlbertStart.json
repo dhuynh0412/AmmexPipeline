@@ -22,17 +22,23 @@
 						"partitionOption": "None"
 					},
 					"sink": {
-						"type": "SqlDWSink",
-						"allowPolyBase": true,
-						"polyBaseSettings": {
-							"rejectValue": 0,
-							"rejectType": "value",
-							"useTypeDefault": true
+						"type": "ParquetSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
 						},
-						"tableOption": "autoCreate",
-						"disableMetricsCollection": false
+						"formatSettings": {
+							"type": "ParquetWriteSettings"
+						}
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
 				},
 				"inputs": [
 					{
@@ -42,7 +48,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+						"referenceName": "DsAdlsAmmexEdw",
 						"type": "DatasetReference"
 					}
 				]
