@@ -1,0 +1,52 @@
+{
+	"name": "DsAsqlDataWarehouse_EdwAdfPipelineReadOnly",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAsqlDataWarehouse_EdwAdfPipelineReadOnly",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Closed Date",
+				"type": "date"
+			},
+			{
+				"name": "Created Date",
+				"type": "varchar"
+			},
+			{
+				"name": "Age",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Account Number",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Opportunity Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Stage Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Amount",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "Forecast Category",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SalesForce",
+			"table": "OpportunitySPM_Closed"
+		}
+	}
+}
