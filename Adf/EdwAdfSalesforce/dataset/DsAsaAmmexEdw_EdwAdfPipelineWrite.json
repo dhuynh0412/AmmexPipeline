@@ -1,0 +1,12 @@
+{
+	"name": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAsaSalesforceEdw_EdwAdfPipelineWrite",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": []
+	}
+}
