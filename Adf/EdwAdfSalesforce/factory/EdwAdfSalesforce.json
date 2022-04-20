@@ -1,0 +1,9 @@
+{
+	"name": "EdwAdfSalesforce",
+	"location": "westus2",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "c2062700-e787-4bcb-be42-b97777d6d710",
+		"tenantId": "6fe8874b-b6a3-476c-9357-0389bdea5f53"
+	}
+}
