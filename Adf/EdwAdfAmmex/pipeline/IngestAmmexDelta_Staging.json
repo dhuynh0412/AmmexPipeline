@@ -142,7 +142,7 @@
 								"source": {
 									"type": "AzureSqlSource",
 									"sqlReaderQuery": {
-										"value": "@concat('\nDECLARE @SourceColumn VARCHAR(MAX),\n\t\t@SourceObject VARCHAR(500) = ''@{Item().SourceObject}'' \nSELECT @SourceColumn = ISNULL(@SourceColumn + '', '', '''') + QUOTENAME(COLUMN_NAME)\nFROM INFORMATION_SCHEMA.COLUMNS\nWHERE QUOTENAME(TABLE_NAME) = @SourceObject \nSELECT ''SELECT TOP 1 '' + @SourceColumn + '' FROM '' + @SourceObject AS Query \n')",
+										"value": "@concat('\nDECLARE @SourceColumn VARCHAR(MAX),\n\t\t@SourceObject VARCHAR(500) = ''@{Item().SourceObject}'' \nSELECT @SourceColumn = ISNULL(@SourceColumn + '', '', '''') + QUOTENAME(COLUMN_NAME)\nFROM INFORMATION_SCHEMA.COLUMNS\nWHERE QUOTENAME(TABLE_NAME) = @SourceObject \nSELECT ''SELECT '' + @SourceColumn + '' FROM '' + @SourceObject AS Query \n')",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
