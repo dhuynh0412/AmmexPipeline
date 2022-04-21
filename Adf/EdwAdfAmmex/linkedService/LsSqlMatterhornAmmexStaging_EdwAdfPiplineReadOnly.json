@@ -4,7 +4,7 @@
 		"annotations": [],
 		"type": "SqlServer",
 		"typeProperties": {
-			"connectionString": "Integrated Security=False;Data Source=Matterhorn.Ammex.com;Initial Catalog=Ammex_Staging;User ID=EdwAdfPipelineReadOnly",
+			"connectionString": "Integrated Security=False;Data Source=Matterhorn.AmmexCorp.com;Initial Catalog=Ammex_Staging;User ID=EdwAdfPipelineReadOnly",
 			"password": {
 				"type": "AzureKeyVaultSecret",
 				"store": {
