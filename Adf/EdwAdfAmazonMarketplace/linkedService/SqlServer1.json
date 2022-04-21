@@ -1,0 +1,22 @@
+{
+	"name": "SqlServer1",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "Integrated Security=False;Data Source=matterhorn.ammexcorp.com;Initial Catalog=ammex_staging;User ID=EdwAdfPipelineReadOnly",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "EdwAdfKeyVault",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "Matterhorn-AmmexStaging-EdwAdfPipelineReadOnly"
+			}
+		},
+		"connectVia": {
+			"referenceName": "integrationRuntime1",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
