@@ -1,17 +1,17 @@
 {
-	"name": "LsSqlAmmexEdw_EdwAdfPipelineReadOnly",
+	"name": "LsSqlMatterhornAmmexStaging_EdwAdfPiplineReadOnly",
 	"properties": {
 		"annotations": [],
 		"type": "SqlServer",
 		"typeProperties": {
-			"connectionString": "Integrated Security=False;Data Source=Matterhorn.ammexcorp.com;Initial Catalog=Ammex_Staging;User ID=EdwAdfPipelineReadOnly",
+			"connectionString": "Integrated Security=False;Data Source=Matterhorn.AmmexCorp.com;Initial Catalog=Ammex_Staging;User ID=EdwAdfPipelineReadOnly",
 			"password": {
 				"type": "AzureKeyVaultSecret",
 				"store": {
 					"referenceName": "EdwAdfKeyVault",
 					"type": "LinkedServiceReference"
 				},
-				"secretName": "Matterhorn-AmmexStaging-ConnectionString"
+				"secretName": "Matterhorn-AmmexStaging-EdwAdfPipelineReadOnly"
 			}
 		},
 		"connectVia": {
