@@ -1,0 +1,12 @@
+{
+	"name": "DsSqlMatterhornAmmexStaging_EdwAdfPipelineReadOnly",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsSqlMatterhornAmmexStaging_EdwAdfPiplineReadOnly",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	}
+}
