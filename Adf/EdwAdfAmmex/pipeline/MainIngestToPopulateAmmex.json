@@ -3,24 +3,11 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "IngestAmmexDelta",
-				"type": "ExecutePipeline",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"pipeline": {
-						"referenceName": "IngestAmmexDelta",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true
-				}
-			},
-			{
 				"name": "LoadDataLakeToEDW",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "IngestAmmexDelta",
+						"activity": "IngestAmmexDelta_Staging",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -30,6 +17,19 @@
 				"typeProperties": {
 					"pipeline": {
 						"referenceName": "LoadDataLakeToEDW",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "IngestAmmexDelta_Staging",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "IngestAmmexDelta_Staging",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
