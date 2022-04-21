@@ -1,6 +1,7 @@
 {
-	"name": "IngestAmmexDelta",
+	"name": "IngestAmmexDelta_Staging",
 	"properties": {
+		"description": "Get data from Ammex_Staging database on Matterhorn",
 		"activities": [
 			{
 				"name": "LkGetSourceObjects",
@@ -16,7 +17,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "AzureSqlSource",
+						"type": "SqlServerSource",
 						"sqlReaderQuery": {
 							"value": "SELECT\ttop 11\n\t\t--DISTINCT\n\t\tSourceSystem = 'Greatplan',\n\t\tSourceDatabase = QUOTENAME(T.TABLE_CATALOG),\n\t\tSourceSchema = QUOTENAME(T.TABLE_SCHEMA),\n\t\tSourceObject = QUOTENAME(T.TABLE_NAME),\n\t\tSourceObjectType = CASE WHEN T.TABLE_TYPE = 'Base Table' THEN 'Table' ELSE T.TABLE_TYPE END,\n\t\tIngestRoot = 'ingest',\t--'ammex-edw-synase-blob',\n\t\tIngestRootPath = 'ammex/delta',\n\t\tIngestRootPathFileName = T.TABLE_SCHEMA + '.' + T.TABLE_NAME\nFROM INFORMATION_SCHEMA.TABLES T\nWHERE T.TABLE_SCHEMA = 'DBO'\nORDER BY 5, 4",
 							"type": "Expression"
@@ -25,7 +26,7 @@
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "DsAsqlDataWarehouse_EdwAdfPipelineReadOnly",
+						"referenceName": "DsSqlMatterhornAmmexStaging_EdwAdfPipelineReadOnly",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
@@ -107,21 +108,7 @@
 							"outputs": [
 								{
 									"referenceName": "DsAdlsAmmexEdw",
-									"type": "DatasetReference",
-									"parameters": {
-										"IngestRoot": {
-											"value": "@{item().IngestRoot}",
-											"type": "Expression"
-										},
-										"IngestRootPath": {
-											"value": "@{item().IngestRootPath}",
-											"type": "Expression"
-										},
-										"IngestRootPathFileName": {
-											"value": "@{item().IngestRootPathFileName}",
-											"type": "Expression"
-										}
-									}
+									"type": "DatasetReference"
 								}
 							]
 						},
