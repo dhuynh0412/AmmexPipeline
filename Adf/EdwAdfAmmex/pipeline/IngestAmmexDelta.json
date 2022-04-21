@@ -107,7 +107,21 @@
 							"outputs": [
 								{
 									"referenceName": "DsAdlsAmmexEdw",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"IngestRoot": {
+											"value": "@{item().IngestRoot}",
+											"type": "Expression"
+										},
+										"IngestRootPath": {
+											"value": "@{item().IngestRootPath}",
+											"type": "Expression"
+										},
+										"IngestRootPathFileName": {
+											"value": "@{item().IngestRootPathFileName}",
+											"type": "Expression"
+										}
+									}
 								}
 							]
 						},
