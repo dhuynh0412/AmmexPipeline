@@ -1,0 +1,15 @@
+{
+	"name": "DsSalesforce_SfAdmin",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsSalesforce_SfAdmin",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SalesforceObject",
+		"schema": [],
+		"typeProperties": {
+			"objectApiName": "AIApplication"
+		}
+	}
+}
