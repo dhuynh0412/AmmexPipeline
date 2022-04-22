@@ -102,7 +102,17 @@
 							"inputs": [
 								{
 									"referenceName": "DsSqlMatterhornAmmexStaging_EdwAdfPipelineReadOnly",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"SourceSchema": {
+											"value": "@{Item().SourceSchema}\n",
+											"type": "Expression"
+										},
+										"SourceObject": {
+											"value": "@{Item().SourceObject}",
+											"type": "Expression"
+										}
+									}
 								}
 							],
 							"outputs": [
