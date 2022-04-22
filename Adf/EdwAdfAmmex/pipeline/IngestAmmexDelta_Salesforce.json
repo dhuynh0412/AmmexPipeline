@@ -1,0 +1,150 @@
+{
+	"name": "IngestAmmexDelta_Salesforce",
+	"properties": {
+		"description": "Get data from Ammex_Staging database on Matterhorn",
+		"activities": [
+			{
+				"name": "LkGetSourceObjects",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "\nSELECT\tDISTINCT\n\t\tSourceSystem = CASE WHEN T.TABLE_SCHEMA = 'StageSalesforce' THEN 'Salesforce'\n\t\t\t\t\t\t\tWHEN LEFT(T.TABLE_NAME, 4) = 'AMEC' THEN 'Zoomget' ELSE 'Ammex' END,\n\t\tSourceDatabase = QUOTENAME(T.TABLE_CATALOG),\n\t\tSourceSchema = QUOTENAME(T.TABLE_SCHEMA),\n\t\tSourceObject = QUOTENAME(T.TABLE_NAME),\n\t\tSourceObjectType = CASE WHEN T.TABLE_TYPE = 'Base Table' THEN 'Table' ELSE T.TABLE_TYPE END,\n\t\tIngestRoot = 'ingest',\t--'ammex-edw-synase-blob',\n\t\tIngestRootPath = CASE WHEN T.TABLE_SCHEMA = 'StageSalesforce' THEN 'salesforce/delta/dbo.' + T.TABLE_NAME\n\t\t\t\t\t\t\t  WHEN LEFT(T.TABLE_NAME, 4) = 'AMEC' THEN 'zoomget/delta/' + T.TABLE_SCHEMA + '.' + T.TABLE_NAME\n\t\t\t\t\t\t\t  ELSE 'ammex/delta/' + T.TABLE_SCHEMA + '.' + T.TABLE_NAME END,\n\t\tIngestRootPathFileName = CASE WHEN T.TABLE_SCHEMA = 'StageSalesforce' THEN 'dbo.' + T.TABLE_NAME\n\t\t\t\t\t\t\t\t\t  ELSE T.TABLE_SCHEMA + '.' + T.TABLE_NAME\n\t\t\t\t\t\t\t\t\t  END,\n\t\tSinkSchema = 'Loader',\n\t\tSinkTable = 'Stage' + CASE WHEN T.TABLE_SCHEMA = 'StageSalesforce' THEN 'Salesforce_' + T.TABLE_NAME\n\t\t\t\t\t\t\t\t   WHEN LEFT(T.TABLE_NAME, 4) = 'AMEC' THEN 'Zoomget_' + T.TABLE_NAME\n\t\t\t\t\t\t\t\t   ELSE 'Ammex_' + T.TABLE_NAME\n\t\t\t\t\t\t\t\t   END\nFROM INFORMATION_SCHEMA.TABLES T\nWHERE T.TABLE_SCHEMA = 'StageSalesforce'\n\t  AND T.TABLE_NAME IN(  'Account',\n\t\t\t\t\t\t\t'Case',\n\t\t\t\t\t\t\t'Contact',\n\t\t\t\t\t\t\t'Lead',\n\t\t\t\t\t\t\t'Opportunity',\n\t\t\t\t\t\t\t'OpportunityLineItem',\n\t\t\t\t\t\t\t'Task',\n\t\t\t\t\t\t\t'User'\n\t\t\t\t\t\t\t)\nORDER BY 5, 4",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DsAsqlDataWarehouse_EdwAdfPipelineReadOnly",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "LoopingLkGetSourceObjects",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "LkGetSourceObjects",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('LkGetSourceObjects').output.value",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "CdTableToDataLake",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"sqlReaderQuery": {
+										"value": "SELECT * FROM @{item().SourceObject}",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "ParquetSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "ParquetWriteSettings"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "DsAsqlDataWarehouse_EdwAdfPipelineReadOnly",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DsAdlsAmmexEdw",
+									"type": "DatasetReference",
+									"parameters": {
+										"IngestRoot": {
+											"value": "@{item().IngestRoot}",
+											"type": "Expression"
+										},
+										"IngestRootPath": {
+											"value": "@{item().IngestRootPath}",
+											"type": "Expression"
+										},
+										"IngestRootPathFileName": {
+											"value": "@{item().IngestRootPathFileName}_@{utcNow('s')}.parquet",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"SourceSchema": {
+				"type": "string"
+			},
+			"SourceObject": {
+				"type": "string"
+			},
+			"IngestRoot": {
+				"type": "string"
+			},
+			"IngestRootPath": {
+				"type": "string"
+			},
+			"IngestRootPathFileName": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "1-Ingest"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-04-15T17:17:33Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
