@@ -5,11 +5,19 @@
 			"referenceName": "LsSalesforce_SfAdmin",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"SourceObject": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "SalesforceObject",
 		"schema": [],
 		"typeProperties": {
-			"objectApiName": "AIApplicationConfig"
+			"objectApiName": {
+				"value": "@dataset().SourceObject",
+				"type": "Expression"
+			}
 		}
 	}
 }
