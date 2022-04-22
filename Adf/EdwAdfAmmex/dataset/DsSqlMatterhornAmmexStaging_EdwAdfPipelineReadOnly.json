@@ -5,8 +5,26 @@
 			"referenceName": "LsSqlMatterhornAmmexStaging_EdwAdfPiplineReadOnly",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"SourceSchema": {
+				"type": "string"
+			},
+			"SourceObject": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "SqlServerTable",
-		"schema": []
+		"schema": [],
+		"typeProperties": {
+			"schema": {
+				"value": "@dataset().SourceSchema",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().SourceObject",
+				"type": "Expression"
+			}
+		}
 	}
 }
