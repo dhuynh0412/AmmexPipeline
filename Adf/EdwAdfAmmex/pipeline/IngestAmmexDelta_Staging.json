@@ -27,17 +27,7 @@
 					},
 					"dataset": {
 						"referenceName": "DsSqlMatterhornAmmexStaging_EdwAdfPipelineReadOnly",
-						"type": "DatasetReference",
-						"parameters": {
-							"SourceSchema": {
-								"value": "@pipeline().parameters.SourceSchema",
-								"type": "Expression"
-							},
-							"SourceObject": {
-								"value": "@pipeline().parameters.SourceObject",
-								"type": "Expression"
-							}
-						}
+						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
 				}
@@ -112,17 +102,7 @@
 							"inputs": [
 								{
 									"referenceName": "DsSqlMatterhornAmmexStaging_EdwAdfPipelineReadOnly",
-									"type": "DatasetReference",
-									"parameters": {
-										"SourceSchema": {
-											"value": "@{Item().SourceSchema}\n",
-											"type": "Expression"
-										},
-										"SourceObject": {
-											"value": "@{Item().SourceObject}",
-											"type": "Expression"
-										}
-									}
+									"type": "DatasetReference"
 								}
 							],
 							"outputs": [

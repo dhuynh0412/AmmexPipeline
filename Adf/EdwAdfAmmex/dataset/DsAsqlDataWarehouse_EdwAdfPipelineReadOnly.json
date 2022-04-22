@@ -5,14 +5,6 @@
 			"referenceName": "LsAsqlDataWarehouse_EdwAdfPipelineReadOnly",
 			"type": "LinkedServiceReference"
 		},
-		"parameters": {
-			"SourceSchema": {
-				"type": "string"
-			},
-			"SourceObject": {
-				"type": "string"
-			}
-		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": [
