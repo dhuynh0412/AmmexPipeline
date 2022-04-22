@@ -5,6 +5,14 @@
 			"referenceName": "LsAsqlDataWarehouse_EdwAdfPipelineReadOnly",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"SourceSchema": {
+				"type": "string"
+			},
+			"SourceObject": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": [
@@ -1269,8 +1277,14 @@
 			}
 		],
 		"typeProperties": {
-			"schema": "Loader",
-			"table": "StageSalesForce_Account"
+			"schema": {
+				"value": "@dataset().SourceSchema",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().SourceObject",
+				"type": "Expression"
+			}
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"
