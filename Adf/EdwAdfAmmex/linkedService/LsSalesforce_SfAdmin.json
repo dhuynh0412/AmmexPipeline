@@ -1,0 +1,28 @@
+{
+	"name": "LsSalesforce_SfAdmin",
+	"properties": {
+		"annotations": [],
+		"type": "Salesforce",
+		"typeProperties": {
+			"environmentUrl": "https://login.salesforce.com",
+			"username": "sfadmin@ammex.com",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "EdwAdfKeyVault",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "Salesforce-UrlLogin-SfAdmin"
+			},
+			"securityToken": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "EdwAdfKeyVault",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "Salesforce-SecurityToken"
+			},
+			"apiVersion": "53.0"
+		}
+	}
+}
