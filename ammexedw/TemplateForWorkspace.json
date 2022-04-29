@@ -11,19 +11,11 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'LsDataLakeStorageInbound'"
 		},
-		"LsDatalakeInbound_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'LsDatalakeInbound'"
-		},
 		"ammexedw-WorkspaceDefaultSqlServer_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'ammexedw-WorkspaceDefaultSqlServer'"
 		},
 		"LsDataLakeStorageInbound_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://edwinbound.dfs.core.windows.net"
-		},
-		"LsDatalakeInbound_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://edwinbound.dfs.core.windows.net"
 		},
@@ -48,29 +40,6 @@
 					"accountKey": {
 						"type": "SecureString",
 						"value": "[parameters('LsDataLakeStorageInbound_accountKey')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "AutoResolveIntegrationRuntime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/LsDatalakeInbound')]",
-			"type": "Microsoft.Synapse/workspaces/linkedServices",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobFS",
-				"typeProperties": {
-					"url": "[parameters('LsDatalakeInbound_properties_typeProperties_url')]",
-					"accountKey": {
-						"type": "SecureString",
-						"value": "[parameters('LsDatalakeInbound_accountKey')]"
 					}
 				},
 				"connectVia": {

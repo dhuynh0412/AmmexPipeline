@@ -8,16 +8,10 @@
 		"LsDataLakeStorageInbound_accountKey": {
 			"value": ""
 		},
-		"LsDatalakeInbound_accountKey": {
-			"value": ""
-		},
 		"ammexedw-WorkspaceDefaultSqlServer_connectionString": {
 			"value": ""
 		},
 		"LsDataLakeStorageInbound_properties_typeProperties_url": {
-			"value": "https://edwinbound.dfs.core.windows.net"
-		},
-		"LsDatalakeInbound_properties_typeProperties_url": {
 			"value": "https://edwinbound.dfs.core.windows.net"
 		},
 		"ammexedw-WorkspaceDefaultStorage_properties_typeProperties_url": {
