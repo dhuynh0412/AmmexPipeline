@@ -120,11 +120,11 @@
 									"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
 									"type": "DatasetReference",
 									"parameters": {
-										"Schema": {
+										"SinkSchema": {
 											"value": "@{item().SinkSchema}",
 											"type": "Expression"
 										},
-										"Table": {
+										"SinkTable": {
 											"value": "@{item().SinkTable}",
 											"type": "Expression"
 										}
