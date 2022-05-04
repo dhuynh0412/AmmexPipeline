@@ -10,7 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "FileServerLocation",
-				"folderPath": "General/Ammex/Sales/Sell Through Data Files"
+				"fileName": "Inventory - 2021.09.07.csv",
+				"folderPath": "General/Ammex/Sales/Sell Through Data Files/Ace/2021"
 			},
 			"columnDelimiter": ",",
 			"rowDelimiter": "\n",
