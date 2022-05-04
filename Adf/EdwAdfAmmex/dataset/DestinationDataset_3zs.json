@@ -10,7 +10,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "Sales - 2022.1.12.csv",
 				"folderPath": "sales/sellthroughdatafiles/Ace/2022",
 				"fileSystem": "finance"
 			},
