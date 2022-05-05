@@ -7,10 +7,12 @@
 		},
 		"parameters": {
 			"SinkSchema": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "Loader"
 			},
 			"SinkTable": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "OfficeDepotDuy"
 			}
 		},
 		"annotations": [],
