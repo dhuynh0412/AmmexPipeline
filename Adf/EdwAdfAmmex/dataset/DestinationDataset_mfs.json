@@ -1,0 +1,16 @@
+{
+	"name": "DestinationDataset_mfs",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "Loader",
+			"table": "OfficeDepotDuy"
+		}
+	}
+}
