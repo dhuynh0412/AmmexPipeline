@@ -142,12 +142,38 @@
 								"scripts": [
 									{
 										"type": "Query",
-										"text": {
-											"value": "@concat('\nDECLARE @SourceColumn VARCHAR(MAX),\n\t\t@SourceTable VARCHAR(500) = ''@{Item().SourceObject}'' \nSELECT @SourceColumn = ISNULL(@SourceColumn + '', '', '''') + QUOTENAME(COLUMN_NAME)\nFROM INFORMATION_SCHEMA.COLUMNS\nWHERE QUOTENAME(TABLE_NAME) = @SourceTable \nSELECT ''SELECT '' + @SourceColumn + '' FROM '' + @SourceTable AS Query \n')",
-											"type": "Expression"
-										}
+										"text": "DECLARE @SourceColumn VARCHAR(MAX),\n\t\t@SourceTable VARCHAR(500) = '[AMMEX_CUSTOMER2]' \nSELECT @SourceColumn = ISNULL(@SourceColumn + ', ', '') + QUOTENAME(COLUMN_NAME)\nFROM INFORMATION_SCHEMA.COLUMNS\nWHERE QUOTENAME(TABLE_NAME) = @SourceTable \nSELECT 'SELECT ' + @SourceColumn + ' FROM ' + @SourceTable AS Query "
 									}
 								]
+							}
+						},
+						{
+							"name": "Lookup1",
+							"type": "Lookup",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": {
+										"value": "DECLARE @SourceColumn VARCHAR(MAX),\n\t\t@SourceTable VARCHAR(500) = '[AMMEX_CUSTOMER2]' \nSELECT @SourceColumn = ISNULL(@SourceColumn + ', ', '') + QUOTENAME(COLUMN_NAME)\nFROM INFORMATION_SCHEMA.COLUMNS\nWHERE QUOTENAME(TABLE_NAME) = @SourceTable \nSELECT 'SELECT ' + @SourceColumn + ' FROM ' + @SourceTable AS Query ",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "DsSqlMatterhornAmmexStaging_EdwAdfPipelineReadOnly",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": false
 							}
 						}
 					]
