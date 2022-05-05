@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "Loader",
-			"table": "HomeDepot"
+			"table": "OfficeDepot"
 		}
 	}
 }
