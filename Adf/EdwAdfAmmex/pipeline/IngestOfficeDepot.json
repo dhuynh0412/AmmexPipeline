@@ -177,14 +177,18 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SourceDataset_xys",
+						"referenceName": "DsOfficeDepotCsv",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "DestinationDataset_xys",
-						"type": "DatasetReference"
+						"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+						"type": "DatasetReference",
+						"parameters": {
+							"SinkSchema": "Loader",
+							"SinkTable": "OfficeDeportDuy"
+						}
 					}
 				]
 			}
