@@ -62,7 +62,7 @@
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "LkFixColumnWithSpace",
+									"activity": "SqlFixColumnWithSpace",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -78,9 +78,9 @@
 							"userProperties": [],
 							"typeProperties": {
 								"source": {
-									"type": "AzureSqlSource",
+									"type": "SqlServerSource",
 									"sqlReaderQuery": {
-										"value": "@activity('LkFixColumnWithSpace').output.firstRow.Query",
+										"value": "@activity('SqlFixColumnWithSpace').output.firstRow.Query",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
@@ -107,18 +107,8 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "DsAsqlDataWarehouse_EdwAdfPipelineReadOnly",
-									"type": "DatasetReference",
-									"parameters": {
-										"SourceSchema": {
-											"value": "@pipeline().parameters.SourceSchema",
-											"type": "Expression"
-										},
-										"SourceObject": {
-											"value": "@pipeline().parameters.SourceObject",
-											"type": "Expression"
-										}
-									}
+									"referenceName": "DsSqlMatterhornAmmexStaging_EdwAdfPipelineReadOnly",
+									"type": "DatasetReference"
 								}
 							],
 							"outputs": [
@@ -143,8 +133,8 @@
 							]
 						},
 						{
-							"name": "LkFixColumnWithSpace",
-							"type": "Lookup",
+							"name": "SqlFixColumnWithSpace",
+							"type": "Script",
 							"dependsOn": [],
 							"policy": {
 								"timeout": "7.00:00:00",
@@ -154,30 +144,20 @@
 								"secureInput": false
 							},
 							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "LsSqlMatterhornAmmexStaging_EdwAdfPiplineReadOnly",
+								"type": "LinkedServiceReference"
+							},
 							"typeProperties": {
-								"source": {
-									"type": "AzureSqlSource",
-									"sqlReaderQuery": {
-										"value": "@concat('\nDECLARE @SourceColumn VARCHAR(MAX),\n\t\t@SourceObject VARCHAR(500) = ''@{Item().SourceObject}'' \nSELECT @SourceColumn = ISNULL(@SourceColumn + '', '', '''') + QUOTENAME(COLUMN_NAME)\nFROM INFORMATION_SCHEMA.COLUMNS\nWHERE QUOTENAME(TABLE_NAME) = @SourceObject \nSELECT ''SELECT '' + @SourceColumn + '' FROM '' + @SourceObject AS Query \n')",
-										"type": "Expression"
-									},
-									"queryTimeout": "02:00:00",
-									"partitionOption": "None"
-								},
-								"dataset": {
-									"referenceName": "DsAsqlDataWarehouse_EdwAdfPipelineReadOnly",
-									"type": "DatasetReference",
-									"parameters": {
-										"SourceSchema": {
-											"value": "@pipeline().parameters.SourceSchema",
-											"type": "Expression"
-										},
-										"SourceObject": {
-											"value": "@pipeline().parameters.SourceObject",
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "@concat('\nDECLARE @SourceColumn VARCHAR(MAX),\n\t\t@SourceTable VARCHAR(500) = ''@{Item().SourceObject}'' \nSELECT @SourceColumn = ISNULL(@SourceColumn + '', '', '''') + QUOTENAME(COLUMN_NAME)\nFROM INFORMATION_SCHEMA.COLUMNS\nWHERE QUOTENAME(TABLE_NAME) = @SourceTable \nSELECT ''SELECT '' + @SourceColumn + '' FROM '' + @SourceTable AS Query \n')",
 											"type": "Expression"
 										}
 									}
-								}
+								]
 							}
 						}
 					]
