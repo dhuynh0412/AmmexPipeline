@@ -1,0 +1,20 @@
+{
+	"name": "DestinationDataset_3zs",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAdlEdwInbound",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "sales/sellthroughdatafiles/Ace/2022",
+				"fileSystem": "finance"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}

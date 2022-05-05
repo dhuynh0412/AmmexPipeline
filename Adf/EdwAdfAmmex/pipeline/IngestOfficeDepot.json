@@ -1,0 +1,194 @@
+{
+	"name": "IngestOfficeDepot",
+	"properties": {
+		"activities": [
+			{
+				"name": "Import OfficeDepot",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "General/Ammex/Sales/Sell Through Data Files/Office Depot/2022/SalesInquiry_2022-03-14_102528.csv"
+					},
+					{
+						"name": "Destination",
+						"value": "Loader.HomeDepot"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "FileServerReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings",
+							"skipLineCount": 0
+						}
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"writeBehavior": "Insert",
+						"tableOption": "autoCreate"
+					},
+					"enableStaging": false,
+					"validateDataConsistency": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Location Type",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Location Type",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Dept",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Dept",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Class",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Class",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "SKU Number",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "SKU Number",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "SKU Status",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "SKU Status",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Quantity On Hand",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Quantity On Hand",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "VPC",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "VPC",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "UPC",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "UPC",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Unit Sales",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Unit Sales",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Retail Sales",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Retail Sales",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Cost Sales",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Cost Sales",
+									"type": "String"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceDataset_xys",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DestinationDataset_xys",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}

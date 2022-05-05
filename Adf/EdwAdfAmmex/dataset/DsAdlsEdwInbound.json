@@ -1,0 +1,42 @@
+{
+	"name": "DsAdlsEdwInbound",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAdlEdwInbound",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"IngestRoot": {
+				"type": "string"
+			},
+			"IngestRootPath": {
+				"type": "string"
+			},
+			"IngestRootPathFileName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().IngestRootPathFileName",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().IngestRootPath",
+					"type": "Expression"
+				},
+				"fileSystem": {
+					"value": "@dataset().IngestRoot",
+					"type": "Expression"
+				}
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
