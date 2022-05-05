@@ -1,0 +1,16 @@
+{
+	"name": "DestinationDataset_xys",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "Loader",
+			"table": "HomeDepot"
+		}
+	}
+}
