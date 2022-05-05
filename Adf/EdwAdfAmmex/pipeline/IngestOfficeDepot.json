@@ -1,9 +1,9 @@
 {
-	"name": "IngestHomeDepot",
+	"name": "IngestOfficeDepot",
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy_xys",
+				"name": "Import OfficeDepot",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
