@@ -25,8 +25,14 @@
 						"referenceName": "DsSqlMatterhornAmmexStaging_EdwAdfPipelineReadOnly",
 						"type": "DatasetReference",
 						"parameters": {
-							"SourceSchema": "ETL",
-							"SourceObject": "AdfLoadControl"
+							"SourceSchema": {
+								"value": "@pipeline().parameters.SourceSchema",
+								"type": "Expression"
+							},
+							"SourceObject": {
+								"value": "@pipeline().parameters.SourceObject",
+								"type": "Expression"
+							}
 						}
 					},
 					"firstRowOnly": false
