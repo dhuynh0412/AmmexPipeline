@@ -1,5 +1,5 @@
 {
-	"name": "CreatePipelineThroughWiza",
+	"name": "CreatePipelineThroughWiza_copy2",
 	"properties": {
 		"activities": [
 			{
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "DsSourceNetworkRootCsv",
+						"referenceName": "DsSourceNetworkRootFolderCsv",
 						"type": "DatasetReference"
 					},
 					"fieldList": [
@@ -49,69 +49,12 @@
 						"value": "@activity('GetListOfSourceFiles').output.childItems",
 						"type": "Expression"
 					},
-					"isSequential": true,
+					"isSequential": false,
 					"activities": [
 						{
-							"name": "Get Metadata2",
-							"type": "GetMetadata",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "7.00:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"dataset": {
-									"referenceName": "DsSourceNetworkRootCsv",
-									"type": "DatasetReference"
-								},
-								"fieldList": [
-									"childItems"
-								],
-								"storeSettings": {
-									"type": "FileServerReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							}
-						},
-						{
-							"name": "FileNames",
-							"type": "AppendVariable",
-							"dependsOn": [
-								{
-									"activity": "Get Metadata2",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "FileNames",
-								"value": {
-									"value": "@activity('Get Metadata2').output.childItems[0]",
-									"type": "Expression"
-								}
-							}
-						},
-						{
-							"name": "Copy data1",
+							"name": "ImportingCsvToEdw",
 							"type": "Copy",
-							"dependsOn": [
-								{
-									"activity": "FileNames",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"timeout": "7.00:00:00",
 								"retry": 0,
@@ -123,12 +66,33 @@
 							"typeProperties": {
 								"source": {
 									"type": "DelimitedTextSource",
+									"additionalColumns": [
+										{
+											"name": "SourceFileName",
+											"value": "$$FILEPATH"
+										},
+										{
+											"name": "Dup_Name",
+											"value": "$$COLUMN:Dept"
+										},
+										{
+											"name": "PipelineName",
+											"value": {
+												"value": "@pipeline().Pipeline",
+												"type": "Expression"
+											}
+										},
+										{
+											"name": "StatisticColumn",
+											"value": {
+												"value": "abcd",
+												"type": "Expression"
+											}
+										}
+									],
 									"storeSettings": {
 										"type": "FileServerReadSettings",
-										"fileListPath": {
-											"value": "@variables('FileNames')",
-											"type": "Expression"
-										},
+										"recursive": true,
 										"enablePartitionDiscovery": false
 									},
 									"formatSettings": {
@@ -143,10 +107,7 @@
 									"formatSettings": {
 										"type": "DelimitedTextWriteSettings",
 										"quoteAllText": true,
-										"fileExtension": {
-											"value": "@variables('FileNames')",
-											"type": "Expression"
-										}
+										"fileExtension": ".txt"
 									}
 								},
 								"enableStaging": false,
@@ -162,48 +123,32 @@
 							"inputs": [
 								{
 									"referenceName": "DsSourceNetworkRootCsv",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"FileName": {
+											"value": "@item().name",
+											"type": "Expression"
+										}
+									}
 								}
 							],
 							"outputs": [
 								{
 									"referenceName": "DsDestinationAdlEdwInboundCsv",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"FileName": {
+											"value": "@item().name",
+											"type": "Expression"
+										}
+									}
 								}
 							]
 						}
 					]
 				}
-			},
-			{
-				"name": "Set variable1",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "ForEach1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "Result",
-					"value": {
-						"value": "@variables('FileNames')",
-						"type": "Expression"
-					}
-				}
 			}
 		],
-		"variables": {
-			"FileNames": {
-				"type": "Array"
-			},
-			"Result": {
-				"type": "Array"
-			}
-		},
 		"annotations": []
 	}
 }

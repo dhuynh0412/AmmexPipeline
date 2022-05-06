@@ -24,6 +24,7 @@
 					],
 					"storeSettings": {
 						"type": "FileServerReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
@@ -48,7 +49,7 @@
 						"value": "@activity('GetListOfSourceFiles').output.childItems",
 						"type": "Expression"
 					},
-					"isSequential": true,
+					"isSequential": false,
 					"activities": [
 						{
 							"name": "ImportingCsvToEdw",
@@ -65,6 +66,30 @@
 							"typeProperties": {
 								"source": {
 									"type": "DelimitedTextSource",
+									"additionalColumns": [
+										{
+											"name": "SourceFileName",
+											"value": "$$FILEPATH"
+										},
+										{
+											"name": "Dup_Name",
+											"value": "$$COLUMN:name"
+										},
+										{
+											"name": "PipelineName",
+											"value": {
+												"value": "@pipeline().Pipeline",
+												"type": "Expression"
+											}
+										},
+										{
+											"name": "StatisticColumn",
+											"value": {
+												"value": "abcd",
+												"type": "Expression"
+											}
+										}
+									],
 									"storeSettings": {
 										"type": "FileServerReadSettings",
 										"recursive": true,
@@ -97,7 +122,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"FileName": {
-											"value": "@item().FileName",
+											"value": "@item().name",
 											"type": "Expression"
 										}
 									}
@@ -110,7 +135,7 @@
 									"parameters": {
 										"SinkSchema": "Loader",
 										"SinkTable": {
-											"value": "@item().FileName",
+											"value": "@item().name",
 											"type": "Expression"
 										}
 									}
