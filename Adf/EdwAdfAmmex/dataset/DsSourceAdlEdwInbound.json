@@ -10,7 +10,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "SalesInquiry*.csv",
 				"folderPath": "sales/sellthroughdatafiles/Office Depot/2022",
 				"fileSystem": "finance"
 			},
