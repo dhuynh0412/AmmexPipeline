@@ -142,7 +142,7 @@
 								"source": {
 									"type": "SqlServerSource",
 									"sqlReaderQuery": {
-										"value": "@{concat('\nDECLARE @SourceColumn VARCHAR(MAX),\n\t\t@SourceObject VARCHAR(500) = ''@{Item().SourceObject}'' \nSELECT @SourceColumn = ISNULL(@SourceColumn + '', '', '''') + QUOTENAME(COLUMN_NAME)\nFROM INFORMATION_SCHEMA.COLUMNS\nWHERE QUOTENAME(TABLE_NAME) = @SourceObject \nSELECT ''SELECT '' + @SourceColumn + '' FROM '' + @SourceObject AS Query \n')}",
+										"value": "@CONCAT(' \nDECLARE @SourceColumn VARCHAR(MAX),\n\t\t@SourceTable VARCHAR(500) = ''', item().SourceObject, ''' \nSELECT @SourceColumn = ISNULL(@SourceColumn + '', '', '''') + QUOTENAME(COLUMN_NAME)\nFROM INFORMATION_SCHEMA.COLUMNS\nWHERE QUOTENAME(TABLE_NAME) = @SourceTable \nSELECT ''SELECT '' + @SourceColumn + '' FROM '' + @SourceTable AS Query \n') ",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
