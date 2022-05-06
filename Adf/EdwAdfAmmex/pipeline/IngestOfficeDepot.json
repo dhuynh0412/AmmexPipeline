@@ -1,5 +1,5 @@
 {
-	"name": "CreatePipelineThroughWiza_copy2",
+	"name": "IngestOfficeDepot",
 	"properties": {
 		"activities": [
 			{
@@ -52,7 +52,7 @@
 					"isSequential": false,
 					"activities": [
 						{
-							"name": "ImportingCsvToEdw",
+							"name": "CopyingCsvToDataLake",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -72,10 +72,6 @@
 											"value": "$$FILEPATH"
 										},
 										{
-											"name": "Dup_Name",
-											"value": "$$COLUMN:Dept"
-										},
-										{
 											"name": "PipelineName",
 											"value": {
 												"value": "@pipeline().Pipeline",
@@ -83,9 +79,9 @@
 											}
 										},
 										{
-											"name": "StatisticColumn",
+											"name": "LoadDate",
 											"value": {
-												"value": "abcd",
+												"value": "@utcNow()",
 												"type": "Expression"
 											}
 										}
@@ -141,6 +137,76 @@
 											"value": "@item().name",
 											"type": "Expression"
 										}
+									}
+								}
+							]
+						},
+						{
+							"name": "ImportingCsvToEdw",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "CopyingCsvToDataLake",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "AzureBlobFSReadSettings",
+										"recursive": true,
+										"enablePartitionDiscovery": false
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
+								},
+								"sink": {
+									"type": "SqlDWSink",
+									"writeBehavior": "Insert",
+									"sqlWriterUseTableLock": false,
+									"disableMetricsCollection": false
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "DsDestinationAdlEdwInboundCsv",
+									"type": "DatasetReference",
+									"parameters": {
+										"FileName": {
+											"value": "@item().name",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+									"type": "DatasetReference",
+									"parameters": {
+										"SinkSchema": "Loader",
+										"SinkTable": "OfficeDepotDuy"
 									}
 								}
 							]
