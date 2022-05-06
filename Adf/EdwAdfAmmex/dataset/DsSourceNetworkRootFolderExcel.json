@@ -1,0 +1,19 @@
+{
+	"name": "DsSourceNetworkRootFolderExcel",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsSourceNetworkRoot",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Sheet3",
+			"location": {
+				"type": "FileServerLocation",
+				"folderPath": "General/Ammex/Sales/Sell Through Data Files/Ace/2021"
+			}
+		},
+		"schema": []
+	}
+}

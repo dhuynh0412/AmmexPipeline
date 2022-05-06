@@ -27,17 +27,7 @@
 					},
 					"dataset": {
 						"referenceName": "DsSqlMatterhornAmmexStaging_EdwAdfPipelineReadOnly",
-						"type": "DatasetReference",
-						"parameters": {
-							"SourceSchema": {
-								"value": "@pipeline().parameters.SourceSchema",
-								"type": "Expression"
-							},
-							"SourceObject": {
-								"value": "@pipeline().parameters.SourceObject",
-								"type": "Expression"
-							}
-						}
+						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
 				}
@@ -112,17 +102,7 @@
 							"inputs": [
 								{
 									"referenceName": "DsSqlMatterhornAmmexStaging_EdwAdfPipelineReadOnly",
-									"type": "DatasetReference",
-									"parameters": {
-										"SourceSchema": {
-											"value": "@{item().SourceSchema}",
-											"type": "Expression"
-										},
-										"SourceObject": {
-											"value": "@{item().SourceObject}",
-											"type": "Expression"
-										}
-									}
+									"type": "DatasetReference"
 								}
 							],
 							"outputs": [
@@ -162,7 +142,7 @@
 								"source": {
 									"type": "SqlServerSource",
 									"sqlReaderQuery": {
-										"value": "@{concat('\nDECLARE @SourceColumn VARCHAR(MAX),\n\t\t@SourceObject VARCHAR(500) = ''@{Item().SourceObject}'' \nSELECT @SourceColumn = ISNULL(@SourceColumn + '', '', '''') + QUOTENAME(COLUMN_NAME)\nFROM INFORMATION_SCHEMA.COLUMNS\nWHERE TABLE_NAME = @SourceObject \nSELECT ''SELECT '' + @SourceColumn + '' FROM '' + @SourceObject AS Query \n')}",
+										"value": "@{concat('\nDECLARE @SourceColumn VARCHAR(MAX),\n\t\t@SourceObject VARCHAR(500) = ''@{Item().SourceObject}'' \nSELECT @SourceColumn = ISNULL(@SourceColumn + '', '', '''') + QUOTENAME(COLUMN_NAME)\nFROM INFORMATION_SCHEMA.COLUMNS\nWHERE QUOTENAME(TABLE_NAME) = @SourceObject \nSELECT ''SELECT '' + @SourceColumn + '' FROM '' + @SourceObject AS Query \n')}",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
@@ -170,17 +150,7 @@
 								},
 								"dataset": {
 									"referenceName": "DsSqlMatterhornAmmexStaging_EdwAdfPipelineReadOnly",
-									"type": "DatasetReference",
-									"parameters": {
-										"SourceSchema": {
-											"value": "@{item().SourceSchema}",
-											"type": "Expression"
-										},
-										"SourceObject": {
-											"value": "@{item().SourceObject}",
-											"type": "Expression"
-										}
-									}
+									"type": "DatasetReference"
 								},
 								"firstRowOnly": true
 							}
