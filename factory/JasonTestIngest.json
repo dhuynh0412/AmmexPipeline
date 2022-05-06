@@ -1,0 +1,9 @@
+{
+	"name": "JasonTestIngest",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "e77a8a86-133b-43ce-b74b-ebbaab4911be",
+		"tenantId": "6fe8874b-b6a3-476c-9357-0389bdea5f53"
+	}
+}
