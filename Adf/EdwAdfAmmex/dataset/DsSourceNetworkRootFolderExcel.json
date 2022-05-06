@@ -8,6 +8,7 @@
 		"annotations": [],
 		"type": "Excel",
 		"typeProperties": {
+			"sheetName": "Sheet3",
 			"location": {
 				"type": "FileServerLocation",
 				"folderPath": "General/Ammex/Sales/Sell Through Data Files/Ace/2021"
