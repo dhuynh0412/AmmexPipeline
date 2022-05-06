@@ -5,11 +5,21 @@
 			"referenceName": "LsAdlEdwInbound",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"FileName": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().FileName",
+					"type": "Expression"
+				},
+				"folderPath": "sales/sellthroughdatafiles/Office Depot/2022",
 				"fileSystem": "finance"
 			},
 			"columnDelimiter": ",",
