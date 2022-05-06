@@ -1,0 +1,25 @@
+{
+	"name": "DsSourceNetworkRootFileExcel",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsSourceNetworkRoot",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"FileName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Sheet3",
+			"location": {
+				"type": "FileServerLocation",
+				"fileName": "ACE Sales Tracker_2021.06.07.xlsx",
+				"folderPath": "General/Ammex/Sales/Sell Through Data Files/Ace/2021"
+			}
+		},
+		"schema": []
+	}
+}
