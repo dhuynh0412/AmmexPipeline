@@ -11,11 +11,11 @@
 			"location": {
 				"type": "FileServerLocation",
 				"fileName": "SalesInquiry*.csv",
-				"folderPath": "General/Ammex/Sales/Sell Through Data Files/Office Depot/2021"
+				"folderPath": "General/Ammex/Sales/Sell Through Data Files/Office Depot/"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
-			"firstRowAsHeader": true,
+			"firstRowAsHeader": false,
 			"quoteChar": "\""
 		},
 		"schema": []
