@@ -10,8 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "FileServerLocation",
-				"fileName": "SalesInquiry*.csv",
-				"folderPath": "General/Ammex/Sales/Sell Through Data Files/Office Depot/2022"
+				"folderPath": "General/Ammex/Sales/Sell Through Data Files/Office Depot"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
