@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "DsSourceNetworkRootCsv",
+						"referenceName": "DsSourceNetworkRootFolderCsv",
 						"type": "DatasetReference"
 					},
 					"fieldList": [
