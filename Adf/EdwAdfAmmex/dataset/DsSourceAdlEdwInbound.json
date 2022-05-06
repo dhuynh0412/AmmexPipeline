@@ -1,19 +1,21 @@
 {
-	"name": "DestinationDataset_3zs",
+	"name": "DsSourceAdlEdwInbound",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LsAdlEdwInbound",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
-		"type": "Parquet",
+		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"folderPath": "sales/sellthroughdatafiles/Ace/2022",
+				"folderPath": "sales/sellthroughdatafiles/Office Depot/2022",
 				"fileSystem": "finance"
 			},
-			"compressionCodec": "snappy"
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
 		},
 		"schema": []
 	}

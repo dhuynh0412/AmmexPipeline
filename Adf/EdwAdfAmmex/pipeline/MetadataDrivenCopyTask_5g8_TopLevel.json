@@ -24,10 +24,6 @@
 							"type": "Expression"
 						},
 						"partitionOption": "None"
-					},
-					"dataset": {
-						"referenceName": "MetadataDrivenCopyTask_5g8_ControlDS",
-						"type": "DatasetReference"
 					}
 				}
 			},

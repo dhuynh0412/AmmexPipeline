@@ -96,80 +96,11 @@
 														}
 													},
 													"enableStaging": false,
-													"validateDataConsistency": false,
 													"translator": {
 														"value": "@json(item().CopyActivitySettings).translator",
 														"type": "Expression"
 													}
-												},
-												"inputs": [
-													{
-														"referenceName": "MetadataDrivenCopyTask_5g8_SourceDS",
-														"type": "DatasetReference",
-														"parameters": {
-															"cw_columnDelimiter": {
-																"value": "@json(item().SourceObjectSettings).columnDelimiter",
-																"type": "Expression"
-															},
-															"cw_rowDelimiter": {
-																"value": "@json(item().SourceObjectSettings).rowDelimiter",
-																"type": "Expression"
-															},
-															"cw_escapeChar": {
-																"value": "@json(item().SourceObjectSettings).escapeChar",
-																"type": "Expression"
-															},
-															"cw_quoteChar": {
-																"value": "@json(item().SourceObjectSettings).quoteChar",
-																"type": "Expression"
-															},
-															"cw_firstRowAsHeader": {
-																"value": "@json(item().SourceObjectSettings).firstRowAsHeader",
-																"type": "Expression"
-															},
-															"cw_fileName": {
-																"value": "@json(item().SourceObjectSettings).fileName",
-																"type": "Expression"
-															},
-															"cw_folderPath": {
-																"value": "@json(item().SourceObjectSettings).folderPath",
-																"type": "Expression"
-															}
-														}
-													}
-												],
-												"outputs": [
-													{
-														"referenceName": "MetadataDrivenCopyTask_5g8_DestinationDS",
-														"type": "DatasetReference",
-														"parameters": {
-															"cw_columnDelimiter": {
-																"value": "@json(item().SinkObjectSettings).columnDelimiter",
-																"type": "Expression"
-															},
-															"cw_escapeChar": {
-																"value": "@json(item().SinkObjectSettings).escapeChar",
-																"type": "Expression"
-															},
-															"cw_quoteChar": {
-																"value": "@json(item().SinkObjectSettings).quoteChar",
-																"type": "Expression"
-															},
-															"cw_fileName": {
-																"value": "@json(item().SinkObjectSettings).fileName",
-																"type": "Expression"
-															},
-															"cw_folderPath": {
-																"value": "@json(item().SinkObjectSettings).folderPath",
-																"type": "Expression"
-															},
-															"cw_fileSystem": {
-																"value": "@json(item().SinkObjectSettings).fileSystem",
-																"type": "Expression"
-															}
-														}
-													}
-												]
+												}
 											}
 										]
 									}
@@ -241,80 +172,11 @@
 												}
 											},
 											"enableStaging": false,
-											"validateDataConsistency": false,
 											"translator": {
 												"value": "@json(item().CopyActivitySettings).translator",
 												"type": "Expression"
 											}
-										},
-										"inputs": [
-											{
-												"referenceName": "MetadataDrivenCopyTask_5g8_SourceDS",
-												"type": "DatasetReference",
-												"parameters": {
-													"cw_columnDelimiter": {
-														"value": "@json(item().SourceObjectSettings).columnDelimiter",
-														"type": "Expression"
-													},
-													"cw_rowDelimiter": {
-														"value": "@json(item().SourceObjectSettings).rowDelimiter",
-														"type": "Expression"
-													},
-													"cw_escapeChar": {
-														"value": "@json(item().SourceObjectSettings).escapeChar",
-														"type": "Expression"
-													},
-													"cw_quoteChar": {
-														"value": "@json(item().SourceObjectSettings).quoteChar",
-														"type": "Expression"
-													},
-													"cw_firstRowAsHeader": {
-														"value": "@json(item().SourceObjectSettings).firstRowAsHeader",
-														"type": "Expression"
-													},
-													"cw_fileName": {
-														"value": "@json(item().SourceObjectSettings).fileName",
-														"type": "Expression"
-													},
-													"cw_folderPath": {
-														"value": "@json(item().SourceObjectSettings).folderPath",
-														"type": "Expression"
-													}
-												}
-											}
-										],
-										"outputs": [
-											{
-												"referenceName": "MetadataDrivenCopyTask_5g8_DestinationDS",
-												"type": "DatasetReference",
-												"parameters": {
-													"cw_columnDelimiter": {
-														"value": "@json(item().SinkObjectSettings).columnDelimiter",
-														"type": "Expression"
-													},
-													"cw_escapeChar": {
-														"value": "@json(item().SinkObjectSettings).escapeChar",
-														"type": "Expression"
-													},
-													"cw_quoteChar": {
-														"value": "@json(item().SinkObjectSettings).quoteChar",
-														"type": "Expression"
-													},
-													"cw_fileName": {
-														"value": "@json(item().SinkObjectSettings).fileName",
-														"type": "Expression"
-													},
-													"cw_folderPath": {
-														"value": "@json(item().SinkObjectSettings).folderPath",
-														"type": "Expression"
-													},
-													"cw_fileSystem": {
-														"value": "@json(item().SinkObjectSettings).fileSystem",
-														"type": "Expression"
-													}
-												}
-											}
-										]
+										}
 									}
 								]
 							}

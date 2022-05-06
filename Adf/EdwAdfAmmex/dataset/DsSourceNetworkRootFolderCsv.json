@@ -1,5 +1,5 @@
 {
-	"name": "SourceDataset_3zs",
+	"name": "DsSourceNetworkRootFolderCsv",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LsSourceNetworkRoot",
@@ -10,19 +10,12 @@
 		"typeProperties": {
 			"location": {
 				"type": "FileServerLocation",
-				"fileName": "Inventory - 2021.09.07.csv",
-				"folderPath": "General/Ammex/Sales/Sell Through Data Files/Ace/2021"
+				"folderPath": "General/Ammex/Sales/Sell Through Data Files/Office Depot/2022"
 			},
 			"columnDelimiter": ",",
-			"rowDelimiter": "\n",
 			"escapeChar": "\\",
-			"firstRowAsHeader": false,
 			"quoteChar": "\""
 		},
-		"schema": [
-			{
-				"type": "String"
-			}
-		]
+		"schema": []
 	}
 }

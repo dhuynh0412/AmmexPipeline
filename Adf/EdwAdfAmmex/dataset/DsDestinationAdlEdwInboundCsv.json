@@ -1,21 +1,30 @@
 {
-	"name": "DelimitedText1",
+	"name": "DsDestinationAdlEdwInboundCsv",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LsAdlEdwInbound",
 			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"FileName": {
+				"type": "string"
+			}
 		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "Sales - 2022.1.12.csv",
-				"folderPath": "sales/sellthroughdatafiles/Ace/2022",
+				"fileName": {
+					"value": "@dataset().FileName",
+					"type": "Expression"
+				},
+				"folderPath": "sales/sellthroughdatafiles/Office Depot/2022",
 				"fileSystem": "finance"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
+			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
 		"schema": []
