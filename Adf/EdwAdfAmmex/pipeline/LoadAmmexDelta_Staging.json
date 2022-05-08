@@ -90,6 +90,11 @@
 									"storeSettings": {
 										"type": "AzureBlobFSReadSettings",
 										"recursive": true,
+										"wildcardFolderPath": {
+											"value": "@{item().IngestRootPath}",
+											"type": "Expression"
+										},
+										"wildcardFileName": "*.*",
 										"enablePartitionDiscovery": false
 									},
 									"formatSettings": {
@@ -127,7 +132,7 @@
 											"type": "Expression"
 										},
 										"IngestRootPathFileName": {
-											"value": "@{item().IngestRootPathFileName}",
+											"value": "@toLower('')",
 											"type": "Expression"
 										}
 									}
