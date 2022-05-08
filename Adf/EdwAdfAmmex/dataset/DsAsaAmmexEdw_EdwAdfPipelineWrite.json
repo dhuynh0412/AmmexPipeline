@@ -6,13 +6,11 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"SinkSchema": {
-				"type": "string",
-				"defaultValue": "Loader"
+			"Schema": {
+				"type": "string"
 			},
-			"SinkTable": {
-				"type": "string",
-				"defaultValue": "OfficeDepotDuy"
+			"Object": {
+				"type": "string"
 			}
 		},
 		"annotations": [],
@@ -20,11 +18,11 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": {
-				"value": "@dataset().SinkSchema",
+				"value": "@dataset().Schema",
 				"type": "Expression"
 			},
 			"table": {
-				"value": "@dataset().SinkTable",
+				"value": "@dataset().Object",
 				"type": "Expression"
 			}
 		}

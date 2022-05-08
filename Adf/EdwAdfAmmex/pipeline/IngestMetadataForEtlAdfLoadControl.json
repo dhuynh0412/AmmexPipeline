@@ -1,0 +1,171 @@
+{
+	"name": "IngestMetadataForEtlAdfLoadControl",
+	"properties": {
+		"activities": [
+			{
+				"name": "CopyMetadataForEtlAdfLoadControl",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "SELECT\tDISTINCT\n\t\tSourceSystem = CASE WHEN LEFT(T.TABLE_NAME, 4) = 'AMEC' THEN 'Zoomget' ELSE 'Ammex' END,\n\t\tSourceDatabase = QUOTENAME(T.TABLE_CATALOG),\n\t\tSourceSchema = QUOTENAME(T.TABLE_SCHEMA),\n\t\tSourceObject = QUOTENAME(T.TABLE_NAME),\n\t\tSourceObjectType = CASE WHEN T.TABLE_TYPE = 'Base Table' THEN 'Table' ELSE T.TABLE_TYPE END,\n\t\tIngestRoot = 'ingest',\t--'ammex-edw-synase-blob',\n\t\tIngestRootPath = CASE WHEN LEFT(T.TABLE_NAME, 4) = 'AMEC' THEN 'zoomget/delta' ELSE 'ammex/delta/' END + T.TABLE_SCHEMA + '.' + T.TABLE_NAME,\t\t\n\t\tIngestRootPathFileName = T.TABLE_SCHEMA + '.' + T.TABLE_NAME,\n\t\tSinkSchema = QUOTENAME('Loader'),\n\t\tSinkTable =\tQUOTENAME('Stage' + CASE WHEN LEFT(T.TABLE_NAME, 4) = 'AMEC' THEN 'Zoomget' ELSE 'Ammex' END + '_' + T.TABLE_NAME),\n\t\tSinkPreCopyScript = 'IF OBJECT_ID(''[Loader].[StageAmmex_' + T.TABLE_NAME + ']'') IS NOT NULL' + CHAR(13) + '   DROP TABLE [Loader].[StageAmmex_' + T.TABLE_NAME + '];',\n\t\tIsLoad = 0,\n\t\tLoadFrequency = 'Daily',\n\t\tLoadDate = GETDATE()\n\nFROM INFORMATION_SCHEMA.TABLES T\nWHERE T.TABLE_SCHEMA = 'DBO'\t  \n\t  AND (LEFT(T.TABLE_NAME, 5) = 'Ammex'\n\t\t   OR LEFT(T.TABLE_NAME, 4) = 'AMEC')",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "\tIF OBJECT_ID('[Loader].[AdfLoadControl]') IS NOT NULL\n\t   DROP TABLE [Loader].[AdfLoadControl];",
+						"writeBehavior": "Insert",
+						"sqlWriterUseTableLock": false,
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DsSqlMatterhornAmmexStaging_EdwAdfPipelineReadOnly",
+						"type": "DatasetReference",
+						"parameters": {
+							"Schema": "Loader",
+							"Object": "AdfLoadControl"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+						"type": "DatasetReference",
+						"parameters": {
+							"Schema": "Loader",
+							"Object": "AdfLoadControl"
+						}
+					}
+				]
+			},
+			{
+				"name": "ETL AdfLoadControl_PopulateAmmex",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "CopyMetadataForEtlAdfLoadControl",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "INSERT INTO [ETL].[AdfLoadControl]\n\t(  [SourceSystem], \n\t   [SourceDatabase], \n\t   [SourceSchema], \n\t   [SourceObject], \n\t   [SourceObjectType], \n\t   [DatalakeIngestRoot], \n\t   [DatalakeIngestRootPath], \n\t   [DatalakeIngestRootPathFileName], \n\t   [SinkSchema], \n\t   [SinkTable], \n\t   [SinkPreCopyScript], \n\t   [IsLoad], \n\t   [LoadFrequency], \n\t   [LoadDate]\n\t)\nSELECT \n       [SourceSystem], \n\t   [SourceDatabase], \n\t   [SourceSchema], \n\t   [SourceObject], \n\t   [SourceObjectType], \n\t   [IngestRoot], \n\t   [IngestRootPath], \n\t   [IngestRootPathFileName], \n\t   [SinkSchema], \n\t   [SinkTable], \n\t   [SinkPreCopyScript], \n\t   [IsLoad], \n\t   [LoadFrequency], \n\t   [LoadDate]\nFROM [Loader].[AdfLoadControl] SRC\nWHERE [SourceSystem] = 'Ammex'\n\t  AND NOT EXISTS (SELECT 1\n\t\t\t\t\t  FROM [ETL].[AdfLoadControl] DST\n\t\t\t\t\t  WHERE SRC.[SourceSystem] = DST.[SourceSystem]\n\t\t\t\t\t\t\tAND SRC.[SourceDatabase] = DST.[SourceDatabase]\n\t\t\t\t\t\t\tAND SRC.[SourceObject] = DST.[SourceObject]\n\t\t\t\t\t )"
+						}
+					]
+				}
+			},
+			{
+				"name": "ETL AdfLoadControl_PopulateZoomget",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "CopyMetadataForEtlAdfLoadControl",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "INSERT INTO [ETL].[AdfLoadControl]\n\t(  [SourceSystem], \n\t   [SourceDatabase], \n\t   [SourceSchema], \n\t   [SourceObject], \n\t   [SourceObjectType], \n\t   [DatalakeIngestRoot], \n\t   [DatalakeIngestRootPath], \n\t   [DatalakeIngestRootPathFileName], \n\t   [SinkSchema], \n\t   [SinkTable], \n\t   [SinkPreCopyScript], \n\t   [IsLoad], \n\t   [LoadFrequency], \n\t   [LoadDate]\n\t)\nSELECT \n       [SourceSystem], \n\t   [SourceDatabase], \n\t   [SourceSchema], \n\t   [SourceObject], \n\t   [SourceObjectType], \n\t   [IngestRoot], \n\t   [IngestRootPath], \n\t   [IngestRootPathFileName], \n\t   [SinkSchema], \n\t   [SinkTable], \n\t   [SinkPreCopyScript], \n\t   [IsLoad], \n\t   [LoadFrequency], \n\t   [LoadDate]\nFROM [Loader].[AdfLoadControl] SRC\nWHERE [SourceSystem] = 'Zoomget'\n\t  AND NOT EXISTS (SELECT 1\n\t\t\t\t\t  FROM [ETL].[AdfLoadControl] DST\n\t\t\t\t\t  WHERE SRC.[SourceSystem] = DST.[SourceSystem]\n\t\t\t\t\t\t\tAND SRC.[SourceDatabase] = DST.[SourceDatabase]\n\t\t\t\t\t\t\tAND SRC.[SourceObject] = DST.[SourceObject]\n\t\t\t\t\t )"
+						}
+					]
+				}
+			},
+			{
+				"name": "Cleanup",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "ETL AdfLoadControl_PopulateAmmex",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "ETL AdfLoadControl_PopulateZoomget",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "\tIF OBJECT_ID('[Loader].[AdfLoadControl]') IS NOT NULL\n\t   DROP TABLE [Loader].[AdfLoadControl];"
+						}
+					]
+				}
+			}
+		],
+		"folder": {
+			"name": "1-Ingest"
+		},
+		"annotations": []
+	}
+}

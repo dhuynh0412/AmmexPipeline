@@ -23,7 +23,7 @@
 						"childItems"
 					],
 					"storeSettings": {
-						"type": "FileServerReadSettings",
+						"type": "AzureBlobFSReadSettings",
 						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
@@ -205,8 +205,14 @@
 									"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
 									"type": "DatasetReference",
 									"parameters": {
-										"SinkSchema": "Loader",
-										"SinkTable": "OfficeDepotDuy"
+										"Schema": {
+											"value": "Loader",
+											"type": "Expression"
+										},
+										"Object": {
+											"value": "StageInbound_OfficeDepot",
+											"type": "Expression"
+										}
 									}
 								}
 							]
@@ -215,6 +221,9 @@
 				}
 			}
 		],
+		"folder": {
+			"name": "1-Ingest"
+		},
 		"annotations": []
 	}
 }
