@@ -3,62 +3,11 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "GetListOfSourceFiles",
-				"type": "GetMetadata",
-				"dependsOn": [
-					{
-						"activity": "Lookup1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"dataset": {
-						"referenceName": "DsAdlsAmmexEdwCsv",
-						"type": "DatasetReference",
-						"parameters": {
-							"IngestRoot": {
-								"value": "@pipeline().parameters.IngestRoot",
-								"type": "Expression"
-							},
-							"IngestRootPath": {
-								"value": "@pipeline().parameters.IngestRootPath",
-								"type": "Expression"
-							},
-							"IngestRootPathFileName": {
-								"value": "@pipeline().parameters.IngestRootPathFileName",
-								"type": "Expression"
-							}
-						}
-					},
-					"fieldList": [
-						"childItems"
-					],
-					"storeSettings": {
-						"type": "AzureBlobFSReadSettings",
-						"recursive": true,
-						"enablePartitionDiscovery": false
-					},
-					"formatSettings": {
-						"type": "DelimitedTextReadSettings"
-					}
-				}
-			},
-			{
 				"name": "ForEach1",
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "GetListOfSourceFiles",
+						"activity": "LkGetSourceObjects",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -67,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('GetListOfSourceFiles').output.childItems",
+						"value": "@activity('LkGetSourceObjects').output.value",
 						"type": "Expression"
 					},
 					"isSequential": false,
@@ -159,7 +108,7 @@
 				}
 			},
 			{
-				"name": "Lookup1",
+				"name": "LkGetSourceObjects",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -183,7 +132,8 @@
 					"dataset": {
 						"referenceName": "DsSqlMatterhornAmmexStaging_EdwAdfPipelineReadOnly",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			}
 		],
