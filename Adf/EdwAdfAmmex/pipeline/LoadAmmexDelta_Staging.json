@@ -144,6 +144,10 @@
 							"SourceObject": {
 								"value": "@pipeline().parameters.SourceObject",
 								"type": "Expression"
+							},
+							"SinkSchema": {
+								"value": "@pipeline().parameters.SinkSchema",
+								"type": "Expression"
 							}
 						}
 					},
