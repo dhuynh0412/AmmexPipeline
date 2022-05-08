@@ -148,6 +148,10 @@
 							"SinkSchema": {
 								"value": "@pipeline().parameters.SinkSchema",
 								"type": "Expression"
+							},
+							"SinkObject": {
+								"value": "@pipeline().parameters.SinkObject",
+								"type": "Expression"
 							}
 						}
 					},
