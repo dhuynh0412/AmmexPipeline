@@ -38,7 +38,7 @@
 									"type": "DelimitedTextSource",
 									"storeSettings": {
 										"type": "AzureBlobFSReadSettings",
-										"recursive": true,
+										"recursive": false,
 										"wildcardFolderPath": {
 											"value": "@{item().IngestRootPath}",
 											"type": "Expression"
