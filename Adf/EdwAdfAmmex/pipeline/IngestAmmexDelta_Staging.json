@@ -49,7 +49,7 @@
 						"value": "@activity('LkGetSourceObjects').output.value",
 						"type": "Expression"
 					},
-					"isSequential": true,
+					"isSequential": false,
 					"activities": [
 						{
 							"name": "CdTableToDataLake",

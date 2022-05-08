@@ -206,7 +206,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"SinkSchema": "Loader",
-										"SinkTable": "OfficeDepotDuy"
+										"SinkTable": "StageInbound_OfficeDepot"
 									}
 								}
 							]
