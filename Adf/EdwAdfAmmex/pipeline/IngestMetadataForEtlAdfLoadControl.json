@@ -1,9 +1,9 @@
 {
-	"name": "AdfLoadControl_PopulateAmmex",
+	"name": "IngestMetadataForEtlAdfLoadControl",
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "CopyMetadataForEtlAdfLoadControl",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -65,7 +65,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "CopyMetadataForEtlAdfLoadControl",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -97,7 +97,7 @@
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "CopyMetadataForEtlAdfLoadControl",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -120,6 +120,44 @@
 						{
 							"type": "Query",
 							"text": "INSERT INTO [ETL].[AdfLoadControl]\n\t(  [SourceSystem], \n\t   [SourceDatabase], \n\t   [SourceSchema], \n\t   [SourceObject], \n\t   [SourceObjectType], \n\t   [DatalakeIngestRoot], \n\t   [DatalakeIngestRootPath], \n\t   [DatalakeIngestRootPathFileName], \n\t   [SinkSchema], \n\t   [SinkTable], \n\t   [SinkPreCopyScript], \n\t   [IsLoad], \n\t   [LoadFrequency], \n\t   [LoadDate]\n\t)\nSELECT \n       [SourceSystem], \n\t   [SourceDatabase], \n\t   [SourceSchema], \n\t   [SourceObject], \n\t   [SourceObjectType], \n\t   [IngestRoot], \n\t   [IngestRootPath], \n\t   [IngestRootPathFileName], \n\t   [SinkSchema], \n\t   [SinkTable], \n\t   [SinkPreCopyScript], \n\t   [IsLoad], \n\t   [LoadFrequency], \n\t   [LoadDate]\nFROM [Loader].[AdfLoadControl] SRC\nWHERE [SourceSystem] = 'Zoomget'\n\t  AND NOT EXISTS (SELECT 1\n\t\t\t\t\t  FROM [ETL].[AdfLoadControl] DST\n\t\t\t\t\t  WHERE SRC.[SourceSystem] = DST.[SourceSystem]\n\t\t\t\t\t\t\tAND SRC.[SourceDatabase] = DST.[SourceDatabase]\n\t\t\t\t\t\t\tAND SRC.[SourceObject] = DST.[SourceObject]\n\t\t\t\t\t )"
+						}
+					]
+				}
+			},
+			{
+				"name": "Cleanup",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "ETL AdfLoadControl_PopulateAmmex",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "ETL AdfLoadControl_PopulateZoomget",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "TRUNCATE TABLE [Loader].[AdfLoadControl]"
 						}
 					]
 				}
