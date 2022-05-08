@@ -157,7 +157,7 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "TRUNCATE TABLE [Loader].[AdfLoadControl]"
+							"text": "\tIF OBJECT_ID('[Loader].[AdfLoadControl]') IS NOT NULL\n\t   DROP TABLE [Loader].[AdfLoadControl];"
 						}
 					]
 				}
