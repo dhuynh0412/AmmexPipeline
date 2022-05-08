@@ -205,8 +205,8 @@
 									"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
 									"type": "DatasetReference",
 									"parameters": {
-										"SinkSchema": "Loader",
-										"SinkTable": "StageInbound_OfficeDepot"
+										"Schema": "Loader",
+										"Object": "StageInbound_OfficeDepot"
 									}
 								}
 							]

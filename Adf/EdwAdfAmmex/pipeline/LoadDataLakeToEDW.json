@@ -29,11 +29,11 @@
 						"referenceName": "DsSqlMatterhornAmmexStaging_EdwAdfPipelineReadOnly",
 						"type": "DatasetReference",
 						"parameters": {
-							"SourceSchema": {
+							"Schema": {
 								"value": "@pipeline().parameters.SinkSchema",
 								"type": "Expression"
 							},
-							"SourceObject": {
+							"Object": {
 								"value": "@pipeline().parameters.SinkTable",
 								"type": "Expression"
 							}
@@ -130,11 +130,11 @@
 									"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
 									"type": "DatasetReference",
 									"parameters": {
-										"SinkSchema": {
+										"Schema": {
 											"value": "@{item().SinkSchema}",
 											"type": "Expression"
 										},
-										"SinkTable": {
+										"Object": {
 											"value": "@{item().SinkTable}",
 											"type": "Expression"
 										}

@@ -201,8 +201,8 @@
 									"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
 									"type": "DatasetReference",
 									"parameters": {
-										"SinkSchema": "Loader",
-										"SinkTable": "AceDuy"
+										"Schema": "Loader",
+										"Object": "AceDuy"
 									}
 								}
 							]
