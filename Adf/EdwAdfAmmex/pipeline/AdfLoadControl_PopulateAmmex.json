@@ -1,0 +1,64 @@
+{
+	"name": "AdfLoadControl_PopulateAmmex",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "SELECT\tDISTINCT\n\t\tSourceSystem = CASE WHEN LEFT(T.TABLE_NAME, 4) = 'AMEC' THEN 'Zoomget' ELSE 'Ammex' END,\n\t\tSourceDatabase = QUOTENAME(T.TABLE_CATALOG),\n\t\tSourceSchema = QUOTENAME(T.TABLE_SCHEMA),\n\t\tSourceObject = QUOTENAME(T.TABLE_NAME),\n\t\tSourceObjectType = CASE WHEN T.TABLE_TYPE = 'Base Table' THEN 'Table' ELSE T.TABLE_TYPE END,\n\t\tIngestRoot = 'ingest',\t--'ammex-edw-synase-blob',\n\t\tIngestRootPath = CASE WHEN LEFT(T.TABLE_NAME, 4) = 'AMEC' THEN 'zoomget/delta' ELSE 'ammex/delta/' END + T.TABLE_SCHEMA + '.' + T.TABLE_NAME,\t\t\n\t\tIngestRootPathFileName = T.TABLE_SCHEMA + '.' + T.TABLE_NAME,\n\t\tSinkSchema = QUOTENAME('Loader'),\n\t\tSinkTable =\tQUOTENAME('Stage' + CASE WHEN LEFT(T.TABLE_NAME, 4) = 'AMEC' THEN 'Zoomget' ELSE 'Ammex' END + '_' + T.TABLE_NAME),\n\t\tSinkPreCopyScript = 'IF OBJECT_ID(''[Loader].[StageAmmex_' + T.TABLE_NAME + ']'') IS NOT NULL' + CHAR(13) + '   DROP TABLE [Loader].[StageAmmex_' + T.TABLE_NAME + '];',\n\t\tIsLoad = 0,\n\t\tLoadFrequency = 'Daily',\n\t\tLoadDate = GETDATE()\n\nFROM INFORMATION_SCHEMA.TABLES T\nWHERE T.TABLE_SCHEMA = 'DBO'\t  \n\t  AND (LEFT(T.TABLE_NAME, 5) = 'Ammex'\n\t\t   OR LEFT(T.TABLE_NAME, 4) = 'AMEC')",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"writeBehavior": "Insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DsSqlMatterhornAmmexStaging_EdwAdfPipelineReadOnly",
+						"type": "DatasetReference",
+						"parameters": {
+							"Schema": "ETL",
+							"Object": "AdfLoadControl"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+						"type": "DatasetReference",
+						"parameters": {
+							"Schema": "ETL",
+							"Object": "AdfLoadControl2"
+						}
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
