@@ -1,0 +1,207 @@
+{
+	"name": "LoadAmmexDelta_Staging",
+	"properties": {
+		"activities": [
+			{
+				"name": "GetListOfSourceFiles",
+				"type": "GetMetadata",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "DsAdlsAmmexEdwCsv",
+						"type": "DatasetReference",
+						"parameters": {
+							"IngestRoot": {
+								"value": "@pipeline().parameters.IngestRoot",
+								"type": "Expression"
+							},
+							"IngestRootPath": {
+								"value": "@pipeline().parameters.IngestRootPath",
+								"type": "Expression"
+							},
+							"IngestRootPathFileName": {
+								"value": "@pipeline().parameters.IngestRootPathFileName",
+								"type": "Expression"
+							}
+						}
+					},
+					"fieldList": [
+						"childItems"
+					],
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "DelimitedTextReadSettings"
+					}
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "GetListOfSourceFiles",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('GetListOfSourceFiles').output.childItems",
+						"type": "Expression"
+					},
+					"isSequential": false,
+					"activities": [
+						{
+							"name": "ImportingCsvToEdw",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "AzureBlobFSReadSettings",
+										"recursive": true,
+										"enablePartitionDiscovery": false
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
+								},
+								"sink": {
+									"type": "SqlDWSink",
+									"writeBehavior": "Insert",
+									"sqlWriterUseTableLock": false,
+									"tableOption": "autoCreate",
+									"disableMetricsCollection": false
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "DsAdlsAmmexEdwCsv",
+									"type": "DatasetReference",
+									"parameters": {
+										"IngestRoot": {
+											"value": "@{item().IngestRoot}",
+											"type": "Expression"
+										},
+										"IngestRootPath": {
+											"value": "@{item().IngestRootPath}",
+											"type": "Expression"
+										},
+										"IngestRootPathFileName": {
+											"value": "@{item().IngestRootPathFileName}",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+									"type": "DatasetReference",
+									"parameters": {
+										"SinkSchema": {
+											"value": "@{item().SourceSchema}",
+											"type": "Expression"
+										},
+										"SinkTable": {
+											"value": "@{item().SourceObject}",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": {
+							"value": "SELECT\tDISTINCT\n\t\tSourceSystem = CASE WHEN LEFT(T.TABLE_NAME, 4) = 'AMEC' THEN 'Zoomget' ELSE 'Ammex' END,\n\t\tSourceDatabase = QUOTENAME(T.TABLE_CATALOG),\n\t\tSourceSchema = QUOTENAME(T.TABLE_SCHEMA),\n\t\tSourceObject = QUOTENAME(T.TABLE_NAME),\n\t\tSourceObjectType = CASE WHEN T.TABLE_TYPE = 'Base Table' THEN 'Table' ELSE T.TABLE_TYPE END,\n\t\tIngestRoot = 'ingest',\t--'ammex-edw-synase-blob',\n\t\tIngestRootPath = CASE WHEN LEFT(T.TABLE_NAME, 4) = 'AMEC' THEN 'zoomget/delta' ELSE 'ammex/delta/' END + T.TABLE_SCHEMA + '.' + T.TABLE_NAME,\t\t\n\t\tIngestRootPathFileName = T.TABLE_SCHEMA + '.' + T.TABLE_NAME,\n\t\tSinkSchema = 'Loader',\n\t\tSinkTable = 'Stage' + CASE WHEN LEFT(T.TABLE_NAME, 4) = 'AMEC' THEN 'Zoomget' ELSE 'Ammex' END + '_' + T.TABLE_NAME\nFROM INFORMATION_SCHEMA.TABLES T\nWHERE T.TABLE_SCHEMA = 'DBO'\n\t  AND T.TABLE_NAME IN('AMMEX_EXT_FREIGHTSHIP',\n\t\t\t\t\t\t\t'AMMEX_SHIPPING_CM',\n\t\t\t\t\t\t\t'AMMEX_EXT_CMWAREHOUSE',\n\t\t\t\t\t\t\t'AMMEX_RM00101',\n\t\t\t\t\t\t\t'AMMEX_EXT_CM_CARRIER',\n\t\t\t\t\t\t\t'AMMEX_CUSTOMER2',\n\t\t\t\t\t\t\t'AMMEX_EXT_ONEPATH',\n\t\t\t\t\t\t\t'AMMEX_CUSTOMER'\n\t\t\t\t\t\t\t)\nORDER BY 5, 4\n",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DsSqlMatterhornAmmexStaging_EdwAdfPipelineReadOnly",
+						"type": "DatasetReference"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"SourceSchema": {
+				"type": "string"
+			},
+			"SourceObject": {
+				"type": "string"
+			},
+			"IngestRoot": {
+				"type": "string"
+			},
+			"IngestRootPath": {
+				"type": "string"
+			},
+			"IngestRootPathFileName": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "2-Load"
+		},
+		"annotations": []
+	}
+}

@@ -23,7 +23,7 @@
 						"childItems"
 					],
 					"storeSettings": {
-						"type": "FileServerReadSettings",
+						"type": "AzureBlobFSReadSettings",
 						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
