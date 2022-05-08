@@ -11,6 +11,12 @@
 			},
 			"SourceObject": {
 				"type": "string"
+			},
+			"SinkSchema": {
+				"type": "string"
+			},
+			"SinkObject": {
+				"type": "string"
 			}
 		},
 		"annotations": [],
