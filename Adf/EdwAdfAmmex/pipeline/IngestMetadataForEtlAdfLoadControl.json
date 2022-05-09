@@ -55,7 +55,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"Schema": "Loader",
-							"Object": "AdfLoadControl"
+							"Table": "AdfLoadControl"
 						}
 					}
 				]

@@ -100,8 +100,8 @@
 											"value": "@{item().SinkSchema}",
 											"type": "Expression"
 										},
-										"Object": {
-											"value": "@{item().SinkObject}",
+										"Table": {
+											"value": "@{item().SinkTable}",
 											"type": "Expression"
 										}
 									}

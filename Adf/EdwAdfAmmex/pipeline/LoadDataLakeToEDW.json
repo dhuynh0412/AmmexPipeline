@@ -134,7 +134,7 @@
 											"value": "@{item().SinkSchema}",
 											"type": "Expression"
 										},
-										"Object": {
+										"Table": {
 											"value": "@{item().SinkTable}",
 											"type": "Expression"
 										}

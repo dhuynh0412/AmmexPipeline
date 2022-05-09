@@ -202,7 +202,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"Schema": "Loader",
-										"Object": "AceDuy"
+										"Table": "AceDuy"
 									}
 								}
 							]
