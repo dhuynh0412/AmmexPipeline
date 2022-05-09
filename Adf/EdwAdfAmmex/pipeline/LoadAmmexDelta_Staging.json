@@ -40,7 +40,7 @@
 										"type": "AzureBlobFSReadSettings",
 										"recursive": false,
 										"wildcardFolderPath": {
-											"value": "@{item().IngestRootPath}",
+											"value": "@{item().DatalakeIngestRootPath}",
 											"type": "Expression"
 										},
 										"wildcardFileName": "*.*",
@@ -77,11 +77,11 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"DatalakeIngestRoot": {
-											"value": "@{item().IngestRoot}",
+											"value": "@{item().DatalakeIngestRoot}",
 											"type": "Expression"
 										},
 										"DatalakeIngestRootPath": {
-											"value": "@{item().IngestRootPath}",
+											"value": "@{item().DatalakeIngestRootPath}",
 											"type": "Expression"
 										},
 										"DatalakeIngestRootPathFileName": {
@@ -125,27 +125,14 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "SqlServerSource",
-						"sqlReaderQuery": {
-							"value": "SELECT\tDISTINCT\n\t\tSourceSystem = CASE WHEN LEFT(T.TABLE_NAME, 4) = 'AMEC' THEN 'Zoomget' ELSE 'Ammex' END,\n\t\tSourceDatabase = QUOTENAME(T.TABLE_CATALOG),\n\t\tSourceSchema = QUOTENAME(T.TABLE_SCHEMA),\n\t\tSourceObject = QUOTENAME(T.TABLE_NAME),\n\t\tSourceObjectType = CASE WHEN T.TABLE_TYPE = 'Base Table' THEN 'Table' ELSE T.TABLE_TYPE END,\n\t\tIngestRoot = 'ingest',\t--'ammex-edw-synase-blob',\n\t\tIngestRootPath = CASE WHEN LEFT(T.TABLE_NAME, 4) = 'AMEC' THEN 'zoomget/delta' ELSE 'ammex/delta/' END + T.TABLE_SCHEMA + '.' + T.TABLE_NAME,\t\t\n\t\tIngestRootPathFileName = T.TABLE_SCHEMA + '.' + T.TABLE_NAME,\n\t\tSinkSchema = QUOTENAME('Loader'),\n\t\tSinkTable =\tQUOTENAME('Stage' + CASE WHEN LEFT(T.TABLE_NAME, 4) = 'AMEC' THEN 'Zoomget' ELSE 'Ammex' END + '_' + T.TABLE_NAME),\n\t\tSinkPreCopyScript = 'IF OBJECT_ID(''[Loader].[StageAmmex_' + T.TABLE_NAME + ']'') IS NOT NULL' + CHAR(13) + '   DROP TABLE [Loader].[StageAmmex_' + T.TABLE_NAME + '];'\nFROM INFORMATION_SCHEMA.TABLES T\nWHERE T.TABLE_SCHEMA = 'DBO'\n\t  AND LEFT(T.TABLE_NAME, 5) = 'Ammex'\n\t  AND T.TABLE_NAME IN('AMMEX_EXT_FREIGHTSHIP',\n\t\t\t\t\t\t\t'AMMEX_SHIPPING_CM',\n\t\t\t\t\t\t\t'AMMEX_EXT_CMWAREHOUSE',\n\t\t\t\t\t\t\t'AMMEX_RM00101',\n\t\t\t\t\t\t\t'AMMEX_EXT_CM_CARRIER',\n\t\t\t\t\t\t\t'AMMEX_CUSTOMER2',\n\t\t\t\t\t\t\t'AMMEX_EXT_ONEPATH',\n\t\t\t\t\t\t\t'AMMEX_CUSTOMER'\n\t\t\t\t\t\t\t)\nORDER BY 5, 4\n",
-							"type": "Expression"
-						},
+						"type": "SqlDWSource",
+						"sqlReaderQuery": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Ammex'\n\t  AND IsLoad = 1\nORDER BY [SourceObject]",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "DsSqlMatterhornAmmexStaging_EdwAdfPipelineReadOnly",
-						"type": "DatasetReference",
-						"parameters": {
-							"Schema": {
-								"value": "@pipeline().parameters.SourceSchema",
-								"type": "Expression"
-							},
-							"Object": {
-								"value": "@pipeline().parameters.SourceObject",
-								"type": "Expression"
-							}
-						}
+						"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
 				}
