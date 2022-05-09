@@ -22,15 +22,15 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": {
-					"value": "@dataset().IngestRootPathFileName",
+					"value": "@dataset().DatalakeIngestRootPathFileName",
 					"type": "Expression"
 				},
 				"folderPath": {
-					"value": "@dataset().IngestRootPath",
+					"value": "@dataset().DatalakeIngestRootPath",
 					"type": "Expression"
 				},
 				"fileSystem": {
-					"value": "@dataset().IngestRoot",
+					"value": "@dataset().DatalakeIngestRoot",
 					"type": "Expression"
 				}
 			},
