@@ -1,0 +1,12 @@
+{
+	"name": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineReadOnly",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": []
+	}
+}
