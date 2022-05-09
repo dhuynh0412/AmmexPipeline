@@ -76,15 +76,15 @@
 									"referenceName": "DsAdlsAmmexEdwCsv",
 									"type": "DatasetReference",
 									"parameters": {
-										"IngestRoot": {
+										"DatalakeIngestRoot": {
 											"value": "@{item().IngestRoot}",
 											"type": "Expression"
 										},
-										"IngestRootPath": {
+										"DatalakeIngestRootPath": {
 											"value": "@{item().IngestRootPath}",
 											"type": "Expression"
 										},
-										"IngestRootPathFileName": {
+										"DatalakeIngestRootPathFileName": {
 											"value": "@toLower('')",
 											"type": "Expression"
 										}
