@@ -101,7 +101,17 @@
 							"inputs": [
 								{
 									"referenceName": "DsAsqlDataWarehouse_EdwAdfPipelineReadOnly",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"SourceSchema": {
+											"value": "@{item().SourceSchema}",
+											"type": "Expression"
+										},
+										"SourceObject": {
+											"value": "@{item().SourceObject}",
+											"type": "Expression"
+										}
+									}
 								}
 							],
 							"outputs": [
