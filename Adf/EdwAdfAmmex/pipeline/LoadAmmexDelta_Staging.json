@@ -145,19 +145,13 @@
 			"SourceObject": {
 				"type": "string"
 			},
-			"IngestRoot": {
+			"DatalakeIngestRoot": {
 				"type": "string"
 			},
-			"IngestRootPath": {
+			"DatalakeIngestRootPath": {
 				"type": "string"
 			},
-			"IngestRootPathFileName": {
-				"type": "string"
-			},
-			"SinkSchema": {
-				"type": "string"
-			},
-			"SinkObject": {
+			"DatalakeIngestRootPathFileName": {
 				"type": "string"
 			}
 		},
