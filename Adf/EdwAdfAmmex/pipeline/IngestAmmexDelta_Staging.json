@@ -135,16 +135,16 @@
 									"referenceName": "DsAdlsAmmexEdwCsv",
 									"type": "DatasetReference",
 									"parameters": {
-										"IngestRoot": {
-											"value": "@{item().IngestRoot}",
+										"DatalakeIngestRoot": {
+											"value": "@{item().DatalakeIngestRoot}",
 											"type": "Expression"
 										},
-										"IngestRootPath": {
-											"value": "@{item().IngestRootPath}",
+										"DatalakeIngestRootPath": {
+											"value": "@{item().DatalakeIngestRootPath}",
 											"type": "Expression"
 										},
-										"IngestRootPathFileName": {
-											"value": "@{item().IngestRootPathFileName}_@utcNow('s').csv",
+										"DatalakeIngestRootPathFileName": {
+											"value": "@{item().DatalakeIngestRootPathFileName}",
 											"type": "Expression"
 										}
 									}
@@ -202,13 +202,13 @@
 			"SourceObject": {
 				"type": "string"
 			},
-			"IngestRoot": {
+			"DatalakeIngestRoot": {
 				"type": "string"
 			},
-			"IngestRootPath": {
+			"DatalakeIngestRootPath": {
 				"type": "string"
 			},
-			"IngestRootPathFileName": {
+			"DatalakeIngestRootPathFileName": {
 				"type": "string"
 			}
 		},
