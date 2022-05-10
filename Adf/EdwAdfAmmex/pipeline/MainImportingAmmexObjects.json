@@ -1,9 +1,22 @@
 {
-	"name": "MainIngestToPopulateAmmex",
+	"name": "MainImportingAmmexObjects",
 	"properties": {
 		"activities": [
 			{
-				"name": "LoadDataLakeToEDW",
+				"name": "IngestAmmexDelta_Staging",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "IngestAmmexDelta_Staging",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "LoadAmmexDelta_Staging",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
@@ -15,17 +28,28 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadAmmexDelta_Staging",
+						"type": "PipelineReference"
+					},
 					"waitOnCompletion": true
 				}
 			},
 			{
-				"name": "IngestAmmexDelta_Staging",
+				"name": "PopulateAmmexDelta_Staging",
 				"type": "ExecutePipeline",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "LoadAmmexDelta_Staging",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "IngestAmmexDelta_Staging",
+						"referenceName": "PopulateAmmexDelta_Staging",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
