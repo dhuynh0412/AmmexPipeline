@@ -15,10 +15,6 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"pipeline": {
-						"referenceName": "LoadDataLakeToEDW",
-						"type": "PipelineReference"
-					},
 					"waitOnCompletion": true
 				}
 			},
