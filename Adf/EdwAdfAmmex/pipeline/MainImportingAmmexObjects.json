@@ -1,0 +1,64 @@
+{
+	"name": "MainImportingAmmexObjects",
+	"properties": {
+		"activities": [
+			{
+				"name": "IngestAmmexDelta_Staging",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "IngestAmmexDelta_Staging",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "LoadAmmexDelta_Staging",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "IngestAmmexDelta_Staging",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadAmmexDelta_Staging",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PopulateAmmexDelta_Staging",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "LoadAmmexDelta_Staging",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PopulateAmmexDelta_Staging",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "4-Orchestration"
+		},
+		"annotations": []
+	}
+}
