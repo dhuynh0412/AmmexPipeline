@@ -1,0 +1,9 @@
+{
+	"name": "EdwAdfInbound",
+	"location": "westus2",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "e1f7949f-6b62-4b01-b3e0-03d1f4c891ef",
+		"tenantId": "6fe8874b-b6a3-476c-9357-0389bdea5f53"
+	}
+}
