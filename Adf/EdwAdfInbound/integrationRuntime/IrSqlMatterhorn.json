@@ -1,7 +1,0 @@
-{
-	"name": "IrSqlMatterhorn",
-	"properties": {
-		"type": "SelfHosted",
-		"description": "Connect to Sql Server Matterhorn"
-	}
-}
