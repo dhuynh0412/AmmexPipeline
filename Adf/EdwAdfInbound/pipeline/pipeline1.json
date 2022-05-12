@@ -44,6 +44,10 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"items": {
+						"value": "@activity('GetListOfSourceFiles').output.childItems",
+						"type": "Expression"
+					},
 					"activities": [
 						{
 							"name": "CopyingCsvToDataLake",
