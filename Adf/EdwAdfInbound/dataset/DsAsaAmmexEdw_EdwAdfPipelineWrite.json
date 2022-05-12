@@ -1,0 +1,69 @@
+{
+	"name": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Schema": {
+				"type": "string"
+			},
+			"Table": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "Location Type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Dept",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Class",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SKU Number",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SKU Status",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Quantity On Hand",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VPC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UPC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Unit Sales",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Retail Sales",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Cost Sales",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "@dataset().Schema",
+			"table": " @dataset().Table"
+		}
+	}
+}
