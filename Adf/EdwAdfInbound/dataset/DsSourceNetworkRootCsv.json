@@ -6,10 +6,10 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"FileName": {
+			"SourceNetworkPath": {
 				"type": "string"
 			},
-			"SourceNetworkPath": {
+			"FileName": {
 				"type": "string"
 			}
 		},
