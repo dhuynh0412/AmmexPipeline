@@ -1,50 +1,13 @@
 {
-	"name": "IngestOfficeDepot",
+	"name": "LoadOfficeDepot",
 	"properties": {
 		"activities": [
-			{
-				"name": "GetListOfSourceFiles",
-				"type": "GetMetadata",
-				"dependsOn": [
-					{
-						"activity": "GetValueFromAdfLoadControl",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"dataset": {
-						"referenceName": "DsSourceNetworkRootFolderCsv",
-						"type": "DatasetReference"
-					},
-					"fieldList": [
-						"childItems"
-					],
-					"storeSettings": {
-						"type": "FileServerReadSettings",
-						"recursive": true,
-						"enablePartitionDiscovery": false
-					},
-					"formatSettings": {
-						"type": "DelimitedTextReadSettings"
-					}
-				}
-			},
 			{
 				"name": "ForEach1",
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "GetListOfSourceFiles",
+						"activity": "GetValueFromAdfLoadControl",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -58,7 +21,7 @@
 					},
 					"activities": [
 						{
-							"name": "CopyingCsvToDataLake",
+							"name": "ImportingCsvToEdw",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -72,28 +35,8 @@
 							"typeProperties": {
 								"source": {
 									"type": "DelimitedTextSource",
-									"additionalColumns": [
-										{
-											"name": "SourceFileName",
-											"value": "$$FILEPATH"
-										},
-										{
-											"name": "PipelineName",
-											"value": {
-												"value": "@pipeline().Pipeline",
-												"type": "Expression"
-											}
-										},
-										{
-											"name": "LoadDate",
-											"value": {
-												"value": "@utcNow()",
-												"type": "Expression"
-											}
-										}
-									],
 									"storeSettings": {
-										"type": "FileServerReadSettings",
+										"type": "AzureBlobFSReadSettings",
 										"recursive": true,
 										"enablePartitionDiscovery": false
 									},
@@ -102,15 +45,15 @@
 									}
 								},
 								"sink": {
-									"type": "DelimitedTextSink",
-									"storeSettings": {
-										"type": "AzureBlobFSWriteSettings"
+									"type": "SqlDWSink",
+									"preCopyScript": {
+										"value": "@{item().SinkPreCopyScript}",
+										"type": "Expression"
 									},
-									"formatSettings": {
-										"type": "DelimitedTextWriteSettings",
-										"quoteAllText": true,
-										"fileExtension": ".txt"
-									}
+									"writeBehavior": "Insert",
+									"sqlWriterUseTableLock": false,
+									"tableOption": "autoCreate",
+									"disableMetricsCollection": false
 								},
 								"enableStaging": false,
 								"translator": {
@@ -124,15 +67,19 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "DsSourceNetworkRootCsv",
+									"referenceName": "DsDestinationAdlEdwInboundCsv",
 									"type": "DatasetReference",
 									"parameters": {
-										"SourceNetworkPath": {
-											"value": "@{item().SourceNetworkPath}",
+										"DatalakeIngestRoot": {
+											"value": "@{item().DatalakeIngestRoot}",
 											"type": "Expression"
 										},
-										"FileName": {
-											"value": "@{item().FileName}",
+										"DatalakeIngestRootPath": {
+											"value": "@{item().DatalakeIngestRootPath}",
+											"type": "Expression"
+										},
+										"DatalakeIngestRootPathFileName": {
+											"value": "@{item().DatalakeIngestRootPathFileName}",
 											"type": "Expression"
 										}
 									}
@@ -140,8 +87,18 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "DsDestinationAdlEdwInboundCsv",
-									"type": "DatasetReference"
+									"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+									"type": "DatasetReference",
+									"parameters": {
+										"SinkSchema": {
+											"value": "@{item().SinkSchema}",
+											"type": "Expression"
+										},
+										"SinkTable": {
+											"value": "@{item().SinkTable}",
+											"type": "Expression"
+										}
+									}
 								}
 							]
 						}
@@ -175,7 +132,7 @@
 			}
 		],
 		"folder": {
-			"name": "1-Ingest"
+			"name": "2-Load"
 		},
 		"annotations": []
 	}
