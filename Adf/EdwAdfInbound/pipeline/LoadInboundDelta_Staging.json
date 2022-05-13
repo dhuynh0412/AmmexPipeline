@@ -40,6 +40,10 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"items": {
+						"value": "@activity('LkGetSourceObjects').output.value",
+						"type": "Expression"
+					},
 					"activities": [
 						{
 							"name": "ImportingCsvToEdw",
@@ -59,6 +63,8 @@
 									"storeSettings": {
 										"type": "AzureBlobFSReadSettings",
 										"recursive": true,
+										"wildcardFolderPath": "@{item().DatalakeIngestRootPath}",
+										"wildcardFileName": "*.*",
 										"enablePartitionDiscovery": false
 									},
 									"formatSettings": {
@@ -115,6 +121,23 @@
 				}
 			}
 		],
+		"parameters": {
+			"SourceSchema": {
+				"type": "string"
+			},
+			"SourceObject": {
+				"type": "string"
+			},
+			"DatalakeIngestRoot": {
+				"type": "string"
+			},
+			"DatalakeIngestRootPath": {
+				"type": "string"
+			},
+			"DatalakeIngestRootPathFileName": {
+				"type": "string"
+			}
+		},
 		"folder": {
 			"name": "2-Load"
 		},
