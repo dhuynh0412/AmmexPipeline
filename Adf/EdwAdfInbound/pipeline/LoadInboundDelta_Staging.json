@@ -63,7 +63,10 @@
 									"storeSettings": {
 										"type": "AzureBlobFSReadSettings",
 										"recursive": true,
-										"wildcardFolderPath": "@{item().DatalakeIngestRootPath}",
+										"wildcardFolderPath": {
+											"value": "@{item().DatalakeIngestRootPath}",
+											"type": "Expression"
+										},
 										"wildcardFileName": "*.*",
 										"enablePartitionDiscovery": false
 									},
@@ -73,7 +76,10 @@
 								},
 								"sink": {
 									"type": "SqlDWSink",
-									"preCopyScript": "@{item().SinkPreCopyScript}",
+									"preCopyScript": {
+										"value": "@{item().SinkPreCopyScript}",
+										"type": "Expression"
+									},
 									"writeBehavior": "Insert",
 									"sqlWriterUseTableLock": false,
 									"tableOption": "autoCreate",
@@ -105,11 +111,11 @@
 									"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
 									"type": "DatasetReference",
 									"parameters": {
-										"Schema": {
+										"SinkSchema": {
 											"value": "@{item().SinkSchema}",
 											"type": "Expression"
 										},
-										"Table": {
+										"SinkTable": {
 											"value": "@{item().SinkTable}",
 											"type": "Expression"
 										}

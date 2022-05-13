@@ -6,6 +6,9 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
+			"SourceNetworkPath": {
+				"type": "string"
+			},
 			"FileName": {
 				"type": "string"
 			}
@@ -19,7 +22,10 @@
 					"value": "@dataset().FileName",
 					"type": "Expression"
 				},
-				"folderPath": "General/Ammex/Sales/Sell Through Data Files/Office Depot/2022"
+				"folderPath": {
+					"value": "@dataset().SourceNetworkPath",
+					"type": "Expression"
+				}
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",

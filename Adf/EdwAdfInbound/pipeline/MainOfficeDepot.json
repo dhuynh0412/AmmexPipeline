@@ -1,0 +1,44 @@
+{
+	"name": "MainOfficeDepot",
+	"properties": {
+		"activities": [
+			{
+				"name": "IngestOfficeDepot",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "IngestOfficeDepot",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "LoadOfficeDepot",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "IngestOfficeDepot",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadOfficeDepot",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "4-Orchestration"
+		},
+		"annotations": []
+	}
+}

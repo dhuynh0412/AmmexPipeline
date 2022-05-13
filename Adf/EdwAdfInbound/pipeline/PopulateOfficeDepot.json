@@ -1,0 +1,110 @@
+{
+	"name": "PopulateOfficeDepot",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "GetValueFromAdfLoadControl",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('GetListOfSourceFiles').output.childItems",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "ExecuteFormatDatatype",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": {
+									"value": "@{item().FormatDatatype}",
+									"type": "Expression"
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "ExecutePopulate",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [
+								{
+									"activity": "ExecuteFormatDatatype",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": {
+									"value": "@{item().Populate}",
+									"type": "Expression"
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "GetValueFromAdfLoadControl",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlDWSource",
+						"sqlReaderQuery": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Inbound'\n\t  AND IsLoad = 1\nORDER BY [SourceObject]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+						"type": "DatasetReference"
+					}
+				}
+			}
+		],
+		"folder": {
+			"name": "3-Populate"
+		},
+		"annotations": []
+	}
+}
