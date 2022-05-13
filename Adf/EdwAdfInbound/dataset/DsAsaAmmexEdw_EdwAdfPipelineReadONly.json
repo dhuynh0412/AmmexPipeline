@@ -1,0 +1,137 @@
+{
+	"name": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineReadOnly",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "AdfLoadControlKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SourceSystem",
+				"type": "varchar"
+			},
+			{
+				"name": "SourceDatabase",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SourceSchema",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SourceObject",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SourceObjectType",
+				"type": "varchar"
+			},
+			{
+				"name": "SourceNetworkRoot",
+				"type": "varchar"
+			},
+			{
+				"name": "SourceNetworkPath",
+				"type": "varchar"
+			},
+			{
+				"name": "SourceNetworkPathFileName",
+				"type": "varchar"
+			},
+			{
+				"name": "DatalakeIngestRoot",
+				"type": "varchar"
+			},
+			{
+				"name": "DatalakeIngestRootPath",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DatalakeIngestRootPathFileName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SinkSchema",
+				"type": "varchar"
+			},
+			{
+				"name": "SinkTable",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SinkPreCopyScript",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IsLoad",
+				"type": "bit"
+			},
+			{
+				"name": "LastModifiedDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "LastModifiedDateField",
+				"type": "varchar"
+			},
+			{
+				"name": "LoadFrequency",
+				"type": "varchar"
+			},
+			{
+				"name": "LoadStatus",
+				"type": "varchar"
+			},
+			{
+				"name": "LoadStartDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "LoadEndDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "IsSourceDeleted",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IsSourceDeletedDate",
+				"type": "bit"
+			},
+			{
+				"name": "LoadDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "LastUpdatedDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "FormatDatatype",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Populate",
+				"type": "nvarchar"
+			}
+		]
+	}
+}
