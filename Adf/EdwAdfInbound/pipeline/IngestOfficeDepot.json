@@ -125,19 +125,23 @@
 							"inputs": [
 								{
 									"referenceName": "DsSourceNetworkRootCsv",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"SourceNetworkPath": {
+											"value": "@{item().SourceNetworkPath}",
+											"type": "Expression"
+										},
+										"FileName": {
+											"value": "@{item().FileName}",
+											"type": "Expression"
+										}
+									}
 								}
 							],
 							"outputs": [
 								{
 									"referenceName": "DsDestinationAdlEdwInboundCsv",
-									"type": "DatasetReference",
-									"parameters": {
-										"FileName": {
-											"value": "@item().name",
-											"type": "Expression"
-										}
-									}
+									"type": "DatasetReference"
 								}
 							]
 						},
@@ -174,8 +178,14 @@
 								},
 								"sink": {
 									"type": "SqlDWSink",
+									"preCopyScript": {
+										"value": "@{item().SinkPreCopyScript}",
+										"type": "Expression"
+									},
 									"writeBehavior": "Insert",
-									"sqlWriterUseTableLock": false
+									"sqlWriterUseTableLock": false,
+									"tableOption": "autoCreate",
+									"disableMetricsCollection": false
 								},
 								"enableStaging": false,
 								"translator": {
@@ -192,8 +202,16 @@
 									"referenceName": "DsDestinationAdlEdwInboundCsv",
 									"type": "DatasetReference",
 									"parameters": {
-										"FileName": {
-											"value": "@item().name",
+										"DatalakeIngestRoot": {
+											"value": "@{item().DatalakeIngestRoot}",
+											"type": "Expression"
+										},
+										"DatalakeIngestRootPath": {
+											"value": "@{item().DatalakeIngestRootPath}",
+											"type": "Expression"
+										},
+										"DatalakeIngestRootPathFileName": {
+											"value": "@{item().DatalakeIngestRootPathFileName}",
 											"type": "Expression"
 										}
 									}
@@ -204,8 +222,14 @@
 									"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
 									"type": "DatasetReference",
 									"parameters": {
-										"Schema": "Loader",
-										"Table": "StageInbound_OfficeDepot"
+										"SinkSchema": {
+											"value": "@{item().SinkSchema}",
+											"type": "Expression"
+										},
+										"SinkTable": {
+											"value": "@{item().SinkTable}",
+											"type": "Expression"
+										}
 									}
 								}
 							]
