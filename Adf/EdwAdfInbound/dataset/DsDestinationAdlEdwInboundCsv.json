@@ -6,7 +6,13 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"FileName": {
+			"DatalakeIngestRoot": {
+				"type": "string"
+			},
+			"DatalakeIngestRootPath": {
+				"type": "string"
+			},
+			"DatalakeIngestRootPathFileName": {
 				"type": "string"
 			}
 		},
@@ -16,11 +22,17 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": {
-					"value": "@dataset().FileName",
+					"value": "@dataset().DatalakeIngestRootPathFileName",
 					"type": "Expression"
 				},
-				"folderPath": "sales/sellthroughdatafiles/Office Depot/2022",
-				"fileSystem": "finance"
+				"folderPath": {
+					"value": "@dataset().DatalakeIngestRootPath",
+					"type": "Expression"
+				},
+				"fileSystem": {
+					"value": "@dataset().DatalakeIngestRoot",
+					"type": "Expression"
+				}
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
