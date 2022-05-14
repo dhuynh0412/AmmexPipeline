@@ -1,0 +1,9 @@
+{
+	"name": "Albert1",
+	"location": "westus2",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "24dc8a20-07c1-48c9-a870-40ff28b5af85",
+		"tenantId": "6fe8874b-b6a3-476c-9357-0389bdea5f53"
+	}
+}
