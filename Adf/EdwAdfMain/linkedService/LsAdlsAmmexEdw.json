@@ -1,0 +1,18 @@
+{
+	"name": "LsAdlsAmmexEdw",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://ammexedwsynapsestorage.dfs.core.windows.net",
+			"accountKey": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "EdwAdfKeyVault",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "AmmexEdw-DataLakeStorage"
+			}
+		}
+	}
+}
