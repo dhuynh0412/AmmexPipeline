@@ -22,6 +22,10 @@
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
+					"dataset": {
+						"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+						"type": "DatasetReference"
+					},
 					"firstRowOnly": false
 				}
 			},
@@ -118,14 +122,13 @@
 							"userProperties": [],
 							"typeProperties": {
 								"source": {
-									"type": "SqlServerSource",
-									"sqlReaderQuery": {
-										"value": "@CONCAT(' \nDECLARE @SourceColumn VARCHAR(MAX),\n\t\t@SourceTable VARCHAR(500) = ''', item().SourceObject, ''' \nSELECT @SourceColumn = ISNULL(@SourceColumn + '', '', '''') + QUOTENAME(COLUMN_NAME)\nFROM INFORMATION_SCHEMA.COLUMNS\nWHERE QUOTENAME(TABLE_NAME) = @SourceTable \nSELECT ''SELECT '' + @SourceColumn + '' FROM '' + @SourceTable AS Query \n') ",
-										"type": "Expression"
-									},
+									"type": "SqlDWSource",
 									"queryTimeout": "02:00:00",
-									"isolationLevel": "ReadCommitted",
 									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+									"type": "DatasetReference"
 								},
 								"firstRowOnly": true
 							}
