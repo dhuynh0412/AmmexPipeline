@@ -1,0 +1,9 @@
+{
+	"name": "EdwAdfAmmexMain",
+	"location": "westus2",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "402f2cee-148f-4a97-8e6f-14d953e5a5b7",
+		"tenantId": "6fe8874b-b6a3-476c-9357-0389bdea5f53"
+	}
+}
