@@ -1,0 +1,23 @@
+{
+	"name": "LsSourceNetworkRoot",
+	"properties": {
+		"annotations": [],
+		"type": "FileServer",
+		"typeProperties": {
+			"host": "\\\\whitney.ammexcorp.com\\FileShare\\",
+			"userId": "ammexcorp\\EdwAdfPipelineSvc",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "EdwAdfKeyVault",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "SourceNetworkConnection-EdwAdfPipelineSvc"
+			}
+		},
+		"connectVia": {
+			"referenceName": "IrSqlMatterhorn",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
