@@ -16,6 +16,9 @@
 				"type": "string"
 			}
 		},
+		"folder": {
+			"name": "Inbound"
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
