@@ -1,5 +1,5 @@
 {
-	"name": "DsAdlsAmmexEdwExcel",
+	"name": "DsAdlEdwInboundExcel",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LsAdlsAmmexEdw",
