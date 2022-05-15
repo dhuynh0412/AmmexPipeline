@@ -95,18 +95,23 @@
 									"partitionOption": "None"
 								},
 								"sink": {
-									"type": "DelimitedTextSink",
-									"storeSettings": {
-										"type": "AzureBlobFSWriteSettings"
-									},
-									"formatSettings": {
-										"type": "DelimitedTextWriteSettings",
-										"quoteAllText": true,
-										"fileExtension": ".txt"
-									}
+									"type": "SqlDWSink",
+									"allowCopyCommand": true
 								},
 								"enableStaging": false
-							}
+							},
+							"inputs": [
+								{
+									"referenceName": "DsSqlMatterhornAmmexStaging_EdwAdfPiplineReadOnly",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+									"type": "DatasetReference"
+								}
+							]
 						},
 						{
 							"name": "LkFixColumnWithSpace",
@@ -123,6 +128,10 @@
 							"typeProperties": {
 								"source": {
 									"type": "SqlDWSource",
+									"sqlReaderQuery": {
+										"value": "{concat('DECLARE @SourceColumn VARCHAR(MAX), @SourceObject VARCHAR(500) = ''@{Item().SourceObject}'' SELECT @SourceColumn = ISNULL(@SourceColumn + '', '', '''') + QUOTENAME(COLUMN_NAME)FROM INFORMATION_SCHEMA.COLUMNSWHERE QUOTENAME(TABLE_NAME) = @SourceObject SELECT ''SELECT '' + @SourceColumn + '' FROM '' + @SourceObject AS Query ')}",
+										"type": "Expression"
+									},
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
