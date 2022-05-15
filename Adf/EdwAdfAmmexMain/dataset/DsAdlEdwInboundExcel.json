@@ -2,7 +2,7 @@
 	"name": "DsAdlEdwInboundExcel",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "LsAdlsAmmexEdw",
+			"referenceName": "LsAdlEdwInbound",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
