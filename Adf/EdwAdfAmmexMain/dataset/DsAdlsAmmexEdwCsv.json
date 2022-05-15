@@ -1,0 +1,47 @@
+{
+	"name": "DsAdlsAmmexEdwCsv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAdlsAmmexEdw",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"SourceNetworkRoot": {
+				"type": "string"
+			},
+			"SourceNetworkPath": {
+				"type": "string"
+			},
+			"SourceNetworkPathFileName": {
+				"type": "string"
+			},
+			"SourceSchema": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": {
+				"value": "@dataset().SourceSchema",
+				"type": "Expression"
+			},
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().SourceNetworkPathFileName",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().SourceNetworkPath",
+					"type": "Expression"
+				},
+				"fileSystem": {
+					"value": "@dataset().SourceNetworkRoot",
+					"type": "Expression"
+				}
+			}
+		},
+		"schema": []
+	}
+}
