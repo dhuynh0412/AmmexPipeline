@@ -1,0 +1,29 @@
+{
+	"name": "DsAdlsAmmexEdwParquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAdlsAmmexEdw",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"DatalakeIngestRoot": {
+				"type": "string"
+			},
+			"DatalakeIngestRootPath": {
+				"type": "string"
+			},
+			"DatalakeIngestRootPathFileName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
