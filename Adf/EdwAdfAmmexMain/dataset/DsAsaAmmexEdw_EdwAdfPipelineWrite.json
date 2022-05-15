@@ -9,7 +9,7 @@
 			"SourceSchema": {
 				"type": "string"
 			},
-			"SourceTable": {
+			"SourceObject": {
 				"type": "string"
 			}
 		},
@@ -22,7 +22,7 @@
 				"type": "Expression"
 			},
 			"table": {
-				"value": "@dataset().SourceTable",
+				"value": "@dataset().SourceObject",
 				"type": "Expression"
 			}
 		}
