@@ -1,5 +1,5 @@
 {
-	"name": "DsAdlsAmmexEdwParquet",
+	"name": "DsAdlEdwInboundParquet",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LsAdlsAmmexEdw",
