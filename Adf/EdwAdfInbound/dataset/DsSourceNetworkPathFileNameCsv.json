@@ -6,9 +6,6 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"SourceNetworkPath": {
-				"type": "string"
-			},
 			"SourceNetworkPathFileName": {
 				"type": "string"
 			}
@@ -18,10 +15,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "FileServerLocation",
-				"fileName": {
-					"value": "@dataset().SourceNetworkPathFileName",
-					"type": "Expression"
-				},
 				"folderPath": {
 					"value": "@dataset().SourceNetworkPath",
 					"type": "Expression"
