@@ -220,6 +220,7 @@
 					],
 					"storeSettings": {
 						"type": "FileServerReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
@@ -231,7 +232,7 @@
 		"parameters": {
 			"SourceNetworkPath": {
 				"type": "string",
-				"defaultValue": "General/Ammex/Sales/Sell Through Data Files/Office Depot/2022"
+				"defaultValue": "General/Ammex/Sales/Sell Through Data Files/Ace/2021"
 			},
 			"DatalakeIngestRoot": {
 				"type": "string",
