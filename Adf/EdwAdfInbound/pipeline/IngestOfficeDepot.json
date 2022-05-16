@@ -144,12 +144,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"SourceNetworkPath": {
-				"type": "string",
-				"defaultValue": "General/Ammex/Sales/Sell Through Data Files/Office Depot/2022"
-			}
-		},
 		"folder": {
 			"name": "1-Ingest"
 		},
