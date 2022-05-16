@@ -38,11 +38,6 @@
 									"storeSettings": {
 										"type": "AzureBlobFSReadSettings",
 										"recursive": true,
-										"wildcardFolderPath": {
-											"value": "@item().DatalakeIngestRootPath",
-											"type": "Expression"
-										},
-										"wildcardFileName": "*.csv",
 										"enablePartitionDiscovery": false
 									},
 									"formatSettings": {
@@ -80,7 +75,11 @@
 											"type": "Expression"
 										},
 										"DatalakeIngestRootPath": {
-											"value": "@toLower('')",
+											"value": "@item().DatalakeIngestRootPath",
+											"type": "Expression"
+										},
+										"DatalakeIngestRootPathFileName": {
+											"value": "@item().DatalakeIngestRootPathFileName",
 											"type": "Expression"
 										}
 									}
