@@ -1,5 +1,5 @@
 {
-	"name": "DsSourceNetworkRootCsv",
+	"name": "DsSourceNetworkPathFileNameCsv",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LsSourceNetworkRoot",
