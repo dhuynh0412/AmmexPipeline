@@ -117,10 +117,10 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "LsSourceNetworkRootCsv",
+									"referenceName": "DsSourceNetworkPathFileNameCsv",
 									"type": "DatasetReference",
 									"parameters": {
-										"FileName": {
+										"SourceNetworkPathFileName": {
 											"value": "@item().name",
 											"type": "Expression"
 										}
