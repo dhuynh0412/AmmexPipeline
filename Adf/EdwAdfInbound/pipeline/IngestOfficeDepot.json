@@ -5,14 +5,7 @@
 			{
 				"name": "GetListOfSourceFiles",
 				"type": "GetMetadata",
-				"dependsOn": [
-					{
-						"activity": "GetValueFromAdfLoadControl",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -23,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "DsSourceNetworkRootFolderCsv",
+						"referenceName": "DsSourceNetworkPathCsv",
 						"type": "DatasetReference"
 					},
 					"fieldList": [
@@ -40,7 +33,7 @@
 				}
 			},
 			{
-				"name": "ForEach1",
+				"name": "LoopingThroughtNetworkFolders",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -124,56 +117,41 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "DsSourceNetworkRootCsv",
-									"type": "DatasetReference",
-									"parameters": {
-										"SourceNetworkPath": {
-											"value": "@{item().SourceNetworkPath}",
-											"type": "Expression"
-										},
-										"FileName": {
-											"value": "@{item().FileName}",
-											"type": "Expression"
-										}
-									}
+									"referenceName": "DsSourceNetworkPathFileNameCsv",
+									"type": "DatasetReference"
 								}
 							],
 							"outputs": [
 								{
 									"referenceName": "DsDestinationAdlEdwInboundCsv",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"DatalakeIngestRoot": {
+											"value": "@{item().DatalakeIngestRoot}",
+											"type": "Expression"
+										},
+										"DatalakeIngestRootPath": {
+											"value": "@{item().DatalakeIngestRootPath}",
+											"type": "Expression"
+										},
+										"DatalakeIngestRootPathFileName": {
+											"value": "@{item().DatalakeIngestRootPathFileName}",
+											"type": "Expression"
+										}
+									}
 								}
 							]
 						}
 					]
 				}
-			},
-			{
-				"name": "GetValueFromAdfLoadControl",
-				"type": "Lookup",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "SqlDWSource",
-						"sqlReaderQuery": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Inbound'\n\t  AND IsLoad = 1\nORDER BY [SourceObject]",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
-					},
-					"dataset": {
-						"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
-						"type": "DatasetReference"
-					}
-				}
 			}
 		],
+		"parameters": {
+			"SourceNetworkPath": {
+				"type": "string",
+				"defaultValue": "General/Ammex/Sales/Sell Through Data Files/Office Depot/2022"
+			}
+		},
 		"folder": {
 			"name": "1-Ingest"
 		},
