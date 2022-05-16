@@ -2,7 +2,7 @@
 	"name": "LsAdlEdwInboundDestinationCsv",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "LsAdlEdwInbound",
+			"referenceName": "LsAdlsAmmexEdw",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
@@ -15,9 +15,6 @@
 			"DatalakeIngestRootPathFileName": {
 				"type": "string"
 			}
-		},
-		"folder": {
-			"name": "Inbound"
 		},
 		"annotations": [],
 		"type": "DelimitedText",
