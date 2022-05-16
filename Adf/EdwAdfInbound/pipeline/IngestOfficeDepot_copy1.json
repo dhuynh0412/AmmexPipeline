@@ -111,11 +111,11 @@
 									"referenceName": "DsDestinationAdlEdwInboundCsv",
 									"type": "DatasetReference",
 									"parameters": {
-										"SourceNetworkPath": {
+										"DatalakeIngestRoot": {
 											"value": "@pipeline().parameters.SourceNetworkPath",
 											"type": "Expression"
 										},
-										"FileName": "@item().name"
+										"DatalakeIngestRootPath": "@item().name"
 									}
 								}
 							]
@@ -151,6 +151,7 @@
 					],
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {

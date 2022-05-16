@@ -75,11 +75,11 @@
 									"referenceName": "DsDestinationAdlEdwInboundCsv",
 									"type": "DatasetReference",
 									"parameters": {
-										"SourceNetworkPath": {
+										"DatalakeIngestRoot": {
 											"value": "@item().DatalakeIngestRoot",
 											"type": "Expression"
 										},
-										"FileName": {
+										"DatalakeIngestRootPath": {
 											"value": "@toLower('')",
 											"type": "Expression"
 										}

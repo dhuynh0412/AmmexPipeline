@@ -54,6 +54,7 @@
 								],
 								"storeSettings": {
 									"type": "FileServerReadSettings",
+									"recursive": true,
 									"enablePartitionDiscovery": false
 								},
 								"formatSettings": {
@@ -75,7 +76,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-7))",
+									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-700))",
 									"type": "Expression"
 								},
 								"ifTrueActivities": [
@@ -169,11 +170,15 @@
 												"referenceName": "DsDestinationAdlEdwInboundCsv",
 												"type": "DatasetReference",
 												"parameters": {
-													"SourceNetworkPath": {
-														"value": "@pipeline().parameters.SourceNetworkPath",
+													"DatalakeIngestRoot": {
+														"value": "@{item().DatalakeIngestRoot}",
 														"type": "Expression"
 													},
-													"FileName": {
+													"DatalakeIngestRootPath": {
+														"value": "@{item().DatalakeIngestRootPath}",
+														"type": "Expression"
+													},
+													"DatalakeIngestRootPathFileName": {
 														"value": "@item().name",
 														"type": "Expression"
 													}
@@ -214,7 +219,7 @@
 						"childItems"
 					],
 					"storeSettings": {
-						"type": "AzureBlobFSReadSettings",
+						"type": "FileServerReadSettings",
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
