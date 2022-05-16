@@ -6,10 +6,13 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"SourceNetworkPath": {
+			"DatalakeIngestRoot": {
 				"type": "string"
 			},
-			"FileName": {
+			"DatalakeIngestRootPath": {
+				"type": "string"
+			},
+			"DatalakeIngestRootPathFileName": {
 				"type": "string"
 			}
 		},
@@ -19,14 +22,17 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": {
-					"value": "@dataset().FileName",
+					"value": "@dataset().DatalakeIngestRootPathFileName",
 					"type": "Expression"
 				},
 				"folderPath": {
-					"value": "@dataset().SourceNetworkPath",
+					"value": "@dataset().DatalakeIngestRootPath",
 					"type": "Expression"
 				},
-				"fileSystem": "finance"
+				"fileSystem": {
+					"value": "@dataset().DatalakeIngestRoot",
+					"type": "Expression"
+				}
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
