@@ -9,7 +9,7 @@
 			"SourceNetworkPath": {
 				"type": "string"
 			},
-			"FileName": {
+			"SourceNetworkPathFileName": {
 				"type": "string"
 			}
 		},
@@ -19,7 +19,7 @@
 			"location": {
 				"type": "FileServerLocation",
 				"fileName": {
-					"value": "@dataset().FileName",
+					"value": "@dataset().SourceNetworkPathFileName",
 					"type": "Expression"
 				},
 				"folderPath": {
@@ -32,51 +32,6 @@
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
-		"schema": [
-			{
-				"name": "Location Type",
-				"type": "String"
-			},
-			{
-				"name": "Dept",
-				"type": "String"
-			},
-			{
-				"name": "Class",
-				"type": "String"
-			},
-			{
-				"name": "SKU Number",
-				"type": "String"
-			},
-			{
-				"name": "SKU Status",
-				"type": "String"
-			},
-			{
-				"name": "Quantity On Hand",
-				"type": "String"
-			},
-			{
-				"name": "VPC",
-				"type": "String"
-			},
-			{
-				"name": "UPC",
-				"type": "String"
-			},
-			{
-				"name": "Unit Sales",
-				"type": "String"
-			},
-			{
-				"name": "Retail Sales",
-				"type": "String"
-			},
-			{
-				"name": "Cost Sales",
-				"type": "String"
-			}
-		]
+		"schema": []
 	}
 }
