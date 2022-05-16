@@ -20,7 +20,7 @@
 						"type": "Expression"
 					},
 					"isSequential": false,
-					"batchCount": 4,
+					"batchCount": 3,
 					"activities": [
 						{
 							"name": "Proc Execute FormatDatatype",
