@@ -132,6 +132,10 @@
 				"name": "Populate",
 				"type": "nvarchar"
 			}
-		]
+		],
+		"typeProperties": {
+			"schema": "ETL",
+			"table": "AdfLoadControl"
+		}
 	}
 }
