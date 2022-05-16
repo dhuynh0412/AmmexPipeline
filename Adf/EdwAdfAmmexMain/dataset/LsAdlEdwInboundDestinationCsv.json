@@ -6,13 +6,13 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"SourceNetworkRoot": {
+			"DatalakeIngestRoot": {
 				"type": "string"
 			},
-			"SourceNetworkPath": {
+			"DatalakeIngestRootPath": {
 				"type": "string"
 			},
-			"SourceNetworkPathFileName": {
+			"DatalakeIngestRootPathFileName": {
 				"type": "string"
 			}
 		},
@@ -25,15 +25,15 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": {
-					"value": "@dataset().SourceNetworkPathFileName",
+					"value": "@dataset().DatalakeIngestRootPathFileName",
 					"type": "Expression"
 				},
 				"folderPath": {
-					"value": "@dataset().SourceNetworkPath",
+					"value": "@dataset().DatalakeIngestRootPath",
 					"type": "Expression"
 				},
 				"fileSystem": {
-					"value": "@dataset().SourceNetworkRoot",
+					"value": "@dataset().DatalakeIngestRoot",
 					"type": "Expression"
 				}
 			},
