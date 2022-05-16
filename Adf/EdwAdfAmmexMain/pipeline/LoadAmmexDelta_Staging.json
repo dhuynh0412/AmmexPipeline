@@ -85,7 +85,7 @@
 											"type": "Expression"
 										},
 										"DatalakeIngestRootPathFileName": {
-											"value": "UPPER('')",
+											"value": "@toLower('')",
 											"type": "Expression"
 										}
 									}
