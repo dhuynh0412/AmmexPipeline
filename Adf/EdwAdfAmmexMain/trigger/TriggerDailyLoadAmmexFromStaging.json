@@ -6,7 +6,7 @@
 		"pipelines": [
 			{
 				"pipelineReference": {
-					"referenceName": "AmmexMaint",
+					"referenceName": "AmmexMain",
 					"type": "PipelineReference"
 				}
 			}
