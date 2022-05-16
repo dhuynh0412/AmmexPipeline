@@ -6,6 +6,9 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
+			"SourceNetworkPath": {
+				"type": "string"
+			},
 			"SourceNetworkPathFileName": {
 				"type": "string"
 			}
@@ -20,7 +23,7 @@
 					"type": "Expression"
 				},
 				"folderPath": {
-					"value": "General/Ammex/Sales/Sell Through Data Files/Office Depot/2021",
+					"value": "@dataset().SourceNetworkPath",
 					"type": "Expression"
 				}
 			},
