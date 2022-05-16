@@ -94,7 +94,17 @@
 							"outputs": [
 								{
 									"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"SinkSchema": {
+											"value": "@{item().SinkSchema}",
+											"type": "Expression"
+										},
+										"SinkObject": {
+											"value": "@{item().SinkObject}",
+											"type": "Expression"
+										}
+									}
 								}
 							]
 						}
