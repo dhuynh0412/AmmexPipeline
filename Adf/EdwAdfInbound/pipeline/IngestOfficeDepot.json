@@ -117,11 +117,11 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "DsSourceNetworkPathFileNameCsv",
+									"referenceName": "LsSourceNetworkRootCsv",
 									"type": "DatasetReference",
 									"parameters": {
-										"SourceNetworkPathFileName": {
-											"value": "@item().name",
+										"FileName": {
+											"value": "@item().childItems",
 											"type": "Expression"
 										}
 									}
@@ -130,21 +130,7 @@
 							"outputs": [
 								{
 									"referenceName": "DsDestinationAdlEdwInboundCsv",
-									"type": "DatasetReference",
-									"parameters": {
-										"DatalakeIngestRoot": {
-											"value": "@{item().DatalakeIngestRoot}",
-											"type": "Expression"
-										},
-										"DatalakeIngestRootPath": {
-											"value": "@{item().DatalakeIngestRootPath}",
-											"type": "Expression"
-										},
-										"DatalakeIngestRootPathFileName": {
-											"value": "@{item().DatalakeIngestRootPathFileName}",
-											"type": "Expression"
-										}
-									}
+									"type": "DatasetReference"
 								}
 							]
 						}
