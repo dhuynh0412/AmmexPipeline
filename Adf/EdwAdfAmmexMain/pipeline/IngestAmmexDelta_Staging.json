@@ -115,7 +115,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "LsAdlEdwInboundDestinationCsv",
+									"referenceName": "LsAdlAmmexEdwDestinationCsv",
 									"type": "DatasetReference",
 									"parameters": {
 										"DatalakeIngestRoot": {
@@ -168,7 +168,7 @@
 			}
 		],
 		"parameters": {
-			"SourceSchema": {
+			"Sourcechema": {
 				"type": "string"
 			},
 			"SourceObject": {
