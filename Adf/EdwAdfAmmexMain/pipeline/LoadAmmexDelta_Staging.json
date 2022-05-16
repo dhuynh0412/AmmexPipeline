@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "LoopingLkGetSourceObjects",
+				"name": "LoopingThroughDataLake",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -43,7 +43,7 @@
 											"value": "@{item().DatalakeIngestRootPath}",
 											"type": "Expression"
 										},
-										"wildcardFileName": "*.csv",
+										"wildcardFileName": "*.*",
 										"enablePartitionDiscovery": false
 									},
 									"formatSettings": {
@@ -85,7 +85,7 @@
 											"type": "Expression"
 										},
 										"DatalakeIngestRootPathFileName": {
-											"value": "@{item().DatalakeIngestRootPathFileName}",
+											"value": "UPPER('')",
 											"type": "Expression"
 										}
 									}
