@@ -7,7 +7,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "GetValueFromAdfLoadControl",
+						"activity": "GetListOfSourceFiles",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -106,8 +106,8 @@
 				}
 			},
 			{
-				"name": "GetValueFromAdfLoadControl",
-				"type": "Lookup",
+				"name": "GetListOfSourceFiles",
+				"type": "GetMetadata",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "7.00:00:00",
@@ -118,15 +118,17 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"source": {
-						"type": "SqlDWSource",
-						"sqlReaderQuery": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Inbound'\n\t  AND IsLoad = 1\nORDER BY [SourceObject]",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
-					},
 					"dataset": {
-						"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+						"referenceName": "DsSourceNetworkPathCsv",
 						"type": "DatasetReference"
+					},
+					"fieldList": [],
+					"storeSettings": {
+						"type": "FileServerReadSettings",
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "DelimitedTextReadSettings"
 					}
 				}
 			}

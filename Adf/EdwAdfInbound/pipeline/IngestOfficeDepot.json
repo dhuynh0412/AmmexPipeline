@@ -118,7 +118,13 @@
 							"inputs": [
 								{
 									"referenceName": "DsSourceNetworkPathFileNameCsv",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"SourceNetworkPathFileName": {
+											"value": "@item().name",
+											"type": "Expression"
+										}
+									}
 								}
 							],
 							"outputs": [
