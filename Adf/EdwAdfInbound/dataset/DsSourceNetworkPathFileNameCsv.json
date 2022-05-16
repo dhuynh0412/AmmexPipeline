@@ -16,7 +16,7 @@
 			"location": {
 				"type": "FileServerLocation",
 				"fileName": {
-					"value": "SourceNetworkPathFileName",
+					"value": "@dataset().SourceNetworkPathFileName",
 					"type": "Expression"
 				},
 				"folderPath": {
