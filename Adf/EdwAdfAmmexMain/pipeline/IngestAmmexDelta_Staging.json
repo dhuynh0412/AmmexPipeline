@@ -95,8 +95,15 @@
 									"partitionOption": "None"
 								},
 								"sink": {
-									"type": "SqlDWSink",
-									"allowCopyCommand": true
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
 								},
 								"enableStaging": false
 							},
@@ -108,8 +115,22 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
-									"type": "DatasetReference"
+									"referenceName": "LsAdlAmmexEdwDestinationCsv",
+									"type": "DatasetReference",
+									"parameters": {
+										"DatalakeIngestRoot": {
+											"value": "@{item().DatalakeIngestRoot}",
+											"type": "Expression"
+										},
+										"DatalakeIngestRootPath": {
+											"value": "@{item().DatalakeIngestRootPath}",
+											"type": "Expression"
+										},
+										"DatalakeIngestRootPathFileName": {
+											"value": "@{item().DatalakeIngestRootPathFileName}",
+											"type": "Expression"
+										}
+									}
 								}
 							]
 						},
@@ -127,16 +148,16 @@
 							"userProperties": [],
 							"typeProperties": {
 								"source": {
-									"type": "SqlDWSource",
+									"type": "SqlServerSource",
 									"sqlReaderQuery": {
-										"value": "{concat('DECLARE @SourceColumn VARCHAR(MAX), @SourceObject VARCHAR(500) = ''@{Item().SourceObject}'' SELECT @SourceColumn = ISNULL(@SourceColumn + '', '', '''') + QUOTENAME(COLUMN_NAME)FROM INFORMATION_SCHEMA.COLUMNSWHERE QUOTENAME(TABLE_NAME) = @SourceObject SELECT ''SELECT '' + @SourceColumn + '' FROM '' + @SourceObject AS Query ')}",
+										"value": "@CONCAT(' DECLARE @SourceColumn VARCHAR(MAX),\n\t\t\t\t  @SourceTable VARCHAR(500) = ''', item().SourceObject, ''' \n\t\t  SELECT @SourceColumn = ISNULL(@SourceColumn + '', '', '''') + QUOTENAME(COLUMN_NAME) \n\t\t  FROM INFORMATION_SCHEMA.COLUMNS \n\t\t  WHERE QUOTENAME(TABLE_NAME) = @SourceTable SELECT ''SELECT '' + @SourceColumn + '' FROM '' + @SourceTable AS Query ')",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
 								"dataset": {
-									"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+									"referenceName": "DsSqlMatterhornAmmexStaging_EdwAdfPiplineReadOnly",
 									"type": "DatasetReference"
 								},
 								"firstRowOnly": true
@@ -147,7 +168,7 @@
 			}
 		],
 		"parameters": {
-			"SourceSchema": {
+			"Sourcechema": {
 				"type": "string"
 			},
 			"SourceObject": {
