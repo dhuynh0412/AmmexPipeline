@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('GetListOfSourceFiles').output.childItems",
+						"value": "@activity('GetListOfSourceFiles').output.value",
 						"type": "Expression"
 					},
 					"activities": [
