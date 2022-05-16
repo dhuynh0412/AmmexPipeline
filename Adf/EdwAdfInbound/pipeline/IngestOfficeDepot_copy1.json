@@ -112,10 +112,14 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"DatalakeIngestRoot": {
-											"value": "@pipeline().parameters.SourceNetworkPath",
+											"value": "@{item().DatalakeIngestRoot}",
 											"type": "Expression"
 										},
-										"DatalakeIngestRootPath": "@item().name"
+										"DatalakeIngestRootPath": {
+											"value": "@{item().DatalakeIngestRootPath}",
+											"type": "Expression"
+										},
+										"DatalakeIngestRootPathFileName": "@item().name"
 									}
 								}
 							]
@@ -150,8 +154,7 @@
 						"childItems"
 					],
 					"storeSettings": {
-						"type": "AzureBlobFSReadSettings",
-						"recursive": true,
+						"type": "FileServerReadSettings",
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
@@ -163,7 +166,7 @@
 		"parameters": {
 			"SourceNetworkPath": {
 				"type": "string",
-				"defaultValue": "General/Ammex/Sales/Sell Through Data Files/Office Depot/2021"
+				"defaultValue": "General/Ammex/Sales/Sell Through Data Files/Office Depot/2022"
 			}
 		},
 		"folder": {
