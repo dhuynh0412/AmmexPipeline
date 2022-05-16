@@ -112,11 +112,11 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"DatalakeIngestRoot": {
-											"value": "@{item().DatalakeIngestRoot}",
+											"value": "@pipeline().parameters.DatalakeIngestRoot",
 											"type": "Expression"
 										},
 										"DatalakeIngestRootPath": {
-											"value": "@{item().DatalakeIngestRootPath}",
+											"value": "@pipeline().parameters.SourceNetworkPath",
 											"type": "Expression"
 										},
 										"DatalakeIngestRootPathFileName": "@item().name"
@@ -167,6 +167,10 @@
 			"SourceNetworkPath": {
 				"type": "string",
 				"defaultValue": "General/Ammex/Sales/Sell Through Data Files/Office Depot/2022"
+			},
+			"DatalakeIngestRoot": {
+				"type": "string",
+				"defaultValue": "finance"
 			}
 		},
 		"folder": {
