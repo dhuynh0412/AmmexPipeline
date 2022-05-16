@@ -38,6 +38,14 @@
 									"storeSettings": {
 										"type": "AzureBlobFSReadSettings",
 										"recursive": true,
+										"wildcardFolderPath": {
+											"value": "@item().DatalakeIngestRootPath",
+											"type": "Expression"
+										},
+										"wildcardFileName": {
+											"value": "@item().SourceNetworkPathFileName",
+											"type": "Expression"
+										},
 										"enablePartitionDiscovery": false
 									},
 									"formatSettings": {
@@ -67,7 +75,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "DsDestinationAdlEdwInboundCsv",
+									"referenceName": "DsAdlsInboundEdwCsv",
 									"type": "DatasetReference",
 									"parameters": {
 										"DatalakeIngestRoot": {
@@ -79,7 +87,7 @@
 											"type": "Expression"
 										},
 										"DatalakeIngestRootPathFileName": {
-											"value": "@item().DatalakeIngestRootPathFileName",
+											"value": "@toLower('')",
 											"type": "Expression"
 										}
 									}
