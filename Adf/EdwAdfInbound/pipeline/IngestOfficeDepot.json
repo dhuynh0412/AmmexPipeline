@@ -38,6 +38,10 @@
 									"referenceName": "DsSourceNetworkPathFileNameCsv",
 									"type": "DatasetReference",
 									"parameters": {
+										"SourceNetworkPath": {
+											"value": "@pipeline().parameters.SourceNetworkPath",
+											"type": "Expression"
+										},
 										"SourceNetworkPathFileName": {
 											"value": "@item().name",
 											"type": "Expression"
@@ -149,6 +153,10 @@
 												"referenceName": "DsSourceNetworkPathFileNameCsv",
 												"type": "DatasetReference",
 												"parameters": {
+													"SourceNetworkPath": {
+														"value": "@pipeline().parameters.SourceNetworkPath",
+														"type": "Expression"
+													},
 													"SourceNetworkPathFileName": {
 														"value": "@item().name",
 														"type": "Expression"
