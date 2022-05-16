@@ -1,9 +1,0 @@
-{
-	"name": "DuyTestingForGithub",
-	"location": "westus2",
-	"identity": {
-		"type": "SystemAssigned",
-		"principalId": "4ba266f6-2c50-4180-a098-c7efc860e1b2",
-		"tenantId": "6fe8874b-b6a3-476c-9357-0389bdea5f53"
-	}
-}
