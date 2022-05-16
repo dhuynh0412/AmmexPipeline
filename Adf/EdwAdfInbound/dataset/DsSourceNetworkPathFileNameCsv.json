@@ -15,8 +15,12 @@
 		"typeProperties": {
 			"location": {
 				"type": "FileServerLocation",
+				"fileName": {
+					"value": "SourceNetworkPathFileName",
+					"type": "Expression"
+				},
 				"folderPath": {
-					"value": "@dataset().SourceNetworkPath",
+					"value": "General/Ammex/Sales/Sell Through Data Files/Office Depot/2022",
 					"type": "Expression"
 				}
 			},
