@@ -121,7 +121,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"FileName": {
-											"value": "@item().childItems",
+											"value": "@item().name",
 											"type": "Expression"
 										}
 									}
@@ -130,7 +130,13 @@
 							"outputs": [
 								{
 									"referenceName": "DsDestinationAdlEdwInboundCsv",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"FileName": {
+											"value": "@item().name",
+											"type": "Expression"
+										}
+									}
 								}
 							]
 						}
