@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "LoopingThroughDataLake",
+				"name": "LoopingLkGetSourceObjects",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -96,12 +96,12 @@
 									"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
 									"type": "DatasetReference",
 									"parameters": {
-										"SinkSchema": {
+										"Schema": {
 											"value": "@{item().SinkSchema}",
 											"type": "Expression"
 										},
-										"SinkObject": {
-											"value": "@{item().SinkObject}",
+										"Table": {
+											"value": "@{item().SinkTable}",
 											"type": "Expression"
 										}
 									}
@@ -139,10 +139,10 @@
 			}
 		],
 		"parameters": {
-			"SinkSchema": {
+			"SourceSchema": {
 				"type": "string"
 			},
-			"SinkObject": {
+			"SourceObject": {
 				"type": "string"
 			},
 			"DatalakeIngestRoot": {

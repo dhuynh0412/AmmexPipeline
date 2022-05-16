@@ -6,10 +6,10 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"SinkSchema": {
+			"Schema": {
 				"type": "string"
 			},
-			"SinkObject": {
+			"Table": {
 				"type": "string"
 			}
 		},
@@ -18,11 +18,11 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": {
-				"value": "@dataset().SinkSchema",
+				"value": "@dataset().Schema",
 				"type": "Expression"
 			},
 			"table": {
-				"value": "@dataset().SinkObject",
+				"value": "@dataset().Table",
 				"type": "Expression"
 			}
 		}
