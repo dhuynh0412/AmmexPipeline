@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "LoopingThroughDataLake",
+				"name": "LoopingLkGetSourceObjects",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -73,7 +73,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "LsAdlsAmmexEdwCsv",
+									"referenceName": "LsAdlAmmexEdwDestinationCsv",
 									"type": "DatasetReference",
 									"parameters": {
 										"DatalakeIngestRoot": {
@@ -101,7 +101,7 @@
 											"type": "Expression"
 										},
 										"Table": {
-											"value": "@{item().SinkObject}",
+											"value": "@{item().SinkTable}",
 											"type": "Expression"
 										}
 									}
