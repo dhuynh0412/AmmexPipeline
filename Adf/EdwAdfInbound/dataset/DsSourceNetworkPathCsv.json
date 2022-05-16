@@ -5,13 +5,18 @@
 			"referenceName": "LsSourceNetworkRoot",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"SourceNetworkPath": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "FileServerLocation",
 				"folderPath": {
-					"value": "General/Ammex/Sales/Sell Through Data Files/Office Depot/2021",
+					"value": "@dataset().SourceNetworkPath",
 					"type": "Expression"
 				}
 			},
