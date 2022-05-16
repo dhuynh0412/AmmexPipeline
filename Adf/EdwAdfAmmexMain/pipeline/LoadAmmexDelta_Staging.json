@@ -73,7 +73,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "LsAdlAmmexEdwDestinationCsv",
+									"referenceName": "LsAdlsAmmexEdwCsv",
 									"type": "DatasetReference",
 									"parameters": {
 										"DatalakeIngestRoot": {
@@ -96,11 +96,11 @@
 									"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
 									"type": "DatasetReference",
 									"parameters": {
-										"SinkSchema": {
+										"Schema": {
 											"value": "@{item().SinkSchema}",
 											"type": "Expression"
 										},
-										"SinkObject": {
+										"Table": {
 											"value": "@{item().SinkObject}",
 											"type": "Expression"
 										}
@@ -138,23 +138,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"SinkSchema": {
-				"type": "string"
-			},
-			"SinkObject": {
-				"type": "string"
-			},
-			"DatalakeIngestRoot": {
-				"type": "string"
-			},
-			"DatalakeIngestRootPath": {
-				"type": "string"
-			},
-			"DatalakeIngestRootPathFileName": {
-				"type": "string"
-			}
-		},
 		"folder": {
 			"name": "2-Load"
 		},
