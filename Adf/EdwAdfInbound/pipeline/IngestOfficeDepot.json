@@ -169,6 +169,10 @@
 												"referenceName": "DsDestinationAdlEdwInboundCsv",
 												"type": "DatasetReference",
 												"parameters": {
+													"SourceNetworkPath": {
+														"value": "@pipeline().parameters.SourceNetworkPath",
+														"type": "Expression"
+													},
 													"FileName": {
 														"value": "@item().name",
 														"type": "Expression"
