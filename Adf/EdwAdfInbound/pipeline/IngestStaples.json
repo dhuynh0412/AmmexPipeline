@@ -233,7 +233,7 @@
 		"parameters": {
 			"SourceNetworkPath": {
 				"type": "string",
-				"defaultValue": "G:\\General\\Ammex\\Sales\\Sell Through Data Files\\True Value\\2022\\Sales"
+				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\True Value\\2022\\Sales"
 			},
 			"DatalakeIngestRoot": {
 				"type": "string",
