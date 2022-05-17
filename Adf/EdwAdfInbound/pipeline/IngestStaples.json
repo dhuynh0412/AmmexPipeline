@@ -233,7 +233,7 @@
 		"parameters": {
 			"SourceNetworkPath": {
 				"type": "string",
-				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\Staples\\2022"
+				"defaultValue": "G:\\General\\Ammex\\Sales\\Sell Through Data Files\\True Value\\2022\\Sales"
 			},
 			"DatalakeIngestRoot": {
 				"type": "string",
@@ -241,7 +241,7 @@
 			},
 			"DatalakeIngestRootPath": {
 				"type": "string",
-				"defaultValue": "sales/sellthroughdatafiles/staples"
+				"defaultValue": "sales/sellthroughdatafiles/truevalue"
 			}
 		},
 		"folder": {
