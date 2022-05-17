@@ -19,7 +19,8 @@
 						"value": "@activity('LkGetSourceObjects').output.value",
 						"type": "Expression"
 					},
-					"isSequential": true,
+					"isSequential": false,
+					"batchCount": 2,
 					"activities": [
 						{
 							"name": "Proc Execute FormatDatatype",
