@@ -241,7 +241,7 @@
 			},
 			"DatalakeIngestRootPath": {
 				"type": "string",
-				"defaultValue": "sales/sellthroughdatafiles/lowes"
+				"defaultValue": "sales/sellthroughdatafiles/staples"
 			}
 		},
 		"folder": {
