@@ -176,7 +176,7 @@
 														"type": "Expression"
 													},
 													"DatalakeIngestRootPath": {
-														"value": "@pipeline().parameters.SourceNetworkPath",
+														"value": "@pipeline().parameters.DatalakeIngestRootPath",
 														"type": "Expression"
 													},
 													"DatalakeIngestRootPathFileName": {
@@ -238,6 +238,10 @@
 			"DatalakeIngestRoot": {
 				"type": "string",
 				"defaultValue": "finance"
+			},
+			"DatalakeIngestRootPath": {
+				"type": "string",
+				"defaultValue": "sales/sellthroughdatafiles/lowes"
 			}
 		},
 		"folder": {
