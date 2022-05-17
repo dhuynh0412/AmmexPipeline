@@ -1,6 +1,9 @@
 {
-	"name": "3-Populate",
+	"name": "PopulateZoomgetDelta_Staging",
 	"properties": {
+		"folder": {
+			"name": "3-Populate"
+		},
 		"annotations": []
 	}
 }

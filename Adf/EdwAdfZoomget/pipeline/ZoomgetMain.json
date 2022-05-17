@@ -1,6 +1,9 @@
 {
-	"name": "4-Main",
+	"name": "ZoomgetMain",
 	"properties": {
+		"folder": {
+			"name": "4-Main"
+		},
 		"annotations": []
 	}
 }

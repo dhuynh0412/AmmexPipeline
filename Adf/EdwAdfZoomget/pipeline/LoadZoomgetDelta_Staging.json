@@ -1,6 +1,9 @@
 {
-	"name": "2-Load",
+	"name": "LoadZoomgetDelta_Staging",
 	"properties": {
+		"folder": {
+			"name": "2-Load"
+		},
 		"annotations": []
 	}
 }

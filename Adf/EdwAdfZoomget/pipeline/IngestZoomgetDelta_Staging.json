@@ -1,6 +1,9 @@
 {
-	"name": "1-Ingest",
+	"name": "IngestZoomgetDelta_Staging",
 	"properties": {
+		"folder": {
+			"name": "1-Ingest"
+		},
 		"annotations": []
 	}
 }
