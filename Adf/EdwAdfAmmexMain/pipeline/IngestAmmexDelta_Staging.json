@@ -167,23 +167,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"Sourcechema": {
-				"type": "string"
-			},
-			"SourceObject": {
-				"type": "string"
-			},
-			"DatalakeIngestRoot": {
-				"type": "string"
-			},
-			"DatalakeIngestRootPath": {
-				"type": "string"
-			},
-			"DatalakeIngestRootPathFileName": {
-				"type": "string"
-			}
-		},
 		"folder": {
 			"name": "1-Ingest"
 		},
