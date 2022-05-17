@@ -26,6 +26,26 @@
 						"type": "DatasetReference"
 					}
 				}
+			},
+			{
+				"name": "LoopingLkGetSourceObjects",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "LkGetSourceObjects",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('LkGetSourceObjects').output.value",
+						"type": "Expression"
+					},
+					"batchCount": 2
+				}
 			}
 		],
 		"folder": {
