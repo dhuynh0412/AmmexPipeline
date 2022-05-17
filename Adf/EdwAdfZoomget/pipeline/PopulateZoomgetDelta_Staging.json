@@ -44,7 +44,62 @@
 						"value": "@activity('LkGetSourceObjects').output.value",
 						"type": "Expression"
 					},
-					"batchCount": 2
+					"batchCount": 2,
+					"activities": [
+						{
+							"name": "Proc Execute FormatDatatype",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": {
+									"value": "@{item().FormatDatatype}",
+									"type": "Expression"
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "LsAsaZoomgetEdw_EdwAdfPipelineWrite",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "Proc Execute Populate",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [
+								{
+									"activity": "Proc Execute FormatDatatype",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": {
+									"value": "@{item().Populate}",
+									"type": "Expression"
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "LsAsaZoomgetEdw_EdwAdfPipelineWrite",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
 				}
 			}
 		],
