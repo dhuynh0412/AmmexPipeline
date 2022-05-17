@@ -70,7 +70,26 @@
 										"type": "DelimitedTextReadSettings"
 									}
 								},
-								"enableStaging": false
+								"sink": {
+									"type": "SqlDWSink",
+									"preCopyScript": {
+										"value": "@{item().SinkPreCopyScript}",
+										"type": "Expression"
+									},
+									"writeBehavior": "Insert",
+									"sqlWriterUseTableLock": false,
+									"tableOption": "autoCreate",
+									"disableMetricsCollection": false
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
 							},
 							"inputs": [
 								{
@@ -87,6 +106,22 @@
 										},
 										"DatalakeIngestRootPathFileName": {
 											"value": "@toLower('')",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DsAsaZoomgetEdw_EdwAdfPipelineWrite",
+									"type": "DatasetReference",
+									"parameters": {
+										"Schema": {
+											"value": "@{item().SinkSchema}",
+											"type": "Expression"
+										},
+										"Table": {
+											"value": "@{item().SinkTable}",
 											"type": "Expression"
 										}
 									}
