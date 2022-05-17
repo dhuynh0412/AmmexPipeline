@@ -44,7 +44,7 @@
 											"value": "@{item().DatalakeIngestRootPath}",
 											"type": "Expression"
 										},
-										"wildcardFileName": "*.*",
+										"wildcardFileName": "*.csv",
 										"enablePartitionDiscovery": false
 									},
 									"formatSettings": {
