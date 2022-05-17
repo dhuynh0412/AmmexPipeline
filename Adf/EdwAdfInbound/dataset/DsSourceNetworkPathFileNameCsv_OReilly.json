@@ -1,0 +1,38 @@
+{
+	"name": "DsSourceNetworkPathFileNameCsv_OReilly",
+	"properties": {
+		"description": "Exclude the header as the flat file has a moving date column name",
+		"linkedServiceName": {
+			"referenceName": "LsSourceNetworkRoot",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"SourceNetworkPath": {
+				"type": "string"
+			},
+			"SourceNetworkPathFileName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation",
+				"fileName": {
+					"value": "@dataset().SourceNetworkPathFileName",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().SourceNetworkPath",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": false,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
