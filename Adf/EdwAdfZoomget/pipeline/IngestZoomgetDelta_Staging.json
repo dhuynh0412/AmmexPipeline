@@ -97,6 +97,22 @@
 							"typeProperties": {
 								"source": {
 									"type": "SqlServerSource",
+									"additionalColumns": [
+										{
+											"name": "PipelineName",
+											"value": {
+												"value": "@pipeline().Pipeline",
+												"type": "Expression"
+											}
+										},
+										{
+											"name": "LoadDate",
+											"value": {
+												"value": "@utcNow()",
+												"type": "Expression"
+											}
+										}
+									],
 									"sqlReaderQuery": {
 										"value": "@activity('LkFixColumnWithSpace').output.firstRow.Query",
 										"type": "Expression"
