@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('GetValueFromAdfLoadControl').output.childItems",
+						"value": "@activity('GetValueFromAdfLoadControl').output.value",
 						"type": "Expression"
 					},
 					"activities": [
