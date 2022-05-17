@@ -1,5 +1,5 @@
 {
-	"name": "IngestOReilly",
+	"name": "IngestOReilly-Inventory",
 	"properties": {
 		"activities": [
 			{
@@ -240,7 +240,7 @@
 			},
 			"DatalakeIngestRootPath": {
 				"type": "string",
-				"defaultValue": "sales/sellthroughdatafiles/OReilly"
+				"defaultValue": "sales/sellthroughdatafiles/oreilly"
 			}
 		},
 		"folder": {
