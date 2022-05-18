@@ -1,0 +1,12 @@
+{
+	"name": "DsSqlMatterhornZoomgetStaging_EdwAdfPiplineReadOnly",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsSqlMatterhornZoomgetStaging_EdwAdfPiplineReadOnly",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	}
+}

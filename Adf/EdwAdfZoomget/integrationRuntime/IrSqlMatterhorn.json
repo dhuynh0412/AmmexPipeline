@@ -1,0 +1,13 @@
+{
+	"name": "IrSqlMatterhorn",
+	"properties": {
+		"type": "SelfHosted",
+		"description": "Integration runtime linked to EdwAdfMain's Integration runtime that hose on Matterhorn VM server",
+		"typeProperties": {
+			"linkedInfo": {
+				"resourceId": "/subscriptions/cae64f29-6572-4d75-acf6-8f05b8d4e501/resourcegroups/EDWTeamResourceGroup/providers/Microsoft.DataFactory/factories/EdwAdfMain/integrationruntimes/IrSqlMatterhorn",
+				"authorizationType": "Rbac"
+			}
+		}
+	}
+}

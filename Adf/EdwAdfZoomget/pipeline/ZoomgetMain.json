@@ -1,0 +1,64 @@
+{
+	"name": "ZoomgetMain",
+	"properties": {
+		"activities": [
+			{
+				"name": "IngestZoomgetDelta_Staging",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "IngestZoomgetDelta_Staging",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "LoadZoomgetDelta_Staging",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "IngestZoomgetDelta_Staging",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadZoomgetDelta_Staging",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PopulateZoomgetDelta_Staging",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "LoadZoomgetDelta_Staging",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PopulateZoomgetDelta_Staging",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "4-Main"
+		},
+		"annotations": []
+	}
+}
