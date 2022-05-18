@@ -1,5 +1,5 @@
 {
-	"name": "IngestTrueValue",
+	"name": "IngestStaples",
 	"properties": {
 		"activities": [
 			{
@@ -232,7 +232,7 @@
 		"parameters": {
 			"SourceNetworkPath": {
 				"type": "string",
-				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\True Value\\2022\\Sales"
+				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\Staples\\2022"
 			},
 			"DatalakeIngestRoot": {
 				"type": "string",
@@ -240,7 +240,7 @@
 			},
 			"DatalakeIngestRootPath": {
 				"type": "string",
-				"defaultValue": "sales/sellthroughdatafiles/truevalue"
+				"defaultValue": "sales/sellthroughdatafiles/staples"
 			}
 		},
 		"folder": {

@@ -1,5 +1,5 @@
 {
-	"name": "IngestTrueValue",
+	"name": "IngestOReilly-Sales",
 	"properties": {
 		"activities": [
 			{
@@ -151,7 +151,7 @@
 										},
 										"inputs": [
 											{
-												"referenceName": "DsSourceNetworkPathFileNameCsv",
+												"referenceName": "DsSourceNetworkPathFileNameCsv_OReilly",
 												"type": "DatasetReference",
 												"parameters": {
 													"SourceNetworkPath": {
@@ -232,7 +232,7 @@
 		"parameters": {
 			"SourceNetworkPath": {
 				"type": "string",
-				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\True Value\\2022\\Sales"
+				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\OReilly\\2022\\Sales"
 			},
 			"DatalakeIngestRoot": {
 				"type": "string",
@@ -240,7 +240,7 @@
 			},
 			"DatalakeIngestRootPath": {
 				"type": "string",
-				"defaultValue": "sales/sellthroughdatafiles/truevalue"
+				"defaultValue": "sales/sellthroughdatafiles/oreilly"
 			}
 		},
 		"folder": {
