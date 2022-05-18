@@ -117,7 +117,7 @@
 													{
 														"name": "FileLastModifiedDate",
 														"value": {
-															"value": "@activity('GetFileLastModifiedDate').output",
+															"value": "@activity('GetFileLastModifiedDate').output.lastModified",
 															"type": "Expression"
 														}
 													}
