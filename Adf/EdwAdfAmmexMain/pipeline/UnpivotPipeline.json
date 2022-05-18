@@ -20,10 +20,6 @@
 						"type": "DataFlowReference"
 					},
 					"staging": {
-						"linkedService": {
-							"referenceName": "LsAdlsAmmexEdw",
-							"type": "LinkedServiceReference"
-						},
 						"folderPath": "ingest"
 					},
 					"compute": {
