@@ -1,0 +1,30 @@
+{
+	"name": "DsAsaAmmexEdw_EdwAdfPipelineWrite_Unpivot",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "color",
+				"type": "varchar"
+			},
+			{
+				"name": "value",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "name",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "yourtable_Unpivot"
+		}
+	}
+}

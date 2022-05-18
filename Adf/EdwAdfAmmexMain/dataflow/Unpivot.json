@@ -12,25 +12,59 @@
 					"name": "source1"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite_Unpivot",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "unpivot1"
 				}
 			],
 			"scriptLines": [
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          color as string,",
+				"          Paul as integer,",
+				"          John as integer,",
+				"          Tim as integer,",
+				"          Eric as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     limit: 100,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     query: 'select *\\nfrom [Loader].StageInbound_CustomerOReillySales_Duy',",
+				"     query: 'select * from yourTable',",
 				"     format: 'query',",
 				"     staged: true) ~> source1",
 				"source1 unpivot(output(",
-				"          ",
+				"          ProductColor as string,",
+				"          Value as integer",
 				"     ),",
-				"     lateral: true,",
-				"     ignoreNullPivots: false) ~> unpivot1"
+				"     ungroupBy(color),",
+				"     lateral: false,",
+				"     ignoreNullPivots: false) ~> unpivot1",
+				"unpivot1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          color as string,",
+				"          value as integer,",
+				"          name as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     staged: true,",
+				"     allowCopyCommand: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
 			]
 		}
 	}
