@@ -39,7 +39,7 @@
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     query: 'select * from Loader.yourTable',",
 				"     format: 'query',",
-				"     staged: true) ~> source1",
+				"     staged: false) ~> source1",
 				"source1 unpivot(output(",
 				"          name as string,",
 				"          value as integer",
