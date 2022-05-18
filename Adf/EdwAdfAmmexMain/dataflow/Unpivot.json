@@ -1,0 +1,37 @@
+{
+	"name": "Unpivot",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "unpivot1"
+				}
+			],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     limit: 100,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'select *\\nfrom [Loader].StageInbound_CustomerOReillySales_Duy',",
+				"     format: 'query',",
+				"     staged: true) ~> source1",
+				"source1 unpivot(output(",
+				"          ",
+				"     ),",
+				"     lateral: true,",
+				"     ignoreNullPivots: false) ~> unpivot1"
+			]
+		}
+	}
+}
