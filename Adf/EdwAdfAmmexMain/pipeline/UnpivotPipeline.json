@@ -1,9 +1,9 @@
 {
-	"name": "Unpivot",
+	"name": "UnpivotPipeline",
 	"properties": {
 		"activities": [
 			{
-				"name": "Data flow1",
+				"name": "UnpivotPipeline",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -21,10 +21,10 @@
 					},
 					"staging": {
 						"linkedService": {
-							"referenceName": "LsAdlEdwInbound",
+							"referenceName": "LsAdlsAmmexEdw",
 							"type": "LinkedServiceReference"
 						},
-						"folderPath": "finance"
+						"folderPath": "ingest"
 					},
 					"compute": {
 						"coreCount": 8,
