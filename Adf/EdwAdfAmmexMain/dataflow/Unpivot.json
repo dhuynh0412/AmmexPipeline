@@ -41,7 +41,7 @@
 				"     format: 'query',",
 				"     staged: true) ~> source1",
 				"source1 unpivot(output(",
-				"          ProductColor as string,",
+				"          Name as string,",
 				"          Value as integer",
 				"     ),",
 				"     ungroupBy(color),",

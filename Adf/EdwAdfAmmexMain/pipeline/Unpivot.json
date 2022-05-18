@@ -19,6 +19,13 @@
 						"referenceName": "Unpivot",
 						"type": "DataFlowReference"
 					},
+					"staging": {
+						"linkedService": {
+							"referenceName": "LsAdlEdwInbound",
+							"type": "LinkedServiceReference"
+						},
+						"folderPath": "finance"
+					},
 					"compute": {
 						"coreCount": 8,
 						"computeType": "General"
