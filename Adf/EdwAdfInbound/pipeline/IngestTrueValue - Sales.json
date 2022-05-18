@@ -117,7 +117,7 @@
 													{
 														"name": "FileLastModifiedDate",
 														"value": {
-															"value": "@activity('GetSourceNetworkFolder').output.lastModified",
+															"value": "@activity('GetFileLastModifiedDate').output",
 															"type": "Expression"
 														}
 													}
