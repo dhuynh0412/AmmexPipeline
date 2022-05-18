@@ -37,7 +37,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     query: 'select * from yourTable',",
+				"     query: 'select * from Loader.yourTable',",
 				"     format: 'query',",
 				"     staged: true) ~> source1",
 				"source1 unpivot(output(",

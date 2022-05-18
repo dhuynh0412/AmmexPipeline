@@ -23,7 +23,7 @@
 			}
 		],
 		"typeProperties": {
-			"schema": "dbo",
+			"schema": "Loader",
 			"table": "yourtable_Unpivot"
 		}
 	}
