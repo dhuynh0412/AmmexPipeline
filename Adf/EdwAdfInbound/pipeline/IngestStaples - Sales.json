@@ -1,5 +1,5 @@
 {
-	"name": "IngestOfficeDepot",
+	"name": "IngestStaples - Sales",
 	"properties": {
 		"activities": [
 			{
@@ -76,7 +76,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-7))",
+									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-300))",
 									"type": "Expression"
 								},
 								"ifTrueActivities": [
@@ -175,7 +175,7 @@
 														"type": "Expression"
 													},
 													"DatalakeIngestRootPath": {
-														"value": "@pipeline().parameters.SourceNetworkPath",
+														"value": "@pipeline().parameters.DatalakeIngestRootPath",
 														"type": "Expression"
 													},
 													"DatalakeIngestRootPathFileName": {
@@ -220,6 +220,7 @@
 					],
 					"storeSettings": {
 						"type": "FileServerReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
@@ -231,11 +232,15 @@
 		"parameters": {
 			"SourceNetworkPath": {
 				"type": "string",
-				"defaultValue": "General/Ammex/Sales/Sell Through Data Files/Office Depot/2022"
+				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\Staples\\2022"
 			},
 			"DatalakeIngestRoot": {
 				"type": "string",
 				"defaultValue": "finance"
+			},
+			"DatalakeIngestRootPath": {
+				"type": "string",
+				"defaultValue": "sales/sellthroughdatafiles/staples"
 			}
 		},
 		"folder": {
