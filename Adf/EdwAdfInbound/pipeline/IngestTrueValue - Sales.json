@@ -116,7 +116,10 @@
 													},
 													{
 														"name": "FileLastModifiedDate",
-														"value": "$$FILEPATH"
+														"value": {
+															"value": "@activity('GetFileLastModifiedDate').output",
+															"type": "Expression"
+														}
 													}
 												],
 												"storeSettings": {
