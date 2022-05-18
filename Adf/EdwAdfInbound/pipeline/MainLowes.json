@@ -9,7 +9,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "IngestLowes",
+						"referenceName": "IngestLowes - SalesAndInventory",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
