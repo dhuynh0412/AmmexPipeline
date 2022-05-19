@@ -65,6 +65,11 @@
 									"storeSettings": {
 										"type": "AzureBlobFSReadSettings",
 										"recursive": true,
+										"wildcardFolderPath": {
+											"value": "@{item().DatalakeIngestRootPath}",
+											"type": "Expression"
+										},
+										"wildcardFileName": "*.*",
 										"enablePartitionDiscovery": false
 									},
 									"formatSettings": {
