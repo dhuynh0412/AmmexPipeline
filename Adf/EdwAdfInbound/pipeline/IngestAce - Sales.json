@@ -235,7 +235,7 @@
 		"parameters": {
 			"SourceNetworkPath": {
 				"type": "string",
-				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\OReilly\\2022\\Sales"
+				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\Ace\\2022"
 			},
 			"DatalakeIngestRoot": {
 				"type": "string",
@@ -243,7 +243,7 @@
 			},
 			"DatalakeIngestRootPath": {
 				"type": "string",
-				"defaultValue": "sales/sellthroughdatafiles/oreilly"
+				"defaultValue": "sales/sellthroughdatafiles/ace"
 			}
 		},
 		"folder": {
