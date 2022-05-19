@@ -1,5 +1,5 @@
 {
-	"name": "IngestAce - Sales",
+	"name": "IngestAce - Inventory",
 	"properties": {
 		"activities": [
 			{
@@ -128,7 +128,8 @@
 													"enablePartitionDiscovery": false
 												},
 												"formatSettings": {
-													"type": "DelimitedTextReadSettings"
+													"type": "DelimitedTextReadSettings",
+													"skipLineCount": 7
 												}
 											},
 											"sink": {
