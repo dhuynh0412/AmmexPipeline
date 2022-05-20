@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "Unpivot",
+						"referenceName": "Unpivot_CustomerOReillySales_Duy",
 						"type": "DataFlowReference"
 					},
 					"compute": {

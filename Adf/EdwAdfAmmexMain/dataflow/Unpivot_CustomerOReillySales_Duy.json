@@ -23,7 +23,7 @@
 			],
 			"transformations": [
 				{
-					"name": "unpivot1"
+					"name": "UnpivotCustomerOReillySalesDuy"
 				}
 			],
 			"scriptLines": [
@@ -84,7 +84,7 @@
 				"     format: 'query',",
 				"     staged: false) ~> source1",
 				"source1 unpivot(output(",
-				"          SalesDate as date,",
+				"          SalesDate as string,",
 				"          Sales as integer,",
 				"          Unit as string",
 				"     ),",
@@ -100,8 +100,9 @@
 				"          Category,",
 				"          Segment),",
 				"     lateral: true,",
-				"     ignoreNullPivots: false) ~> unpivot1",
-				"unpivot1 sink(allowSchemaDrift: true,",
+				"     ignoreNullPivots: false,",
+				"     partitionBy('hash', 1)) ~> UnpivotCustomerOReillySalesDuy",
+				"UnpivotCustomerOReillySalesDuy sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          color as string,",
@@ -112,12 +113,13 @@
 				"     insertable:true,",
 				"     updateable:false,",
 				"     upsertable:false,",
-				"     truncate:true,",
+				"     recreate:true,",
 				"     format: 'table',",
 				"     staged: false,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     partitionBy('hash', 1)) ~> sink1"
 			]
 		}
 	}
