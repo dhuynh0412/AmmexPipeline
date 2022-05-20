@@ -10,6 +10,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
 				}
 			],
 			"sinks": [
@@ -19,11 +26,21 @@
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
 				}
 			],
 			"transformations": [
 				{
 					"name": "UnpivotCustomerOReillySalesDuy"
+				},
+				{
+					"name": "unpivot1"
 				}
 			],
 			"scriptLines": [
@@ -83,6 +100,62 @@
 				"     query: 'select * from [Loader].[StageInbound_CustomerOReillySales_Duy]',",
 				"     format: 'query',",
 				"     staged: false) ~> source1",
+				"source(output(",
+				"          Line as string,",
+				"          Plcd as string,",
+				"          Subc as string,",
+				"          Item as string,",
+				"          Mfg as string,",
+				"          {POS Description} as string,",
+				"          {Item Description} as string,",
+				"          {Pop Code} as string,",
+				"          {01-09-2022 Sales} as string,",
+				"          {01-02-2022 Sales} as string,",
+				"          {12-26-2021 Sales} as string,",
+				"          {12-19-2021 Sales} as string,",
+				"          {12-12-2021 Sales} as string,",
+				"          {12-05-2021 Sales} as string,",
+				"          {11-28-2021 Sales} as string,",
+				"          {11-21-2021 Sales} as string,",
+				"          {11-14-2021 Sales} as string,",
+				"          {11-07-2021 Sales} as string,",
+				"          {10-31-2021 Sales} as string,",
+				"          {10-24-2021 Sales} as string,",
+				"          {10-17-2021 Sales} as string,",
+				"          {10-10-2021 Sales} as string,",
+				"          {10-03-2021 Sales} as string,",
+				"          {09-26-2021 Sales} as string,",
+				"          {01-09-2022 Units} as string,",
+				"          {01-02-2022 Units} as string,",
+				"          {12-26-2021 Units} as string,",
+				"          {12-19-2021 Units} as string,",
+				"          {12-12-2021 Units} as string,",
+				"          {12-05-2021 Units} as string,",
+				"          {11-28-2021 Units} as string,",
+				"          {11-21-2021 Units} as string,",
+				"          {11-14-2021 Units} as string,",
+				"          {11-07-2021 Units} as string,",
+				"          {10-31-2021 Units} as string,",
+				"          {10-24-2021 Units} as string,",
+				"          {10-17-2021 Units} as string,",
+				"          {10-10-2021 Units} as string,",
+				"          {10-03-2021 Units} as string,",
+				"          {09-26-2021 Units} as string,",
+				"          {Product Manager} as string,",
+				"          Category as string,",
+				"          Subcategory as string,",
+				"          Segment as string,",
+				"          SourceFileName as string,",
+				"          PipelineName as string,",
+				"          LoadDate as string,",
+				"          FileLastModifiedDate as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'select *\\nfrom [Loader].[StageInbound_CustomerOReillySales_Duy]',",
+				"     format: 'query',",
+				"     staged: true) ~> source2",
 				"source1 unpivot(output(",
 				"          SalesDate as string,",
 				"          Sales as string,",
@@ -107,6 +180,27 @@
 				"     lateral: true,",
 				"     ignoreNullPivots: false,",
 				"     partitionBy('hash', 1)) ~> UnpivotCustomerOReillySalesDuy",
+				"source2 unpivot(output(",
+				"          UnitsDate as string,",
+				"          Units as string",
+				"     ),",
+				"     ungroupBy(Line,",
+				"          Plcd,",
+				"          Subc,",
+				"          Item,",
+				"          Mfg,",
+				"          {POS Description},",
+				"          {Item Description},",
+				"          {Pop Code},",
+				"          {Product Manager},",
+				"          Category,",
+				"          Subcategory,",
+				"          Segment,",
+				"          SourceFileName,",
+				"          PipelineName,",
+				"          FileLastModifiedDate),",
+				"     lateral: true,",
+				"     ignoreNullPivots: false) ~> unpivot1",
 				"UnpivotCustomerOReillySalesDuy sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
@@ -124,7 +218,20 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError',",
-				"     partitionBy('hash', 1)) ~> sink1"
+				"     partitionBy('hash', 1)) ~> sink1",
+				"unpivot1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     staged: true,",
+				"     allowCopyCommand: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink2"
 			]
 		}
 	}
