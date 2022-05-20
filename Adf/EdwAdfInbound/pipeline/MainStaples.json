@@ -1,26 +1,26 @@
 {
-	"name": "MainOfficeDepot",
+	"name": "MainStaples",
 	"properties": {
 		"activities": [
 			{
-				"name": "IngestOfficeDepot",
+				"name": "IngestStaples",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "IngestOfficeDepot-Sales",
+						"referenceName": "IngestStaples - Sales",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
 				}
 			},
 			{
-				"name": "LoadOfficeDepot",
+				"name": "LoadStaples",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "IngestOfficeDepot",
+						"activity": "IngestStaples",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -29,18 +29,18 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "LoadOfficeDepot",
+						"referenceName": "LoadStaples",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
 				}
 			},
 			{
-				"name": "PopulateOfficeDepot",
+				"name": "PopulateLowes",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "LoadOfficeDepot",
+						"activity": "LoadStaples",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -49,7 +49,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "PopulateOfficeDepot",
+						"referenceName": "PopulateStaples",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
