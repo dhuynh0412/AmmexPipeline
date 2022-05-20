@@ -1,5 +1,5 @@
 {
-	"name": "Unpivot_CustomerOReillySales_Duy",
+	"name": "Unpivot_CustomerOReillySalesUnit_Duy",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -84,8 +84,8 @@
 				"     format: 'query',",
 				"     staged: false) ~> source2",
 				"source2 unpivot(output(",
-				"          SalesDate as string,",
-				"          Sales as string",
+				"          UnitsDate as string,",
+				"          Units as string",
 				"     ),",
 				"     ungroupBy(Line,",
 				"          Plcd,",
