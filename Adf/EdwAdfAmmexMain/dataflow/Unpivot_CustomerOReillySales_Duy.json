@@ -155,7 +155,7 @@
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     query: 'select *\\nfrom [Loader].[StageInbound_CustomerOReillySales_Duy]',",
 				"     format: 'query',",
-				"     staged: true) ~> source2",
+				"     staged: false) ~> source2",
 				"source1 unpivot(output(",
 				"          SalesDate as string,",
 				"          Sales as string,",
