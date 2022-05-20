@@ -227,8 +227,7 @@
 				"     upsertable:false,",
 				"     truncate:true,",
 				"     format: 'table',",
-				"     staged: true,",
-				"     allowCopyCommand: true,",
+				"     staged: false,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError') ~> sink2"
