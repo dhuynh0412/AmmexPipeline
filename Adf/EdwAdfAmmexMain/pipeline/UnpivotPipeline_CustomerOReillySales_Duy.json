@@ -17,7 +17,13 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "Unpivot_CustomerOReillySales_Duy",
-						"type": "DataFlowReference"
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"sink2": {
+								"Schema": "Loader",
+								"Table": "StageInbound_CustomerOReillySales_DuyUnpivot"
+							}
+						}
 					},
 					"compute": {
 						"coreCount": 8,
