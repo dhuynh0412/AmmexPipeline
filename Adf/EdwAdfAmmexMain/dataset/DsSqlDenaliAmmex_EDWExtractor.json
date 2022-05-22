@@ -1,0 +1,12 @@
+{
+	"name": "DsSqlDenaliAmmex_EDWExtractor",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsSqlDenaliAmmex_EDWExtractor",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	}
+}
