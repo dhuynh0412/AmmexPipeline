@@ -102,7 +102,7 @@
 				"          SourceFileName,",
 				"          PipelineName,",
 				"          FileLastModifiedDate),",
-				"     lateral: true,",
+				"     lateral: false,",
 				"     ignoreNullPivots: false,",
 				"     partitionBy('hash', 1)) ~> unpivot1",
 				"unpivot1 sink(allowSchemaDrift: true,",
