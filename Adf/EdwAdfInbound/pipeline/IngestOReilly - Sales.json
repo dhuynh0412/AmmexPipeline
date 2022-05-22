@@ -155,7 +155,17 @@
 										"inputs": [
 											{
 												"referenceName": "DsSourceNetworkPathFileNameCsv_OReilly",
-												"type": "DatasetReference"
+												"type": "DatasetReference",
+												"parameters": {
+													"SourceNetworkPath": {
+														"value": "@pipeline().parameters.SourceNetworkPath",
+														"type": "Expression"
+													},
+													"SourceNetworkPathFileName": {
+														"value": "@item().name",
+														"type": "Expression"
+													}
+												}
 											}
 										],
 										"outputs": [
