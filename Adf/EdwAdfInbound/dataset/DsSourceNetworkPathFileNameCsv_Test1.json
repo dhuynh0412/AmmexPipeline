@@ -18,18 +18,11 @@
 		"typeProperties": {
 			"location": {
 				"type": "FileServerLocation",
-				"fileName": {
-					"value": "@dataset().SourceNetworkPathFileName",
-					"type": "Expression"
-				},
-				"folderPath": {
-					"value": "@dataset().SourceNetworkPath",
-					"type": "Expression"
-				}
+				"folderPath": "General/Ammex/Sales/Sell Through Data Files/OReilly/2022/Sales"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
-			"firstRowAsHeader": false,
+			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
 		"schema": []
