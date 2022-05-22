@@ -1,5 +1,5 @@
 {
-	"name": "LoadAmmexDelta_Staging",
+	"name": "LoadAmmexDelta",
 	"properties": {
 		"activities": [
 			{
@@ -127,7 +127,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlDWSource",
-						"sqlReaderQuery": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Ammex'\n\t  AND IsLoad = 1\nORDER BY [SourceObject]",
+						"sqlReaderQuery": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Ammex'\n\t  AND [IsLoad] = 1\nORDER BY [SourceObject]",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
