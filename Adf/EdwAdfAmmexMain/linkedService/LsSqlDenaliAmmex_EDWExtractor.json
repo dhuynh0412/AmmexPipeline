@@ -1,0 +1,22 @@
+{
+	"name": "LsSqlDenaliAmmex_EDWExtractor",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "Integrated Security=False;Data Source=Denali.ammexcorp.com;Initial Catalog=Ammex;User ID=EdwExtractor",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "EdwAdfKeyVault",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "Denali-Ammex-EDWExtractor"
+			}
+		},
+		"connectVia": {
+			"referenceName": "IrSqlMatterhorn",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
