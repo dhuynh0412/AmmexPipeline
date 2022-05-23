@@ -1,7 +1,6 @@
 {
 	"name": "DsSourceNetworkPathFileNameCsv_OReilly",
 	"properties": {
-		"description": "Exclude the header as the flat file has a moving date column name",
 		"linkedServiceName": {
 			"referenceName": "LsSourceNetworkRoot",
 			"type": "LinkedServiceReference"
