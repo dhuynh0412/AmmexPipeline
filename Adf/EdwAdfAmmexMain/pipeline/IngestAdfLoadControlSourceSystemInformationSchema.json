@@ -1,0 +1,62 @@
+{
+	"name": "IngestAdfLoadControlSourceSystemInformationSchema",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "SELECT\tDISTINCT\n\t\tServerName = QUOTENAME(@@SERVERNAME), \n\t\tTable_Catalog = QUOTENAME(T.TABLE_CATALOG),\n\t\tTable_Schema = QUOTENAME(T.TABLE_SCHEMA),\n\t\tTable_Name = QUOTENAME(T.TABLE_NAME),\n\t\tTable_Type = 'Table',\n\t\tColumn_Name = QUOTENAME(C.COLUMN_NAME),\n\t\tIsPrimaryKeyColumn = CASE WHEN TC.CONSTRAINT_TYPE = 'PRIMARY KEY' AND CCU.COLUMN_NAME IS NOT NULL THEN 1  ELSE 0 END,\n\t\tC.Data_Type,\n\t\tC.Numeric_Precision,\n\t\tC.Numeric_Precision_Radix,\n\t\tC.Character_Maximum_Length,\n\t\tFormatDatatype = CASE \n                                WHEN UPPER(C.DATA_TYPE) IN ('date', 'datetime', 'smalldatetime')                                     \n\t\t\t\t\t\t\t\t\tTHEN CONCAT(QUOTENAME(C.COLUMN_NAME), ' = CASE WHEN [SRC].', QUOTENAME(C.COLUMN_NAME), ' = ''NULL'' THEN NULL ELSE CONVERT(DATETIME2, [SRC].', QUOTENAME(C.COLUMN_NAME), ') END,')\n\t\t\t\t\t\t\t\tWHEN UPPER(C.DATA_TYPE) IN ('uniqueidentifier', 'bit', 'tinyint', 'int', 'bigint', 'float', 'money', 'real', 'smallint', 'binary')                                     \n\t\t\t\t\t\t\t\t\tTHEN CONCAT(QUOTENAME(C.COLUMN_NAME), ' = CONVERT(', QUOTENAME(UPPER(C.DATA_TYPE)), ', [SRC].', QUOTENAME(C.COLUMN_NAME), '),')\n                                WHEN UPPER(C.DATA_TYPE) IN ('numeric', 'decimal') \n                                    THEN CONCAT(QUOTENAME(C.COLUMN_NAME), ' = CONVERT(', QUOTENAME(UPPER(C.DATA_TYPE)), '(', C.NUMERIC_PRECISION, ', ', C.NUMERIC_PRECISION_RADIX, ')', ', [SRC].', QUOTENAME(C.COLUMN_NAME), '),')\t\t\t\t\t\t\t\t\t\t \n                                WHEN UPPER(C.DATA_TYPE) IN ('char', 'nvarchar', 'varchar', 'varbinary') \n                                    THEN CONCAT(QUOTENAME(C.COLUMN_NAME), ' = CONVERT(NVARCHAR(', C.CHARACTER_MAXIMUM_LENGTH, '), [SRC].', QUOTENAME(C.COLUMN_NAME), '),')\n                                ELSE quotename(C.COLUMN_NAME) + ','\n                            END,\n\t\tUpdateStatement = CASE WHEN C.COLUMN_NAME = 'LastUpdateDate' THEN '['+ C.COLUMN_NAME + '] = GETDATE()' ELSE '['+ C.COLUMN_NAME + '] = SRC.[' + C.COLUMN_NAME + '],' END,\n\t\tView_Definition = NULL\nFROM INFORMATION_SCHEMA.TABLES T\n\t JOIN INFORMATION_SCHEMA.COLUMNS C\n\t\t  ON T.TABLE_NAME = C.TABLE_NAME\n\t LEFT JOIN INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC\n\t\t  ON T.TABLE_NAME = TC.TABLE_NAME\n\t\t\t AND TC.CONSTRAINT_TYPE = 'PRIMARY KEY'\n\t LEFT JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CCU\n\t\t  ON CCU.CONSTRAINT_NAME = TC.CONSTRAINT_NAME  \n\t\t\t AND CCU.TABLE_NAME = T.TABLE_NAME\n\t\t\t AND CCU.COLUMN_NAME = C.COLUMN_NAME\n--WHERE QUOTENAME(T.TABLE_NAME) = '[SOP30200]'\nUNION\nSELECT\tDISTINCT\n\t\tServerName = QUOTENAME(@@SERVERNAME), \n\t\tTable_Catalog = QUOTENAME(V.TABLE_CATALOG),\n\t\tTable_Schema = QUOTENAME(V.TABLE_SCHEMA),\n\t\tTable_Name = QUOTENAME(V.TABLE_NAME),\n\t\tTable_Type = 'View',\n\t\tColumn_Name = NULL,\n\t\tIsPrimaryKeyColumn = NULL,\n\t\tData_Type = NULL,\n\t\tNumeric_Precision = NULL,\n\t\tNumeric_Precision_Radix = NULL,\n\t\tCharacter_Maximum_Length = NULL,\n\t\tFormatDatatype = NULL,\n\t\tUpdateStatement = NULL,\n\t\tView_Definition = V.VIEW_DEFINITION\nFROM INFORMATION_SCHEMA.VIEWS V\n--WHERE TABLE_NAME = 'EXT_943'",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"writeBehavior": "Insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DsSqlDenaliAmmex_EDWExtractor",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+						"type": "DatasetReference",
+						"parameters": {
+							"Schema": "ETL",
+							"Table": "AdfLoadControlSourceSystemInformationSchema"
+						}
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "1-Ingest"
+		},
+		"annotations": []
+	}
+}
