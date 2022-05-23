@@ -249,7 +249,7 @@
 			},
 			"SourceNetworkPathFileName": {
 				"type": "string",
-				"defaultValue": "Sales*.csv"
+				"defaultValue": "Sales - *.csv"
 			}
 		},
 		"folder": {
