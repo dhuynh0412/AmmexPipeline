@@ -1,5 +1,5 @@
 {
-	"name": "IngestAce - Inventory",
+	"name": "IngestAce - SalesAndInventory",
 	"properties": {
 		"activities": [
 			{
@@ -246,10 +246,6 @@
 			"DatalakeIngestRootPath": {
 				"type": "string",
 				"defaultValue": "sales/sellthroughdatafiles/ace"
-			},
-			"SourceNetworkPathFileName": {
-				"type": "string",
-				"defaultValue": "Inventory and Order Projection*.csv"
 			}
 		},
 		"folder": {
