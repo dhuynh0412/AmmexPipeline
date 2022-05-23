@@ -125,6 +125,8 @@
 												"storeSettings": {
 													"type": "FileServerReadSettings",
 													"recursive": true,
+													"wildcardFolderPath": "General\\Ammex\\Sales\\Sell Through Data Files\\Ace\\2022",
+													"wildcardFileName": "Sales",
 													"enablePartitionDiscovery": false
 												},
 												"formatSettings": {
