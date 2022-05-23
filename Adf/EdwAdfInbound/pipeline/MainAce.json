@@ -16,7 +16,7 @@
 				}
 			},
 			{
-				"name": "LoadLowes",
+				"name": "LoadAce",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
@@ -35,7 +35,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "LoadLowes",
+						"referenceName": "LoadAce",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
