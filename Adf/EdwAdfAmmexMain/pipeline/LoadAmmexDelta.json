@@ -1,5 +1,5 @@
 {
-	"name": "LoadAmmexDelta_Staging",
+	"name": "LoadAmmexDelta",
 	"properties": {
 		"activities": [
 			{
@@ -20,7 +20,6 @@
 						"type": "Expression"
 					},
 					"isSequential": false,
-					"batchCount": 3,
 					"activities": [
 						{
 							"name": "ImportingCsvToEdw",
@@ -127,7 +126,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlDWSource",
-						"sqlReaderQuery": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Ammex'\n\t  AND IsLoad = 1\nORDER BY [SourceObject]",
+						"sqlReaderQuery": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = '[Ammex]'\n\t  AND [IsLoad] = 1\n\t  AND [SourceObjectType] = 'Table'\nUNION\nSELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Ammex'\n\t  AND [SourceDatabase] = '[AMMEX_Staging]'\n\t  AND [IsLoad] = 1\nORDER BY [SourceObject]",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},

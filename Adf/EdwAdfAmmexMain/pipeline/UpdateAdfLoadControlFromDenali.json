@@ -1,0 +1,62 @@
+{
+	"name": "UpdateAdfLoadControlFromDenali",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "/*\nUse the Dentali to collect the metadata to update Etl.AdfLoadControl on AmmexDataWarehouse\n*/\n\nSELECT\tDISTINCT\n\t\tSourceSystem = 'Ammex',\n\t\tSourceDatabase = '[Ammex]',\n\t\tSourceSchema = '[dbo]',\n\t\tSourceObject = '''' + QUOTENAME(T.TABLE_NAME) + '''',\n\t\tSourceObjectType = CASE WHEN TABLE_TYPE = 'BASE TABLE' THEN 'Table' ELSE TABLE_TYPE END,\n\t\tSourceNetworkRoot = '',\n\t\tSourceNetworkPath = '',\n\t\tSourceNetworkPathFileName = '',\n\t\tDatalakeIngestRoot = 'ingest',\n\t\tDatalakeIngestRootPath = 'ammex/delta/dbo.' + T.TABLE_NAME + '',\n\t\tDatalakeIngestRootPathFileName = 'dbo.' + T.TABLE_NAME + '',\n\t\tSinkSchema = 'Loader',\n\t\tSinkTable = 'StageAmmex_' + T.TABLE_NAME + '',\n\t\tSinkPreCopyScript = 'IF OBJECT_ID(''[Loader].[StageAmmex_' + T.TABLE_NAME + ']'') IS NOT NULL DROP TABLE [Loader].[StageAmmex_' + T.TABLE_NAME + '];',\n\t\tIsLoad = CONVERT(BIT, 1),\n\t\tLastModifiedDate = CONVERT(DATETIME, NULL),\n\t\tLastModifiedDateField = CASE WHEN COLUMN_NAME IN('MODIFDT') THEN 'ModifDt' ELSE '' END,\n\t\tLoadFrequency = 'Daily',\n\t\tLoadStatus = '',\n\t\tLoadStartDate = CONVERT(DATETIME, NULL),\n\t\tLoadEndDate = CONVERT(DATETIME, NULL),\n\t\tIsSourceDeleted = CONVERT(BIT, 0),\n\t\tIsSourceDeletedDate = CONVERT(DATETIME, NULL),\n\t\tLoadDate = GETDATE(),\n\t\tLastUpdatedDate = CONVERT(DATETIME, NULL),\n\t\tFormatDatatype = 'Loader.StageAmmex_' + T.TABLE_NAME + '_FormatDatatype',\n\t\tPopulate = 'StageAmmex.' + T.TABLE_NAME + '_Populate'\n\nFROM INFORMATION_SCHEMA.TABLES T\n\t LEFT JOIN INFORMATION_SCHEMA.COLUMNS C\n\t\t  ON T.TABLE_NAME = C.TABLE_NAME\nWHERE QUOTENAME(T.TABLE_NAME) IN('[EXT01100]',\n'[EXT01101]',\n'[EXT01103]',\n'[IV00101]',\n'[IV00102]',\n'[IV00103]',\n'[IV00108]',\n'[IV10001]',\n'[IV10200]',\n'[IV30300]',\n'[IV40201]',\n'[IV40202]',\n'[POP10100]',\n'[POP10110]',\n'[POP10500]',\n'[POP30100]',\n'[POP30110]',\n'[RM00101]',\n'[RM00102]',\n'[SOP10100]',\n'[SOP10106]',\n'[SOP10200]',\n'[SOP30200]',\n'[SOP30300]',\n'[SOP60100]',\n'[SY00500]',\n'[SY01200]',\n'[amx_custom.dbo.EGS_PoolMembers]',\n'[EXT_Customer2]',\n'[EXT_943]',\n'[EXT_944]',\n'[EXT_BR]',\n'[EXT_CM_CARRIER]',\n'[ext_cm_wh_add]',\n'[EXT_CMWAREHOUSE]',\n'[EXT_FREIGHTSHIP]',\n'[EXT_ITEM]',\n'[EXT_KIBO]',\n'[EXT_ONEPATH]',\n'[EXT_PO_IMPORT]',\n'[EXT_PO_SHIPPING]',\n'[EXT_PO_TRANSP1]',\n'[EXT_PO_TRANSP2]',\n'[EXT_PO_VENDOR]',\n'[EXT_PO_VENDOR2]',\n'[ITEM_THRESHOLD]',\n'[MAR_Allocation_CANADA]',\n'[MAR_Allocation_US]',\n'[SHIPPING_CM]',\n'[SHIPPING_EXT]',\n'[SHIPPING_EXT2]',\n'[SOP_IMPORT_HEAD]',\n'[spxSalesLineItem]',\n'[STG_GPAX_BUSINESS_TYPE]',\n'[Summary_Call_Count]',\n'[tblFreightCostSummary]',\n'[TRACKING_INFO]',\n'[TRUCKLINE]',\n'[VW_ITEMQ_US_LOC]',\n'[VW_MTD_POOL]',\n'[VW_MTD_POOL_DETAIL]',\n'[VW_MTD_US]',\n'[VW_OnePathSelfService]')\nORDER BY 4",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"writeBehavior": "Insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DsSqlDenaliAmmex_EDWExtractor",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+						"type": "DatasetReference",
+						"parameters": {
+							"Schema": "ETL",
+							"Table": "AdfLoadControl"
+						}
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "1-Ingest"
+		},
+		"annotations": []
+	}
+}
