@@ -76,7 +76,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-1))",
+									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-100))",
 									"type": "Expression"
 								},
 								"ifTrueActivities": [
@@ -249,7 +249,7 @@
 						"type": "Expression"
 					},
 					"condition": {
-						"value": "@and(equals(item().SourceNetworkPathFileName,'FileName'),startswith(item().name,'Sales'))",
+						"value": "@and(equals(item().Name,'Name'),startswith(item().name,'Sales'))",
 						"type": "Expression"
 					}
 				}
@@ -258,7 +258,7 @@
 		"parameters": {
 			"SourceNetworkPath": {
 				"type": "string",
-				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\OReilly\\2022\\Sales"
+				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\Ace\\2022"
 			},
 			"DatalakeIngestRoot": {
 				"type": "string",
@@ -266,7 +266,7 @@
 			},
 			"DatalakeIngestRootPath": {
 				"type": "string",
-				"defaultValue": "sales/sellthroughdatafiles/oreilly"
+				"defaultValue": "sales/sellthroughdatafiles/ace"
 			}
 		},
 		"folder": {
