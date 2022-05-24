@@ -1,5 +1,5 @@
 {
-	"name": "IngestAce - Inventory",
+	"name": "IngestAce - SalesAndInventory",
 	"properties": {
 		"activities": [
 			{
@@ -125,7 +125,8 @@
 												"storeSettings": {
 													"type": "FileServerReadSettings",
 													"recursive": true,
-													"enablePartitionDiscovery": false
+													"enablePartitionDiscovery": false,
+													"fileFilter": "Inventory*.csv"
 												},
 												"formatSettings": {
 													"type": "DelimitedTextReadSettings",
@@ -219,13 +220,9 @@
 							}
 						}
 					},
-					"fieldList": [
-						"childItems",
-						"itemName"
-					],
+					"fieldList": [],
 					"storeSettings": {
 						"type": "FileServerReadSettings",
-						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
