@@ -253,7 +253,8 @@
 				"defaultValue": "sales/sellthroughdatafiles/ace"
 			},
 			"SourceNetworkPathFileName": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "Sales *.csv"
 			}
 		},
 		"folder": {
