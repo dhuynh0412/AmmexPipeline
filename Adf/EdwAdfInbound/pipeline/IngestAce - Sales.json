@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('GetSourceNetworkFolder').output.childItems",
+						"value": "@activity('Filter1').output.value",
 						"type": "Expression"
 					},
 					"batchCount": 4,
@@ -249,7 +249,7 @@
 						"type": "Expression"
 					},
 					"condition": {
-						"value": "@and(equals(item().Name,'Sales'),startswith(item().name,'Sales'))\n\n\n\n",
+						"value": "@and(equals(item().Name,'Files'),startswith(item().name,'Sales'))",
 						"type": "Expression"
 					}
 				}
