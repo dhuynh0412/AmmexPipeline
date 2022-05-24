@@ -10,9 +10,8 @@
 				"type": "string",
 				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\Ace\\2022"
 			},
-			"SourceNetworkPathFileName": {
-				"type": "string",
-				"defaultValue": "Sales *"
+			"FileName": {
+				"type": "string"
 			}
 		},
 		"annotations": [],
@@ -21,7 +20,7 @@
 			"location": {
 				"type": "FileServerLocation",
 				"fileName": {
-					"value": "@dataset().SourceNetworkPathFileName",
+					"value": "@dataset().FileName",
 					"type": "Expression"
 				},
 				"folderPath": {
