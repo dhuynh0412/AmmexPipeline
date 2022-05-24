@@ -131,10 +131,7 @@
 														"value": "@pipeline().parameters.SourceNetworkPath",
 														"type": "Expression"
 													},
-													"wildcardFileName": {
-														"value": "@pipeline().parameters.SourceNetworkPathFileName",
-														"type": "Expression"
-													},
+													"wildcardFileName": "Sales *.csv",
 													"enablePartitionDiscovery": false
 												},
 												"formatSettings": {
@@ -172,7 +169,10 @@
 														"value": "@pipeline().parameters.SourceNetworkPath",
 														"type": "Expression"
 													},
-													"SourceNetworkPathFileName": "Sales - * .csv"
+													"SourceNetworkPathFileName": {
+														"value": "@pipeline().parameters.SourceNetworkPathFileName",
+														"type": "Expression"
+													}
 												}
 											}
 										],
