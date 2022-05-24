@@ -125,6 +125,11 @@
 												"storeSettings": {
 													"type": "FileServerReadSettings",
 													"recursive": true,
+													"wildcardFolderPath": {
+														"value": "@pipeline().parameters.SourceNetworkPath",
+														"type": "Expression"
+													},
+													"wildcardFileName": "Sales",
 													"enablePartitionDiscovery": false
 												},
 												"formatSettings": {
