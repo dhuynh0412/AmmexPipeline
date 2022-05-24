@@ -183,7 +183,7 @@
 														"type": "Expression"
 													},
 													"DatalakeIngestRootPathFileName": {
-														"value": "@item().name",
+														"value": "Sales - *.csv",
 														"type": "Expression"
 													}
 												}
@@ -219,7 +219,9 @@
 							}
 						}
 					},
-					"fieldList": [],
+					"fieldList": [
+						"childItems"
+					],
 					"storeSettings": {
 						"type": "FileServerReadSettings",
 						"enablePartitionDiscovery": false
@@ -245,7 +247,7 @@
 			},
 			"SourceNetworkPathFileName": {
 				"type": "string",
-				"defaultValue": "Sales - *.csv"
+				"defaultValue": "Sales - ?.csv"
 			}
 		},
 		"folder": {
