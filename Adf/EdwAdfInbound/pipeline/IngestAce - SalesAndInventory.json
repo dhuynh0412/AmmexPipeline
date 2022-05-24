@@ -127,6 +127,14 @@
 													"recursive": true,
 													"modifiedDatetimeStart": "2022-05-01T00:00:00.000Z",
 													"modifiedDatetimeEnd": "2022-05-31T00:00:00.000Z",
+													"wildcardFolderPath": {
+														"value": "@pipeline().parameters.SourceNetworkPath",
+														"type": "Expression"
+													},
+													"wildcardFileName": {
+														"value": "@pipeline().parameters.SourceNetworkPathFileName",
+														"type": "Expression"
+													},
 													"enablePartitionDiscovery": false
 												},
 												"formatSettings": {
@@ -164,7 +172,7 @@
 														"value": "@pipeline().parameters.SourceNetworkPath",
 														"type": "Expression"
 													},
-													"SourceNetworkPathFileName": "Sales - *.csv"
+													"SourceNetworkPathFileName": "Sales - .csv"
 												}
 											}
 										],
@@ -245,8 +253,7 @@
 				"defaultValue": "sales/sellthroughdatafiles/ace"
 			},
 			"SourceNetworkPathFileName": {
-				"type": "string",
-				"defaultValue": "Sales - *.csv"
+				"type": "string"
 			}
 		},
 		"folder": {
