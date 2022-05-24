@@ -125,8 +125,7 @@
 												"storeSettings": {
 													"type": "FileServerReadSettings",
 													"recursive": true,
-													"enablePartitionDiscovery": false,
-													"fileFilter": "Inventory*.csv"
+													"enablePartitionDiscovery": false
 												},
 												"formatSettings": {
 													"type": "DelimitedTextReadSettings",
