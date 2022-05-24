@@ -1,5 +1,5 @@
 {
-	"name": "PopulateOfficeDepot",
+	"name": "PopulateOReilly",
 	"properties": {
 		"activities": [
 			{
@@ -91,7 +91,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlDWSource",
-						"sqlReaderQuery": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Inbound'\n\t  AND [SourceSchema] = 'OfficeDepot'\n\t  AND [IsLoad] = 1\nORDER BY [SourceObject]",
+						"sqlReaderQuery": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Inbound'\n\t  AND [IsLoad] = 1\n\t  AND [SourceDatabase] = 'Customer'\n\t  AND [SourceSchema] = 'OReilly' \nORDER BY [SourceObject]\n",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
