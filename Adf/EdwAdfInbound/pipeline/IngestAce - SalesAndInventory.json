@@ -172,7 +172,7 @@
 														"value": "@pipeline().parameters.SourceNetworkPath",
 														"type": "Expression"
 													},
-													"SourceNetworkPathFileName": "Sales - .csv"
+													"SourceNetworkPathFileName": "Sales - * .csv"
 												}
 											}
 										],
