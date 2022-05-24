@@ -125,11 +125,6 @@
 												"storeSettings": {
 													"type": "FileServerReadSettings",
 													"recursive": true,
-													"wildcardFolderPath": {
-														"value": "@pipeline().parameters.SourceNetworkPath",
-														"type": "Expression"
-													},
-													"wildcardFileName": "Sales",
 													"enablePartitionDiscovery": false
 												},
 												"formatSettings": {
@@ -166,10 +161,7 @@
 														"value": "@pipeline().parameters.SourceNetworkPath",
 														"type": "Expression"
 													},
-													"SourceNetworkPathFileName": {
-														"value": "@item().name",
-														"type": "Expression"
-													}
+													"SourceNetworkPathFileName": "@item().name"
 												}
 											}
 										],
@@ -240,7 +232,7 @@
 		"parameters": {
 			"SourceNetworkPath": {
 				"type": "string",
-				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\OReilly\\2022\\Sales"
+				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\Ace\\2022"
 			},
 			"DatalakeIngestRoot": {
 				"type": "string",
@@ -248,7 +240,7 @@
 			},
 			"DatalakeIngestRootPath": {
 				"type": "string",
-				"defaultValue": "sales/sellthroughdatafiles/oreilly"
+				"defaultValue": "sales/sellthroughdatafiles/ace"
 			}
 		},
 		"folder": {
