@@ -125,6 +125,8 @@
 												"storeSettings": {
 													"type": "FileServerReadSettings",
 													"recursive": true,
+													"modifiedDatetimeStart": "2022-05-01T00:00:00.000Z",
+													"modifiedDatetimeEnd": "2022-05-31T00:00:00.000Z",
 													"enablePartitionDiscovery": false
 												},
 												"formatSettings": {
@@ -162,10 +164,7 @@
 														"value": "@pipeline().parameters.SourceNetworkPath",
 														"type": "Expression"
 													},
-													"SourceNetworkPathFileName": {
-														"value": "@item().name",
-														"type": "Expression"
-													}
+													"SourceNetworkPathFileName": "Sales - *.csv"
 												}
 											}
 										],
@@ -183,7 +182,7 @@
 														"type": "Expression"
 													},
 													"DatalakeIngestRootPathFileName": {
-														"value": "Sales - *.csv",
+														"value": "@item().name",
 														"type": "Expression"
 													}
 												}
