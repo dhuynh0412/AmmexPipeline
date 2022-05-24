@@ -1,0 +1,30 @@
+{
+	"name": "DsSourceNetworkPathFileNameCsv_Test",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsSourceNetworkRoot",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"SourceNetworkPath": {
+				"type": "string"
+			},
+			"SourceNetworkPathFileName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation",
+				"folderPath": "General/Ammex/Sales/Sell Through Data Files/Ace/2022"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": false,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
