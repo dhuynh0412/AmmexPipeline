@@ -134,7 +134,8 @@
 											"sink": {
 												"type": "DelimitedTextSink",
 												"storeSettings": {
-													"type": "AzureBlobFSWriteSettings"
+													"type": "AzureBlobFSWriteSettings",
+													"copyBehavior": "MergeFiles"
 												},
 												"formatSettings": {
 													"type": "DelimitedTextWriteSettings",
@@ -232,7 +233,7 @@
 		"parameters": {
 			"SourceNetworkPath": {
 				"type": "string",
-				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\Ace\\2022"
+				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\ZTest"
 			},
 			"DatalakeIngestRoot": {
 				"type": "string",
