@@ -1,5 +1,5 @@
 {
-	"name": "IngestAce - Sales",
+	"name": "IngestAce - Inventory",
 	"properties": {
 		"activities": [
 			{
@@ -233,7 +233,7 @@
 		"parameters": {
 			"SourceNetworkPath": {
 				"type": "string",
-				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\ZTest"
+				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\Ace\\2022"
 			},
 			"DatalakeIngestRoot": {
 				"type": "string",
