@@ -1,0 +1,23 @@
+{
+	"name": "DsLsAdEdwTest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAdlEdwInbound",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Sales - 2022.5.3.csv",
+				"folderPath": "sales/sellthroughdatafiles/ace",
+				"fileSystem": "finance"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
