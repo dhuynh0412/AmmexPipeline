@@ -7,7 +7,8 @@
 		},
 		"parameters": {
 			"SourceNetworkPath": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\ZTest"
 			},
 			"SourceNetworkPathFileName": {
 				"type": "string"
@@ -18,14 +19,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "FileServerLocation",
-				"fileName": {
-					"value": "@dataset().SourceNetworkPathFileName",
-					"type": "Expression"
-				},
-				"folderPath": {
-					"value": "@dataset().SourceNetworkPath",
-					"type": "Expression"
-				}
+				"fileName": "Sales - 2022.1.12.csv",
+				"folderPath": "General/Ammex/Sales/Sell Through Data Files/ZTest"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
