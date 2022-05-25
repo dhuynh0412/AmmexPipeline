@@ -10,12 +10,13 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "Sales - 2022.5.3.csv",
+				"fileName": "Sales - 2022.5.30.csv",
 				"folderPath": "sales/sellthroughdatafiles/ace",
 				"fileSystem": "finance"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
+			"firstRowAsHeader": false,
 			"quoteChar": "\""
 		},
 		"schema": []
