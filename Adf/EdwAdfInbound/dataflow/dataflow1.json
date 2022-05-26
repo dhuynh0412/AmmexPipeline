@@ -45,7 +45,8 @@
 				"          Article,",
 				"          {Article Name}),",
 				"     lateral: false,",
-				"     ignoreNullPivots: false) ~> unpivot1"
+				"     ignoreNullPivots: false,",
+				"     partitionBy('hash', 1)) ~> unpivot1"
 			]
 		}
 	}
