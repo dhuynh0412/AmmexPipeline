@@ -1,0 +1,22 @@
+{
+	"name": "LsSqlDenaliAmmex_EdwAdfPipelineReadOnly",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "Integrated Security=False;Data Source=Denali.AmmexCorp.com;Initial Catalog=Ammex;User ID=EdwAdfPipelineReadOnly",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "EdwAdfKeyVault",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "Denali-Ammex-EdwAdfPipelineReadOnly"
+			}
+		},
+		"connectVia": {
+			"referenceName": "IrSqlMatterhorn",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
