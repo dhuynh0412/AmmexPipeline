@@ -1,8 +1,8 @@
 {
-	"name": "DsSqlDenaliAmmex_EDWExtractor",
+	"name": "DsSqlDenaliAmmex_EdwAdfPipelineReadOnly",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "LsSqlDenaliAmmex_EDWExtractor",
+			"referenceName": "LsSqlDenaliAmmex_EdwAdfPipelineReadOnly",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
