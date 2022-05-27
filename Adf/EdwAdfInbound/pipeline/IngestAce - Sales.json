@@ -137,7 +137,7 @@
 												},
 												"formatSettings": {
 													"type": "DelimitedTextReadSettings",
-													"skipLineCount": 5
+													"skipLineCount": 7
 												}
 											},
 											"sink": {
@@ -163,7 +163,7 @@
 										},
 										"inputs": [
 											{
-												"referenceName": "DsSourceNetworkPathFileNameCsv_OReilly",
+												"referenceName": "DsSourceNetworkPathFileNameCsv",
 												"type": "DatasetReference",
 												"parameters": {
 													"SourceNetworkPath": {
