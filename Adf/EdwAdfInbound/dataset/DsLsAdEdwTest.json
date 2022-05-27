@@ -11,7 +11,7 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": "Sales - 2022.5.26.csv",
-				"folderPath": "sales/sellthroughdatafiles/test",
+				"folderPath": "sales/sellthroughdatafiles/ace",
 				"fileSystem": "finance"
 			},
 			"columnDelimiter": ",",
