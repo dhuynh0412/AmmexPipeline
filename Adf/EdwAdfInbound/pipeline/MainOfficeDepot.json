@@ -9,7 +9,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "IngestOfficeDepot-Sales",
+						"referenceName": "IngestOfficeDepot - Sales",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
