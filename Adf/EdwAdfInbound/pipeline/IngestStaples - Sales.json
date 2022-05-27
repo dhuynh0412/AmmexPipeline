@@ -76,7 +76,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-1))",
+									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-365))",
 									"type": "Expression"
 								},
 								"ifTrueActivities": [
@@ -120,6 +120,14 @@
 															"value": "@activity('GetFileLastModifiedDate').output.lastModified",
 															"type": "Expression"
 														}
+													},
+													{
+														"name": "IsSourceDeleted",
+														"value": ""
+													},
+													{
+														"name": "IsSourceDeletedDate",
+														"value": ""
 													}
 												],
 												"storeSettings": {
