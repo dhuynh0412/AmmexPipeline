@@ -143,8 +143,7 @@
 											"sink": {
 												"type": "DelimitedTextSink",
 												"storeSettings": {
-													"type": "AzureBlobFSWriteSettings",
-													"copyBehavior": "MergeFiles"
+													"type": "AzureBlobFSWriteSettings"
 												},
 												"formatSettings": {
 													"type": "DelimitedTextWriteSettings",
@@ -253,7 +252,7 @@
 			},
 			"DatalakeIngestRootPath": {
 				"type": "string",
-				"defaultValue": "sales/sellthroughdatafiles/test"
+				"defaultValue": "sales/sellthroughdatafiles/ace"
 			}
 		},
 		"folder": {
