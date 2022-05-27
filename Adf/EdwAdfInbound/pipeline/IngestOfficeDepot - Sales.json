@@ -1,5 +1,5 @@
 {
-	"name": "IngestTrueValue - Sales",
+	"name": "IngestOfficeDepot - Sales",
 	"properties": {
 		"activities": [
 			{
@@ -243,7 +243,7 @@
 		"parameters": {
 			"SourceNetworkPath": {
 				"type": "string",
-				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\True Value\\2022\\Sales"
+				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\Office Depot\\2022"
 			},
 			"DatalakeIngestRoot": {
 				"type": "string",
@@ -251,7 +251,7 @@
 			},
 			"DatalakeIngestRootPath": {
 				"type": "string",
-				"defaultValue": "sales/sellthroughdatafiles/truevalue"
+				"defaultValue": "sales/sellthroughdatafiles/officedepot"
 			}
 		},
 		"folder": {

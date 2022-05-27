@@ -1,26 +1,32 @@
 {
-	"name": "MainOfficeDepot",
+	"name": "MainOReilly",
 	"properties": {
 		"activities": [
 			{
-				"name": "IngestOfficeDepot",
+				"name": "IngestOReilly - Inventory",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "IngestOfficeDepot - Sales",
+						"referenceName": "IngestOReilly - Inventory",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
 				}
 			},
 			{
-				"name": "LoadOfficeDepot",
+				"name": "LoadOReilly",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "IngestOfficeDepot",
+						"activity": "IngestOReilly - Inventory",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "IngestOReilly - Sales",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -29,18 +35,18 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "LoadOfficeDepot",
+						"referenceName": "LoadOReilly",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
 				}
 			},
 			{
-				"name": "PopulateOfficeDepot",
+				"name": "PopulateOReilly",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "LoadOfficeDepot",
+						"activity": "LoadOReilly",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -49,7 +55,20 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "PopulateOfficeDepot",
+						"referenceName": "PopulateOReilly",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "IngestOReilly - Sales",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "IngestOReilly - Sales",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true

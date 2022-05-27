@@ -1,5 +1,5 @@
 {
-	"name": "IngestOfficeDepot-Sales",
+	"name": "IngestOReilly - Inventory",
 	"properties": {
 		"activities": [
 			{
@@ -76,7 +76,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-365))",
+									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-1))",
 									"type": "Expression"
 								},
 								"ifTrueActivities": [
@@ -120,6 +120,14 @@
 															"value": "@activity('GetFileLastModifiedDate').output.lastModified",
 															"type": "Expression"
 														}
+													},
+													{
+														"name": "IsSourceDeleted",
+														"value": ""
+													},
+													{
+														"name": "IsSourceDeletedDate",
+														"value": ""
 													}
 												],
 												"storeSettings": {
@@ -235,7 +243,7 @@
 		"parameters": {
 			"SourceNetworkPath": {
 				"type": "string",
-				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\Office Depot\\2022"
+				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\OReilly\\2022\\Inventory"
 			},
 			"DatalakeIngestRoot": {
 				"type": "string",
@@ -243,7 +251,7 @@
 			},
 			"DatalakeIngestRootPath": {
 				"type": "string",
-				"defaultValue": "sales/sellthroughdatafiles/officedepot"
+				"defaultValue": "sales/sellthroughdatafiles/oreilly"
 			}
 		},
 		"folder": {
