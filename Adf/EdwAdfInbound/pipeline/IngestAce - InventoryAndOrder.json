@@ -76,7 +76,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-365))",
+									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-1))",
 									"type": "Expression"
 								},
 								"ifTrueActivities": [
@@ -120,6 +120,14 @@
 															"value": "@activity('GetFileLastModifiedDate').output.lastModified",
 															"type": "Expression"
 														}
+													},
+													{
+														"name": "IsSourceDeleted",
+														"value": ""
+													},
+													{
+														"name": "IsSourceDeletedDate",
+														"value": ""
 													}
 												],
 												"storeSettings": {
@@ -236,7 +244,7 @@
 		"parameters": {
 			"SourceNetworkPath": {
 				"type": "string",
-				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\Ace\\2022"
+				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\Ace\\2022\\Inventory and Order Projection"
 			},
 			"DatalakeIngestRoot": {
 				"type": "string",

@@ -1,0 +1,64 @@
+{
+	"name": "MainAce",
+	"properties": {
+		"activities": [
+			{
+				"name": "IngestAce",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "IngestAce - InventoryAndOrder",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "LoadAce",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "IngestAce",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadAce",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PopulateAce",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "LoadAce",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PopulateAce",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "4-Orchestration"
+		},
+		"annotations": []
+	}
+}
