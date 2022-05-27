@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "IngestLowes",
+				"name": "IngestAce",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"userProperties": [],
@@ -16,11 +16,11 @@
 				}
 			},
 			{
-				"name": "LoadLowes",
+				"name": "LoadAce",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "IngestLowes",
+						"activity": "IngestAce",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -36,11 +36,11 @@
 				}
 			},
 			{
-				"name": "PopulateLowes",
+				"name": "PopulateAce",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "LoadLowes",
+						"activity": "LoadAce",
 						"dependencyConditions": [
 							"Succeeded"
 						]
