@@ -9,7 +9,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "IngestOReilly-Inventory",
+						"referenceName": "IngestOReilly - Inventory",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
