@@ -120,6 +120,10 @@
 															"value": "@activity('GetFileLastModifiedDate').output.lastModified",
 															"type": "Expression"
 														}
+													},
+													{
+														"name": "SalesDate",
+														"value": ""
 													}
 												],
 												"storeSettings": {
