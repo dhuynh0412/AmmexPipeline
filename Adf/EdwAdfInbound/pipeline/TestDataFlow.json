@@ -1,0 +1,9 @@
+{
+	"name": "TestDataFlow",
+	"properties": {
+		"folder": {
+			"name": "1-Ingest"
+		},
+		"annotations": []
+	}
+}
