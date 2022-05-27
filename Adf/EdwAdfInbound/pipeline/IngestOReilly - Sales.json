@@ -120,6 +120,18 @@
 															"value": "@activity('GetFileLastModifiedDate').output.lastModified",
 															"type": "Expression"
 														}
+													},
+													{
+														"name": "IsSourceDeleted",
+														"value": ""
+													},
+													{
+														"name": "IsSourceDeletedDate",
+														"value": ""
+													},
+													{
+														"name": "SalesDate",
+														"value": ""
 													}
 												],
 												"storeSettings": {
