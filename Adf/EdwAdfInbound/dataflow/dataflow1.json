@@ -12,7 +12,11 @@
 					"name": "source1"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "unpivot1"
@@ -46,7 +50,11 @@
 				"          {Article Name}),",
 				"     lateral: false,",
 				"     ignoreNullPivots: false,",
-				"     partitionBy('hash', 1)) ~> unpivot1"
+				"     partitionBy('hash', 1)) ~> unpivot1",
+				"unpivot1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
 			]
 		}
 	}
