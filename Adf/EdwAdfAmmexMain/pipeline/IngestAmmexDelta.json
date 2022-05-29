@@ -108,6 +108,12 @@
 								},
 								"enableStaging": false
 							},
+							"inputs": [
+								{
+									"referenceName": "DsSqlDenaliAmmex_EdwAdfPipelineReadOnly",
+									"type": "DatasetReference"
+								}
+							],
 							"outputs": [
 								{
 									"referenceName": "LsAdlAmmexEdwDestinationCsv",
