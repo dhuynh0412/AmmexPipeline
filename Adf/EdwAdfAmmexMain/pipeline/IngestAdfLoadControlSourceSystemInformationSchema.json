@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "AdfLoadControlSourceSystemInformationSchema",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
