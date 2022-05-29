@@ -26,8 +26,14 @@
 					},
 					"sink": {
 						"type": "SqlDWSink",
+						"preCopyScript": {
+							"value": "IF OBJECT_ID('[Loader].[AdfLoadControlSourceSystemInformationSchema]') IS NOT NULL    DROP TABLE [Loader].[AdfLoadControlSourceSystemInformationSchema];",
+							"type": "Expression"
+						},
 						"writeBehavior": "Insert",
-						"sqlWriterUseTableLock": false
+						"sqlWriterUseTableLock": false,
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
 					},
 					"enableStaging": false,
 					"translator": {
