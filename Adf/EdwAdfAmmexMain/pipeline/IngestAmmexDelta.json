@@ -108,12 +108,6 @@
 								},
 								"enableStaging": false
 							},
-							"inputs": [
-								{
-									"referenceName": "DsSqlDenaliAmmex_EDWExtractor",
-									"type": "DatasetReference"
-								}
-							],
 							"outputs": [
 								{
 									"referenceName": "LsAdlAmmexEdwDestinationCsv",
@@ -158,7 +152,7 @@
 									"partitionOption": "None"
 								},
 								"dataset": {
-									"referenceName": "DsSqlDenaliAmmex_EDWExtractor",
+									"referenceName": "DsSqlDenaliAmmex_EdwAdfPipelineReadOnly",
 									"type": "DatasetReference"
 								},
 								"firstRowOnly": true
