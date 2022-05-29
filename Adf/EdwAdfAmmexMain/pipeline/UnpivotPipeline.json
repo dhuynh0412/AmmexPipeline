@@ -19,9 +19,6 @@
 						"referenceName": "Unpivot",
 						"type": "DataFlowReference"
 					},
-					"staging": {
-						"folderPath": "ingest"
-					},
 					"compute": {
 						"coreCount": 8,
 						"computeType": "General"
@@ -30,6 +27,9 @@
 				}
 			}
 		],
+		"folder": {
+			"name": "ProtoType"
+		},
 		"annotations": []
 	}
 }
