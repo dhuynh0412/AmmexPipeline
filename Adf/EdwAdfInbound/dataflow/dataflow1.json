@@ -15,34 +15,55 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+						"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite_Unpivot",
 						"type": "DatasetReference"
 					},
-					"name": "Test"
+					"name": "sink1"
 				}
 			],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "unpivot1"
+				}
+			],
 			"scriptLines": [
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          {Manufacturer #} as string,",
+				"          Article as string,",
+				"          {Article Name} as string,",
+				"          {_col3_} as string,",
+				"          {_col4_} as string,",
+				"          {_col5_} as string,",
+				"          {_col6_} as string,",
+				"          {_col7_} as string,",
+				"          SourceFileName as string,",
+				"          PipelineName as string,",
+				"          LoadDate as string,",
+				"          FileLastModifiedDate as string,",
+				"          IsSourceDeleted as string,",
+				"          IsSourceDeletedDate as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     inferDriftedColumnTypes: true,",
-				"     ignoreNoFilesFound: false,",
-				"     rowUrlColumn: 'FileName') ~> source1",
-				"source1 sink(allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     input(",
-				"          {Location Type} as string,",
-				"          Dept as string,",
-				"          Class as string,",
-				"          {SKU Number} as string,",
-				"          {SKU Status} as string,",
-				"          {Quantity On Hand} as string,",
-				"          VPC as string,",
-				"          UPC as string,",
-				"          {Unit Sales} as string,",
-				"          {Retail Sales} as string,",
-				"          {Cost Sales} as string",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 unpivot(output(",
+				"          Test as string,",
+				"          {_col3_} as string",
 				"     ),",
+				"     ungroupBy(SourceFileName,",
+				"          PipelineName,",
+				"          LoadDate,",
+				"          FileLastModifiedDate,",
+				"          IsSourceDeleted,",
+				"          IsSourceDeletedDate,",
+				"          {Manufacturer #},",
+				"          Article,",
+				"          {Article Name}),",
+				"     lateral: false,",
+				"     ignoreNullPivots: false) ~> unpivot1",
+				"unpivot1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
 				"     updateable:false,",
@@ -52,7 +73,7 @@
 				"     staged: false,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> Test"
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
 			]
 		}
 	}
