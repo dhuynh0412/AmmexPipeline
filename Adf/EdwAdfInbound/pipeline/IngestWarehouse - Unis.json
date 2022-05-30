@@ -217,14 +217,8 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "DsSourceNetworkPathCsv",
-						"type": "DatasetReference",
-						"parameters": {
-							"SourceNetworkPath": {
-								"value": "@pipeline().parameters.SourceNetworkPath",
-								"type": "Expression"
-							}
-						}
+						"referenceName": "DsSourceNetworkPathExcel",
+						"type": "DatasetReference"
 					},
 					"fieldList": [
 						"childItems"
@@ -233,9 +227,6 @@
 						"type": "FileServerReadSettings",
 						"recursive": true,
 						"enablePartitionDiscovery": false
-					},
-					"formatSettings": {
-						"type": "DelimitedTextReadSettings"
 					}
 				}
 			}
@@ -243,7 +234,7 @@
 		"parameters": {
 			"SourceNetworkPath": {
 				"type": "string",
-				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\Office Depot\\2022"
+				"defaultValue": "General\\Ammex\\Power BI\\Supply Chain Data Project\\UNIS\\Invoice"
 			},
 			"DatalakeIngestRoot": {
 				"type": "string",
@@ -251,7 +242,7 @@
 			},
 			"DatalakeIngestRootPath": {
 				"type": "string",
-				"defaultValue": "sales/sellthroughdatafiles/officedepot"
+				"defaultValue": "warehouse/unis"
 			}
 		},
 		"folder": {
