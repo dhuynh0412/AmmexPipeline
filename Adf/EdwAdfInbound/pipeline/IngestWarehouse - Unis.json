@@ -76,7 +76,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-1))",
+									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-1100))",
 									"type": "Expression"
 								},
 								"ifTrueActivities": [
@@ -217,11 +217,15 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "DsSourceNetworkPathExcel_Unis",
+						"referenceName": "DsSourceNetworkPathExcel",
 						"type": "DatasetReference",
 						"parameters": {
 							"SourceNetworkPath": {
 								"value": "@pipeline().parameters.SourceNetworkPath",
+								"type": "Expression"
+							},
+							"SourceNetworkPathSheetName": {
+								"value": "@pipeline().parameters.SourceNetworkPathFileSheetName",
 								"type": "Expression"
 							}
 						}
