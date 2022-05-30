@@ -19,7 +19,7 @@
 					"source": {
 						"type": "SqlDWSource",
 						"sqlReaderQuery": {
-							"value": "SELECT \n\t\tSourceSchema = PARSENAME(SourceSchema, 1),\n\t\tSourceObject = PARSENAME(SourceObject, 1),\n\t\tDatalakeIngestRoot,\n\t\tDatalakeIngestRootPath,\n\t\tDatalakeIngestRootPathFileName\n\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = '[Ammex]'\n\t  AND [SourceObjectType] = 'Table'\n\t  AND [IsLoad] = 1\n\t  AND [IsLoadTesting] = 1",
+							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = '[Ammex]'\n\t  AND [SourceObjectType] = 'Table'\n\t  AND [SourceObject] = '[CN40300]'\n",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -82,6 +82,10 @@
 											}
 										}
 									],
+									"sqlReaderQuery": {
+										"value": "SELECT TOP 11 * FROM DBO.[CN40300]",
+										"type": "Expression"
+									},
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
@@ -99,17 +103,7 @@
 							"inputs": [
 								{
 									"referenceName": "DsSqlDenaliAmmex_EdwAdfPipelineReadOnly_Table",
-									"type": "DatasetReference",
-									"parameters": {
-										"SourceSchema": {
-											"value": "@{item().SourceSchema}",
-											"type": "Expression"
-										},
-										"SourceTable": {
-											"value": "@{item().SourceObject}",
-											"type": "Expression"
-										}
-									}
+									"type": "DatasetReference"
 								}
 							],
 							"outputs": [
