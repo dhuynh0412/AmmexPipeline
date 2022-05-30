@@ -223,6 +223,10 @@
 							"SourceNetworkPath": {
 								"value": "@pipeline().parameters.SourceNetworkPath",
 								"type": "Expression"
+							},
+							"SourceSheetName": {
+								"value": "@pipeline().parameters.SourceSheetName",
+								"type": "Expression"
 							}
 						}
 					},
@@ -249,6 +253,10 @@
 			"DatalakeIngestRootPath": {
 				"type": "string",
 				"defaultValue": "warehouse/unis"
+			},
+			"SourceSheetName": {
+				"type": "string",
+				"defaultValue": "Invoice"
 			}
 		},
 		"folder": {
