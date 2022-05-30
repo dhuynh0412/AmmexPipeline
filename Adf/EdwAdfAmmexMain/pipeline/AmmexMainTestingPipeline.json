@@ -5,7 +5,14 @@
 			{
 				"name": "IngestAmmexDeltaByQuery",
 				"type": "ExecutePipeline",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "ArchiveAmmexDelta",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
@@ -30,6 +37,19 @@
 				"typeProperties": {
 					"pipeline": {
 						"referenceName": "LoadAmmexDelta",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "ArchiveAmmexDelta",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "ArchiveAmmexDelta",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
