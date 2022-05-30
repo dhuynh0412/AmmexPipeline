@@ -1,0 +1,32 @@
+{
+	"name": "DsAdlsAmmexEdwArchive",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAdlsAmmexEdw",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"ArchiveDatalakeIngestRoot": {
+				"type": "string"
+			},
+			"ArchiveDatalakeIngestRootPath": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": {
+					"value": "@dataset().ArchiveDatalakeIngestRootPath",
+					"type": "Expression"
+				},
+				"fileSystem": {
+					"value": "@dataset().ArchiveDatalakeIngestRoot",
+					"type": "Expression"
+				}
+			}
+		}
+	}
+}
