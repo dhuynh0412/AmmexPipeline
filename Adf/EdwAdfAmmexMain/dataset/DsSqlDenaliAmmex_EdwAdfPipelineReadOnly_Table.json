@@ -5,26 +5,8 @@
 			"referenceName": "LsSqlDenaliAmmex_EdwAdfPipelineReadOnly",
 			"type": "LinkedServiceReference"
 		},
-		"parameters": {
-			"SourceSchema": {
-				"type": "string"
-			},
-			"SourceTable": {
-				"type": "string"
-			}
-		},
 		"annotations": [],
 		"type": "SqlServerTable",
-		"schema": [],
-		"typeProperties": {
-			"schema": {
-				"value": "@dataset().SourceSchema",
-				"type": "Expression"
-			},
-			"table": {
-				"value": "@dataset().SourceTable",
-				"type": "Expression"
-			}
-		}
+		"schema": []
 	}
 }
