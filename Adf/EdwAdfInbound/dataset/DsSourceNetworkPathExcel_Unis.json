@@ -1,5 +1,5 @@
 {
-	"name": "DsSourceNetworkPathExcel",
+	"name": "DsSourceNetworkPathExcel_Unis",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LsSourceNetworkRoot",
@@ -9,19 +9,19 @@
 			"SourceNetworkPath": {
 				"type": "string"
 			},
-			"SourceNetworkPathFileSheetName": {
+			"SourceNetworkPathSheetName": {
 				"type": "string"
 			}
 		},
 		"annotations": [],
 		"type": "Excel",
 		"typeProperties": {
+			"sheetName": {
+				"value": "@dataset().SourceNetworkPathSheetName",
+				"type": "Expression"
+			},
 			"location": {
 				"type": "FileServerLocation",
-				"fileName": {
-					"value": "@dataset().SourceNetworkPathFileSheetName",
-					"type": "Expression"
-				},
 				"folderPath": {
 					"value": "@dataset().SourceNetworkPath",
 					"type": "Expression"
