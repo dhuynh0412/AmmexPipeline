@@ -1,5 +1,5 @@
 {
-	"name": "DsSourceNetworkPathExcel_Unis",
+	"name": "DsSourceNetworkPathExcel",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LsSourceNetworkRoot",
