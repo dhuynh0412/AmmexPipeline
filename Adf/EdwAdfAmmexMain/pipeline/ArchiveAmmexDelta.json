@@ -83,14 +83,14 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "DsAdlsAmmexEdwArchive",
+									"referenceName": "DsAdlsAmmexEdwBinary",
 									"type": "DatasetReference",
 									"parameters": {
-										"ArchiveDatalakeIngestRoot": {
+										"DatalakeRoot": {
 											"value": "@{item().DatalakeIngestRoot}",
 											"type": "Expression"
 										},
-										"ArchiveDatalakeIngestRootPath": {
+										"DatalakeRootPath": {
 											"value": "@{item().DatalakeIngestRootPath}",
 											"type": "Expression"
 										}
@@ -99,14 +99,14 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "DsAdlsAmmexEdwArchive",
+									"referenceName": "DsAdlsAmmexEdwBinary",
 									"type": "DatasetReference",
 									"parameters": {
-										"ArchiveDatalakeIngestRoot": {
+										"DatalakeRoot": {
 											"value": "@{item().ArchiveDatalakeIngestRoot}",
 											"type": "Expression"
 										},
-										"ArchiveDatalakeIngestRootPath": {
+										"DatalakeRootPath": {
 											"value": "@{item().ArchiveDatalakeIngestRootPath}",
 											"type": "Expression"
 										}
