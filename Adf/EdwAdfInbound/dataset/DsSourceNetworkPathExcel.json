@@ -9,7 +9,7 @@
 			"SourceNetworkPath": {
 				"type": "string"
 			},
-			"SourceSheetName": {
+			"SourceNetworkPathFileSheetName": {
 				"type": "string"
 			}
 		},
@@ -19,7 +19,7 @@
 			"location": {
 				"type": "FileServerLocation",
 				"fileName": {
-					"value": "@dataset().SourceSheetName",
+					"value": "@dataset().SourceNetworkPathFileSheetName",
 					"type": "Expression"
 				},
 				"folderPath": {
