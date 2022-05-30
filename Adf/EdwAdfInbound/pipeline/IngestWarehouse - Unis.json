@@ -217,15 +217,11 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "DsSourceNetworkPathExcel",
+						"referenceName": "DsSourceNetworkPathExcel_Unis",
 						"type": "DatasetReference",
 						"parameters": {
 							"SourceNetworkPath": {
 								"value": "@pipeline().parameters.SourceNetworkPath",
-								"type": "Expression"
-							},
-							"SourceSheetName": {
-								"value": "@pipeline().parameters.SourceSheetName",
 								"type": "Expression"
 							}
 						}
@@ -244,7 +240,7 @@
 		"parameters": {
 			"SourceNetworkPath": {
 				"type": "string",
-				"defaultValue": "General\\Ammex\\Power BI\\Supply Chain Data Project\\UNIS\\Invoice"
+				"defaultValue": "General\\Ammex\\Power BI\\Supply Chain Data Project\\UNIS\\Invoice\\"
 			},
 			"DatalakeIngestRoot": {
 				"type": "string",
@@ -254,9 +250,9 @@
 				"type": "string",
 				"defaultValue": "warehouse/unis"
 			},
-			"SourceSheetName": {
+			"SourceNetworkPathFileSheetName": {
 				"type": "string",
-				"defaultValue": "Invoice"
+				"defaultValue": "Item Detail"
 			}
 		},
 		"folder": {
