@@ -1,0 +1,44 @@
+{
+	"name": "AmmexMainTestingPipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "IngestAmmexDeltaByQuery",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "IngestAmmexDeltaByQuery",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "LoadAmmexDelta",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "IngestAmmexDeltaByQuery",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadAmmexDelta",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "4-Orchestration"
+		},
+		"annotations": []
+	}
+}
