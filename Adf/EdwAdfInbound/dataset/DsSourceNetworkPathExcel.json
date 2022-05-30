@@ -8,9 +8,6 @@
 		"parameters": {
 			"SourceNetworkPath": {
 				"type": "string"
-			},
-			"SourceNetworkSheetname": {
-				"type": "string"
 			}
 		},
 		"annotations": [],
