@@ -218,7 +218,13 @@
 				"typeProperties": {
 					"dataset": {
 						"referenceName": "DsSourceNetworkPathExcel",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"SourceNetworkPath": {
+								"value": "@pipeline().parameters.SourceNetworkPath",
+								"type": "Expression"
+							}
+						}
 					},
 					"fieldList": [
 						"childItems"
