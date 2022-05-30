@@ -18,7 +18,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlDWSource",
-						"sqlReaderQuery": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = '[Ammex]'\n\t  AND [IsLoad] = 1\n\t  AND [SourceObjectType] = 'Table'\nORDER BY [SourceObject]",
+						"sqlReaderQuery": {
+							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = '[Ammex]'\n\t  AND [SourceObjectType] = 'Table'\n\t  AND [IsLoad] = 1\n\t  AND [IsLoadTesting] = 1",
+							"type": "Expression"
+						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -47,7 +50,6 @@
 						"type": "Expression"
 					},
 					"isSequential": false,
-					"batchCount": 4,
 					"activities": [
 						{
 							"name": "CdTableToDataLake",
