@@ -10,7 +10,7 @@
 				"type": "string"
 			},
 			"SourceSheetName": {
-				"type": "string"
+				"type": "object"
 			}
 		},
 		"annotations": [],
@@ -18,10 +18,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "FileServerLocation",
-				"fileName": {
-					"value": "@dataset().SourceSheetName",
-					"type": "Expression"
-				},
 				"folderPath": {
 					"value": "@dataset().SourceNetworkPath",
 					"type": "Expression"
