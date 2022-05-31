@@ -16,6 +16,10 @@
 		"annotations": [],
 		"type": "Excel",
 		"typeProperties": {
+			"sheetName": {
+				"value": "@dataset().SourceNetworkPathFileName",
+				"type": "Expression"
+			},
 			"location": {
 				"type": "FileServerLocation",
 				"fileName": {
