@@ -94,7 +94,7 @@
 										"userProperties": [],
 										"typeProperties": {
 											"source": {
-												"type": "DelimitedTextSource",
+												"type": "ExcelSource",
 												"additionalColumns": [
 													{
 														"name": "SourceFileName",
@@ -134,9 +134,6 @@
 													"type": "FileServerReadSettings",
 													"recursive": true,
 													"enablePartitionDiscovery": false
-												},
-												"formatSettings": {
-													"type": "DelimitedTextReadSettings"
 												}
 											},
 											"sink": {
@@ -162,7 +159,7 @@
 										},
 										"inputs": [
 											{
-												"referenceName": "DsSourceNetworkPathFileNameCsv",
+												"referenceName": "DsSourceNetworkPathFileNameExcel",
 												"type": "DatasetReference",
 												"parameters": {
 													"SourceNetworkPath": {
@@ -171,6 +168,10 @@
 													},
 													"SourceNetworkPathFileName": {
 														"value": "@item().name",
+														"type": "Expression"
+													},
+													"SourceNetworkPathSheetName": {
+														"value": "@pipeline().parameters.SourceNetworkPathFileSheetName",
 														"type": "Expression"
 													}
 												}
