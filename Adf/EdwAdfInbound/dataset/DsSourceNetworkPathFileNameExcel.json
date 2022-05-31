@@ -33,7 +33,8 @@
 					"value": "@dataset().SourceNetworkPath",
 					"type": "Expression"
 				}
-			}
+			},
+			"firstRowAsHeader": true
 		},
 		"schema": []
 	}
