@@ -11,6 +11,9 @@
 			},
 			"SourceNetworkPathFileName": {
 				"type": "string"
+			},
+			"SourceNetworkPathSheetName": {
+				"type": "string"
 			}
 		},
 		"annotations": [],
