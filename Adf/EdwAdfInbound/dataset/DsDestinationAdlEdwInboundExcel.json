@@ -40,7 +40,8 @@
 					"value": "@dataset().DatalakeIngestRoot",
 					"type": "Expression"
 				}
-			}
+			},
+			"firstRowAsHeader": true
 		},
 		"schema": []
 	}
