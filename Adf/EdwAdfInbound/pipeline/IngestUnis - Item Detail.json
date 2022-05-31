@@ -181,7 +181,21 @@
 										"outputs": [
 											{
 												"referenceName": "DsAdlsInboundEdwCsv",
-												"type": "DatasetReference"
+												"type": "DatasetReference",
+												"parameters": {
+													"DatalakeIngestRoot": {
+														"value": "@pipeline().parameters.DatalakeIngestRoot\n",
+														"type": "Expression"
+													},
+													"DatalakeIngestRootPath": {
+														"value": "@pipeline().parameters.DatalakeIngestRootPath\n",
+														"type": "Expression"
+													},
+													"DatalakeIngestRootPathFileName": {
+														"value": "@item().name",
+														"type": "Expression"
+													}
+												}
 											}
 										]
 									}
