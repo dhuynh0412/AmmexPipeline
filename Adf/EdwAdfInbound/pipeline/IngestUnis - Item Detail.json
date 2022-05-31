@@ -77,12 +77,12 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-1100))",
+									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-2))",
 									"type": "Expression"
 								},
 								"ifTrueActivities": [
 									{
-										"name": "CopyingCsvToDataLake",
+										"name": "CopyingExcelToDataLake",
 										"type": "Copy",
 										"dependsOn": [],
 										"policy": {
@@ -180,22 +180,8 @@
 										],
 										"outputs": [
 											{
-												"referenceName": "DsDestinationAdlEdwInboundCsv",
-												"type": "DatasetReference",
-												"parameters": {
-													"DatalakeIngestRoot": {
-														"value": "@pipeline().parameters.DatalakeIngestRoot",
-														"type": "Expression"
-													},
-													"DatalakeIngestRootPath": {
-														"value": "@pipeline().parameters.DatalakeIngestRootPath",
-														"type": "Expression"
-													},
-													"DatalakeIngestRootPathFileName": {
-														"value": "@item().name",
-														"type": "Expression"
-													}
-												}
+												"referenceName": "DsAdlsInboundEdwCsv",
+												"type": "DatasetReference"
 											}
 										]
 									}
