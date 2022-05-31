@@ -136,8 +136,7 @@
 													"enablePartitionDiscovery": false
 												},
 												"formatSettings": {
-													"type": "DelimitedTextReadSettings",
-													"skipLineCount": 7
+													"type": "DelimitedTextReadSettings"
 												}
 											},
 											"sink": {
@@ -163,7 +162,7 @@
 										},
 										"inputs": [
 											{
-												"referenceName": "DsSourceNetworkPathFileNameCsv_OReilly",
+												"referenceName": "DsSourceNetworkPathFileNameCsv",
 												"type": "DatasetReference",
 												"parameters": {
 													"SourceNetworkPath": {
