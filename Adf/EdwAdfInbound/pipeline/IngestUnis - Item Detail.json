@@ -35,7 +35,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"dataset": {
-									"referenceName": "DsSourceNetworkPathFileNameCsv",
+									"referenceName": "DsSourceNetworkPathFileNameExcel",
 									"type": "DatasetReference",
 									"parameters": {
 										"SourceNetworkPath": {
@@ -44,6 +44,10 @@
 										},
 										"SourceNetworkPathFileName": {
 											"value": "@item().name",
+											"type": "Expression"
+										},
+										"SourceNetworkPathSheetName": {
+											"value": "@pipeline().parameters.SourceNetworkPathFileSheetName",
 											"type": "Expression"
 										}
 									}
@@ -56,9 +60,6 @@
 									"type": "FileServerReadSettings",
 									"recursive": true,
 									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
 								}
 							}
 						},
