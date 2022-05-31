@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "IngestAce",
+				"name": "IngestAce - InventoryAndOrder",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"userProperties": [],
@@ -20,7 +20,13 @@
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "IngestAce",
+						"activity": "IngestAce - InventoryAndOrder",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "IngestAce - Sales",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -50,6 +56,19 @@
 				"typeProperties": {
 					"pipeline": {
 						"referenceName": "PopulateAce",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "IngestAce - Sales",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "IngestAce - Sales",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
