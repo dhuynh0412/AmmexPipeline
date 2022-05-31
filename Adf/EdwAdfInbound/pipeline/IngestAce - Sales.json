@@ -251,7 +251,7 @@
 			},
 			"DatalakeIngestRootPath": {
 				"type": "string",
-				"defaultValue": "sales/sellthroughdatafiles/test"
+				"defaultValue": "sales/sellthroughdatafiles/ace"
 			}
 		},
 		"folder": {
