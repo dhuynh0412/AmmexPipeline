@@ -20,7 +20,7 @@
 		"type": "Excel",
 		"typeProperties": {
 			"sheetName": {
-				"value": "@dataset().SourceNetworkPathFileName",
+				"value": "@dataset().SourceNetworkPathSheetName",
 				"type": "Expression"
 			},
 			"location": {
