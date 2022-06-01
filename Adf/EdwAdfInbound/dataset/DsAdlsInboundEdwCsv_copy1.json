@@ -5,17 +5,6 @@
 			"referenceName": "LsAdlEdwInbound",
 			"type": "LinkedServiceReference"
 		},
-		"parameters": {
-			"DatalakeIngestRoot": {
-				"type": "string"
-			},
-			"DatalakeIngestRootPath": {
-				"type": "string"
-			},
-			"DatalakeIngestRootPathFileName": {
-				"type": "string"
-			}
-		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
