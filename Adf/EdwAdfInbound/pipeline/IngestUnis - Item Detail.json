@@ -192,7 +192,7 @@
 														"type": "Expression"
 													},
 													"DatalakeIngestRootPathFileName": {
-														"value": "@item().name",
+														"value": "@item().Name",
 														"type": "Expression"
 													}
 												}
