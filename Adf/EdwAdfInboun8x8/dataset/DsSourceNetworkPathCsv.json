@@ -1,0 +1,56 @@
+{
+	"name": "DsSourceNetworkPathCsv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAdfEdwFtp",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FtpServerLocation",
+				"fileName": "*.csv",
+				"folderPath": "shares/CallDetailRecord"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "MasterCatalogName",
+				"type": "String"
+			},
+			{
+				"name": "ProductCode",
+				"type": "String"
+			},
+			{
+				"name": "LocationCode",
+				"type": "String"
+			},
+			{
+				"name": "ParentProductCode",
+				"type": "String"
+			},
+			{
+				"name": "StockAvailable",
+				"type": "String"
+			},
+			{
+				"name": "StockOnBackOrder",
+				"type": "String"
+			},
+			{
+				"name": "StockOnHand",
+				"type": "String"
+			},
+			{
+				"name": "StockUpdateOption",
+				"type": "String"
+			}
+		]
+	}
+}
