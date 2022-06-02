@@ -1,0 +1,70 @@
+{
+	"name": "DsSourceNetworkPathFileNameCsv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAdfEdwFtp",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"SourceNetworkPath": {
+				"type": "string"
+			},
+			"SourceNetworkPathFileName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FtpServerLocation",
+				"fileName": {
+					"value": "@dataset().SourceNetworkPathFileName",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().SourceNetworkPath",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "MasterCatalogName",
+				"type": "String"
+			},
+			{
+				"name": "ProductCode",
+				"type": "String"
+			},
+			{
+				"name": "LocationCode",
+				"type": "String"
+			},
+			{
+				"name": "ParentProductCode",
+				"type": "String"
+			},
+			{
+				"name": "StockAvailable",
+				"type": "String"
+			},
+			{
+				"name": "StockOnBackOrder",
+				"type": "String"
+			},
+			{
+				"name": "StockOnHand",
+				"type": "String"
+			},
+			{
+				"name": "StockUpdateOption",
+				"type": "String"
+			}
+		]
+	}
+}
