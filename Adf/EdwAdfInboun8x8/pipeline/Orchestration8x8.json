@@ -1,6 +1,61 @@
 {
 	"name": "Orchestration8x8",
 	"properties": {
+		"activities": [
+			{
+				"name": "Ingest8x8",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Ingest8x8",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Load8x8",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Ingest8x8",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Load8x8",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Populate8x8",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Load8x8",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Populate8x8",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
 		"folder": {
 			"name": "4 - Orchestration"
 		},
