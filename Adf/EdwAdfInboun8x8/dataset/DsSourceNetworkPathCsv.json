@@ -10,7 +10,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "FtpServerLocation",
-				"fileName": "*.csv",
 				"folderPath": "shares/CallDetailRecord"
 			},
 			"columnDelimiter": ",",
