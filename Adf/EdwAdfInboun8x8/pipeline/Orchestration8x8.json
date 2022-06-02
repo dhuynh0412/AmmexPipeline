@@ -1,6 +1,9 @@
 {
-	"name": "4 - Orchestration",
+	"name": "Orchestration8x8",
 	"properties": {
+		"folder": {
+			"name": "4 - Orchestration"
+		},
 		"annotations": []
 	}
 }

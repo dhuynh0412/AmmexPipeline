@@ -1,6 +1,9 @@
 {
-	"name": "3 - Populate",
+	"name": "Populate8x8",
 	"properties": {
+		"folder": {
+			"name": "3 - Populate"
+		},
 		"annotations": []
 	}
 }

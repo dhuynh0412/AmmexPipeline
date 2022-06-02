@@ -1,6 +1,9 @@
 {
-	"name": "1 - Ingest",
+	"name": "Ingest8x8",
 	"properties": {
+		"folder": {
+			"name": "1 - Ingest"
+		},
 		"annotations": []
 	}
 }
