@@ -6,14 +6,7 @@
 			{
 				"name": "LkGetSourceObjects",
 				"type": "Lookup",
-				"dependsOn": [
-					{
-						"activity": "ArchiveAmmexDelta",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -174,19 +167,6 @@
 							}
 						}
 					]
-				}
-			},
-			{
-				"name": "ArchiveAmmexDelta",
-				"type": "ExecutePipeline",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"pipeline": {
-						"referenceName": "ArchiveAmmexDelta",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true
 				}
 			}
 		],
