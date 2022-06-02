@@ -24,7 +24,8 @@
 					"dataset": {
 						"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			},
 			{
@@ -43,7 +44,93 @@
 					"items": {
 						"value": "@activity('GetListOfSourceFiles').output.value",
 						"type": "Expression"
-					}
+					},
+					"activities": [
+						{
+							"name": "ImportingCsvToEdw",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "AzureBlobFSReadSettings",
+										"recursive": true,
+										"wildcardFolderPath": {
+											"value": "@{item().DatalakeIngestRootPath}",
+											"type": "Expression"
+										},
+										"wildcardFileName": {
+											"value": "@{item().SourceNetworkPathFileName}",
+											"type": "Expression"
+										},
+										"enablePartitionDiscovery": false
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
+								},
+								"sink": {
+									"type": "SqlDWSink",
+									"writeBehavior": "Insert",
+									"sqlWriterUseTableLock": false
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "DsAdlsInbound8x8EdwCsv",
+									"type": "DatasetReference",
+									"parameters": {
+										"DatalakeIngestRoot": {
+											"value": "@{item().DatalakeIngestRoot}",
+											"type": "Expression"
+										},
+										"DatalakeIngestRootPath": {
+											"value": "@{item().DatalakeIngestRootPath}",
+											"type": "Expression"
+										},
+										"DatalakeIngestRootPathFileName": {
+											"value": "@toLower('')",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+									"type": "DatasetReference",
+									"parameters": {
+										"SinkSchema": {
+											"value": "@{item().SinkSchema}",
+											"type": "Expression"
+										},
+										"SinkTable": {
+											"value": "@{item().SinkTable}",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
 				}
 			}
 		],
