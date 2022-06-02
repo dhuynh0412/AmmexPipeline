@@ -61,6 +61,41 @@
 						}
 					}
 				]
+			},
+			{
+				"name": "Execute Proc ETL AdfLoadControlInboundMetadata_Populate",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "AdfLoadControlSourceSystemInformationSchema",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "EXEC [ETL].[AdfLoadControlInboundMetadata_Populate]",
+								"type": "Expression"
+							}
+						}
+					]
+				}
 			}
 		],
 		"folder": {

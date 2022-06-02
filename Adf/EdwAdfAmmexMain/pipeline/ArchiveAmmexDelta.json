@@ -1,7 +1,6 @@
 {
-	"name": "IngestAmmexDeltaByTable",
+	"name": "ArchiveAmmexDelta",
 	"properties": {
-		"description": "Get data from Ammex_Staging database on Matterhorn",
 		"activities": [
 			{
 				"name": "LkGetSourceObjects",
@@ -19,7 +18,7 @@
 					"source": {
 						"type": "SqlDWSource",
 						"sqlReaderQuery": {
-							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = '[Ammex]'\n\t  AND [SourceObjectType] = 'Table'\n\t  AND [SourceObject] = '[CN40300]'\n",
+							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = '[Ammex]'\n\t  AND [SourceObjectType] = 'Table'\n\t  AND [IsLoad] = 1\n\t  AND [IsLoadTesting] = 1",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -33,7 +32,7 @@
 				}
 			},
 			{
-				"name": "LoopingLkGetSourceObjects",
+				"name": "FetchingTableForArchiving",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -49,10 +48,9 @@
 						"value": "@activity('LkGetSourceObjects').output.value",
 						"type": "Expression"
 					},
-					"isSequential": false,
 					"activities": [
 						{
-							"name": "CdTableToDataLake",
+							"name": "Archiving",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -65,62 +63,51 @@
 							"userProperties": [],
 							"typeProperties": {
 								"source": {
-									"type": "SqlServerSource",
-									"additionalColumns": [
-										{
-											"name": "PipelineName",
-											"value": {
-												"value": "@pipeline().Pipeline",
-												"type": "Expression"
-											}
-										},
-										{
-											"name": "LoadDate",
-											"value": {
-												"value": "@utcNow()",
-												"type": "Expression"
-											}
-										}
-									],
-									"sqlReaderQuery": {
-										"value": "SELECT TOP 11 * FROM DBO.[CN40300]",
-										"type": "Expression"
-									},
-									"queryTimeout": "02:00:00",
-									"partitionOption": "None"
-								},
-								"sink": {
-									"type": "ParquetSink",
+									"type": "BinarySource",
 									"storeSettings": {
-										"type": "AzureBlobFSWriteSettings"
+										"type": "AzureBlobFSReadSettings",
+										"recursive": true,
+										"deleteFilesAfterCompletion": true
 									},
 									"formatSettings": {
-										"type": "ParquetWriteSettings"
+										"type": "BinaryReadSettings"
+									}
+								},
+								"sink": {
+									"type": "BinarySink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
 									}
 								},
 								"enableStaging": false
 							},
 							"inputs": [
 								{
-									"referenceName": "DsSqlDenaliAmmex_EdwAdfPipelineReadOnly_Table",
-									"type": "DatasetReference"
+									"referenceName": "DsAdlsAmmexEdwBinary",
+									"type": "DatasetReference",
+									"parameters": {
+										"DatalakeRoot": {
+											"value": "@{item().DatalakeIngestRoot}",
+											"type": "Expression"
+										},
+										"DatalakeRootPath": {
+											"value": "@{item().DatalakeIngestRootPath}",
+											"type": "Expression"
+										}
+									}
 								}
 							],
 							"outputs": [
 								{
-									"referenceName": "DsAdlAmmexEdwParquet",
+									"referenceName": "DsAdlsAmmexEdwBinary",
 									"type": "DatasetReference",
 									"parameters": {
-										"DatalakeIngestRoot": {
-											"value": "@{item().DatalakeIngestRoot}",
+										"DatalakeRoot": {
+											"value": "@{item().ArchiveDatalakeIngestRoot}",
 											"type": "Expression"
 										},
-										"DatalakeIngestRootPath": {
-											"value": "@{item().DatalakeIngestRootPath}",
-											"type": "Expression"
-										},
-										"DatalakeIngestRootPathFileName": {
-											"value": "@{item().DatalakeIngestRootPathFileName}",
+										"DatalakeRootPath": {
+											"value": "@{item().ArchiveDatalakeIngestRootPath}",
 											"type": "Expression"
 										}
 									}
@@ -134,8 +121,6 @@
 		"folder": {
 			"name": "1-Ingest"
 		},
-		"annotations": [],
-		"lastPublishTime": "2022-04-15T17:17:33Z"
-	},
-	"type": "Microsoft.DataFactory/factories/pipelines"
+		"annotations": []
+	}
 }
