@@ -22,6 +22,7 @@
 					"fieldList": [],
 					"storeSettings": {
 						"type": "FtpReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false,
 						"useBinaryTransfer": false,
 						"disableChunking": false
@@ -32,6 +33,19 @@
 				}
 			}
 		],
+		"parameters": {
+			"SourceNetworkPath": {
+				"type": "string",
+				"defaultValue": "ftp.smartfile.com/shares/CallDetailRecord"
+			},
+			"DatalakeIngestRoot": {
+				"type": "string",
+				"defaultValue": "8x8"
+			},
+			"DatalakeIngestRootPath": {
+				"type": "string"
+			}
+		},
 		"folder": {
 			"name": "1 - Ingest"
 		},
