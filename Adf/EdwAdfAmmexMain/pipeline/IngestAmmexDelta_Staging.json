@@ -115,22 +115,8 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "LsAdlAmmexEdwDestinationCsv",
-									"type": "DatasetReference",
-									"parameters": {
-										"DatalakeIngestRoot": {
-											"value": "@{item().DatalakeIngestRoot}",
-											"type": "Expression"
-										},
-										"DatalakeIngestRootPath": {
-											"value": "@{item().DatalakeIngestRootPath}",
-											"type": "Expression"
-										},
-										"DatalakeIngestRootPathFileName": {
-											"value": "@{item().DatalakeIngestRootPathFileName}",
-											"type": "Expression"
-										}
-									}
+									"referenceName": "DsAdlAmmexEdwDestinationCsv",
+									"type": "DatasetReference"
 								}
 							]
 						},
