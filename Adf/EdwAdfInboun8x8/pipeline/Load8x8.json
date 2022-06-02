@@ -28,7 +28,7 @@
 				}
 			},
 			{
-				"name": "LoopingThroughtDataLake",
+				"name": "LoopingThroughDataLake",
 				"type": "ForEach",
 				"dependsOn": [
 					{
