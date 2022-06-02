@@ -116,7 +116,21 @@
 							"outputs": [
 								{
 									"referenceName": "DsAdlAmmexEdwDestinationCsv",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"DatalakeIngestRoot": {
+											"value": "@{item().DatalakeIngestRoot}",
+											"type": "Expression"
+										},
+										"DatalakeIngestRootPath": {
+											"value": "@{item().DatalakeIngestRootPath}",
+											"type": "Expression"
+										},
+										"DatalakeIngestRootPathFileName": {
+											"value": "@{item().DatalakeIngestRootPathFileName}",
+											"type": "Expression"
+										}
+									}
 								}
 							]
 						},
