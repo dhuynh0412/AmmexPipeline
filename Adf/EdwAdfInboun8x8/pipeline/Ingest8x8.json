@@ -17,19 +17,10 @@
 				"typeProperties": {
 					"dataset": {
 						"referenceName": "DsSourceNetworkPathCsv",
-						"type": "DatasetReference",
-						"parameters": {
-							"SourceNetworkPath": {
-								"value": "@pipeline().parameters.SourceNetworkPath",
-								"type": "Expression"
-							}
-						}
+						"type": "DatasetReference"
 					},
 					"fieldList": [
-						{
-							"value": "@pipeline().parameters.SourceNetworkPathFileName",
-							"type": "Expression"
-						}
+						"childItems"
 					],
 					"storeSettings": {
 						"type": "FtpReadSettings",
