@@ -57,7 +57,48 @@
 						"value": "@activity('GetSourceNetworkFolder').output.childItems",
 						"type": "Expression"
 					},
-					"batchCount": 4
+					"batchCount": 4,
+					"activities": [
+						{
+							"name": "GetFileLastModifiedDate",
+							"type": "GetMetadata",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataset": {
+									"referenceName": "DsSourceNetworkPathFileNameCsv",
+									"type": "DatasetReference",
+									"parameters": {
+										"SourceNetworkPath": {
+											"value": "@pipeline().parameters.SourceNetworkPath",
+											"type": "Expression"
+										},
+										"SourceNetworkPathFileName": {
+											"value": "@item().name",
+											"type": "Expression"
+										}
+									}
+								},
+								"fieldList": [],
+								"storeSettings": {
+									"type": "FtpReadSettings",
+									"enablePartitionDiscovery": false,
+									"useBinaryTransfer": false,
+									"disableChunking": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							}
+						}
+					]
 				}
 			}
 		],
