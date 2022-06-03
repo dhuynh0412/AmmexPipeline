@@ -5,20 +5,12 @@
 			"referenceName": "LsAdfEdwFtp",
 			"type": "LinkedServiceReference"
 		},
-		"parameters": {
-			"SourceNetworkPath": {
-				"type": "string"
-			}
-		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "FtpServerLocation",
-				"folderPath": {
-					"value": "@dataset().SourceNetworkPath",
-					"type": "Expression"
-				}
+				"folderPath": "shares/CallDetailRecord"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
