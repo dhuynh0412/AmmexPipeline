@@ -190,7 +190,7 @@
 														"type": "Expression"
 													},
 													"DatalakeIngestRootPathFileName": {
-														"value": "@item().name",
+														"value": "@replace(item().name,'Sales - ','Sales' )",
 														"type": "Expression"
 													}
 												}
