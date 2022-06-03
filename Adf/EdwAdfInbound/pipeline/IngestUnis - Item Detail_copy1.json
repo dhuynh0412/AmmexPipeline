@@ -160,11 +160,15 @@
 										},
 										"inputs": [
 											{
-												"referenceName": "DsSourceNetworkPathExcel",
+												"referenceName": "DsSourceNetworkPathFileNameExcel",
 												"type": "DatasetReference",
 												"parameters": {
 													"SourceNetworkPath": {
 														"value": "@pipeline().parameters.SourceNetworkPath",
+														"type": "Expression"
+													},
+													"SourceNetworkPathFileName": {
+														"value": "@item().name",
 														"type": "Expression"
 													},
 													"SourceNetworkPathSheetName": {
