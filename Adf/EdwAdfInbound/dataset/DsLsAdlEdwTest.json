@@ -1,5 +1,5 @@
 {
-	"name": "DsLsAdEdwTest",
+	"name": "DsLsAdlEdwTest",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LsAdlEdwInbound",
