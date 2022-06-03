@@ -1,0 +1,81 @@
+{
+	"name": "dataflow2",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DsLsAdlEdwTest",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite_Unpivot",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "unpivot1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {Manufacturer #} as string,",
+				"          Article as string,",
+				"          {Article Name} as string,",
+				"          {_col3_} as string,",
+				"          {_col4_} as string,",
+				"          {_col5_} as string,",
+				"          {_col6_} as string,",
+				"          {_col7_} as string,",
+				"          SourceFileName as string,",
+				"          PipelineName as string,",
+				"          LoadDate as string,",
+				"          FileLastModifiedDate as timestamp,",
+				"          IsSourceDeleted as string,",
+				"          IsSourceDeletedDate as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     inferDriftedColumnTypes: true,",
+				"     ignoreNoFilesFound: false,",
+				"     skipLines: 8) ~> source1",
+				"source1 unpivot(output(",
+				"          Test as string,",
+				"          {_col3_} as string",
+				"     ),",
+				"     ungroupBy({Manufacturer #},",
+				"          Article,",
+				"          {Article Name},",
+				"          SourceFileName,",
+				"          PipelineName,",
+				"          LoadDate,",
+				"          FileLastModifiedDate,",
+				"          IsSourceDeleted,",
+				"          IsSourceDeletedDate),",
+				"     lateral: false,",
+				"     ignoreNullPivots: false) ~> unpivot1",
+				"unpivot1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     staged: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+			]
+		}
+	}
+}
