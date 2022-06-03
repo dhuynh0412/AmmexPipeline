@@ -217,7 +217,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "DsSourceNetworkPathFileNameCsv_OReilly",
+						"referenceName": "DsSourceNetworkPathCsvTest",
 						"type": "DatasetReference",
 						"parameters": {
 							"SourceNetworkPath": {
