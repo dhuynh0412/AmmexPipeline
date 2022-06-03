@@ -111,7 +111,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-1))",
+									"value": "@greaterOrEquals(activity('LastUpdatedDate').output.lastModified,adddays(utcnow(),-1))",
 									"type": "Expression"
 								},
 								"ifTrueActivities": [
