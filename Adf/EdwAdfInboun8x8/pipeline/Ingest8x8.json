@@ -25,7 +25,12 @@
 							}
 						}
 					},
-					"fieldList": [],
+					"fieldList": [
+						{
+							"value": "@pipeline().parameters.SourceNetworkPathFileName",
+							"type": "Expression"
+						}
+					],
 					"storeSettings": {
 						"type": "FtpReadSettings",
 						"enablePartitionDiscovery": false,
