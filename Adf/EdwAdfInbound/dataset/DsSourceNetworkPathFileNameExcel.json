@@ -20,7 +20,7 @@
 		"type": "Excel",
 		"typeProperties": {
 			"sheetName": {
-				"value": "@dataset().SourceNetworkPathFileName",
+				"value": "@dataset().SourceNetworkPathSheetName",
 				"type": "Expression"
 			},
 			"location": {
@@ -33,7 +33,8 @@
 					"value": "@dataset().SourceNetworkPath",
 					"type": "Expression"
 				}
-			}
+			},
+			"firstRowAsHeader": true
 		},
 		"schema": []
 	}
