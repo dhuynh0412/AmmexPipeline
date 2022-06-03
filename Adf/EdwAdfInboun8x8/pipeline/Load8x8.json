@@ -64,6 +64,7 @@
 									"storeSettings": {
 										"type": "FtpReadSettings",
 										"recursive": true,
+										"wildcardFileName": "*",
 										"enablePartitionDiscovery": false,
 										"useBinaryTransfer": false,
 										"disableChunking": false
