@@ -217,11 +217,15 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "DsSourceNetworkPathCsv",
+						"referenceName": "DsSourceNetworkPathExcel",
 						"type": "DatasetReference",
 						"parameters": {
 							"SourceNetworkPath": {
 								"value": "@pipeline().parameters.SourceNetworkPath",
+								"type": "Expression"
+							},
+							"SourceNetworkPathSheetName": {
+								"value": "@pipeline().parameters.SourceNetworkPathSheetName",
 								"type": "Expression"
 							}
 						}
@@ -233,9 +237,6 @@
 						"type": "FileServerReadSettings",
 						"recursive": true,
 						"enablePartitionDiscovery": false
-					},
-					"formatSettings": {
-						"type": "DelimitedTextReadSettings"
 					}
 				}
 			}
@@ -252,6 +253,10 @@
 			"DatalakeIngestRootPath": {
 				"type": "string",
 				"defaultValue": "sales/sellthroughdatafiles/oreilly"
+			},
+			"SourceNetworkPathSheetName": {
+				"type": "string",
+				"defaultValue": "Item Detail"
 			}
 		},
 		"folder": {
