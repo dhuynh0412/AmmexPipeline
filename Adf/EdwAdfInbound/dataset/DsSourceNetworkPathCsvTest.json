@@ -15,10 +15,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "FileServerLocation",
-				"folderPath": {
-					"value": "@dataset().SourceNetworkPath",
-					"type": "Expression"
-				}
+				"fileName": "Sales - 2022.1.12.csv",
+				"folderPath": "General/Ammex/Sales/Sell Through Data Files/Ace/2022"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
