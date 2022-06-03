@@ -62,17 +62,11 @@
 								"source": {
 									"type": "DelimitedTextSource",
 									"storeSettings": {
-										"type": "AzureBlobFSReadSettings",
+										"type": "FtpReadSettings",
 										"recursive": true,
-										"wildcardFolderPath": {
-											"value": "@{item().DatalakeIngestRootPath}",
-											"type": "Expression"
-										},
-										"wildcardFileName": {
-											"value": "@{item().SourceNetworkPathFileName}",
-											"type": "Expression"
-										},
-										"enablePartitionDiscovery": false
+										"enablePartitionDiscovery": false,
+										"useBinaryTransfer": false,
+										"disableChunking": false
 									},
 									"formatSettings": {
 										"type": "DelimitedTextReadSettings"
@@ -95,22 +89,8 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "DsAdlsInbound8x8EdwCsv",
-									"type": "DatasetReference",
-									"parameters": {
-										"DatalakeIngestRoot": {
-											"value": "@{item().DatalakeIngestRoot}",
-											"type": "Expression"
-										},
-										"DatalakeIngestRootPath": {
-											"value": "@{item().DatalakeIngestRootPath}",
-											"type": "Expression"
-										},
-										"DatalakeIngestRootPathFileName": {
-											"value": "@toLower('')",
-											"type": "Expression"
-										}
-									}
+									"referenceName": "DsSourceNetworkPathCsv",
+									"type": "DatasetReference"
 								}
 							],
 							"outputs": [
