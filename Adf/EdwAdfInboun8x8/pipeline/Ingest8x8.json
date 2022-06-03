@@ -42,6 +42,10 @@
 			"SourceNetworkPath": {
 				"type": "string",
 				"defaultValue": "ftp.smartfile.com"
+			},
+			"SourceNetworkPathFileName": {
+				"type": "string",
+				"defaultValue": "shares/CallDetailRecord"
 			}
 		},
 		"folder": {
