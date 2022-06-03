@@ -35,7 +35,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"dataset": {
-									"referenceName": "DsSourceNetworkPathFileNameCsv",
+									"referenceName": "DsSourceNetworkPathFileNameCsv_OReilly",
 									"type": "DatasetReference",
 									"parameters": {
 										"SourceNetworkPath": {
@@ -43,7 +43,7 @@
 											"type": "Expression"
 										},
 										"SourceNetworkPathFileName": {
-											"value": "@item().name",
+											"value": "@item().NAME",
 											"type": "Expression"
 										}
 									}
@@ -162,7 +162,7 @@
 										},
 										"inputs": [
 											{
-												"referenceName": "DsSourceNetworkPathFileNameCsv",
+												"referenceName": "DsSourceNetworkPathFileNameCsv_OReilly",
 												"type": "DatasetReference",
 												"parameters": {
 													"SourceNetworkPath": {
