@@ -35,7 +35,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"dataset": {
-									"referenceName": "DsSourceNetworkPathFileNameCsv",
+									"referenceName": "DsSourceNetworkPathFileNameExcel",
 									"type": "DatasetReference",
 									"parameters": {
 										"SourceNetworkPath": {
@@ -44,6 +44,10 @@
 										},
 										"SourceNetworkPathFileName": {
 											"value": "@item().name",
+											"type": "Expression"
+										},
+										"SourceNetworkPathSheetName": {
+											"value": "@pipeline().parameters.SourceNetworkPathSheetName",
 											"type": "Expression"
 										}
 									}
@@ -56,9 +60,6 @@
 									"type": "FileServerReadSettings",
 									"recursive": true,
 									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
 								}
 							}
 						},
@@ -76,7 +77,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-1))",
+									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-50))",
 									"type": "Expression"
 								},
 								"ifTrueActivities": [
@@ -94,7 +95,7 @@
 										"userProperties": [],
 										"typeProperties": {
 											"source": {
-												"type": "DelimitedTextSource",
+												"type": "ExcelSource",
 												"additionalColumns": [
 													{
 														"name": "SourceFileName",
@@ -134,9 +135,6 @@
 													"type": "FileServerReadSettings",
 													"recursive": true,
 													"enablePartitionDiscovery": false
-												},
-												"formatSettings": {
-													"type": "DelimitedTextReadSettings"
 												}
 											},
 											"sink": {
@@ -162,15 +160,15 @@
 										},
 										"inputs": [
 											{
-												"referenceName": "DsSourceNetworkPathFileNameCsv",
+												"referenceName": "DsSourceNetworkPathExcel",
 												"type": "DatasetReference",
 												"parameters": {
 													"SourceNetworkPath": {
 														"value": "@pipeline().parameters.SourceNetworkPath",
 														"type": "Expression"
 													},
-													"SourceNetworkPathFileName": {
-														"value": "@item().name",
+													"SourceNetworkPathSheetName": {
+														"value": "@pipeline().parameters.SourceNetworkPathSheetName",
 														"type": "Expression"
 													}
 												}
