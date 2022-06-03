@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "DsSourceNetworkPathCsv",
+						"referenceName": "DsSourceNetworkPathFTP",
 						"type": "DatasetReference",
 						"parameters": {
 							"SourceNetworkPath": {
@@ -73,7 +73,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"dataset": {
-									"referenceName": "DsSourceNetworkPathFileNameCsv",
+									"referenceName": "DsSourceNetworkPathFileNameFTP",
 									"type": "DatasetReference",
 									"parameters": {
 										"SourceNetworkPath": {
@@ -86,9 +86,13 @@
 										}
 									}
 								},
-								"fieldList": [],
+								"fieldList": [
+									"lastModified",
+									"itemName"
+								],
 								"storeSettings": {
 									"type": "FtpReadSettings",
+									"recursive": true,
 									"enablePartitionDiscovery": false,
 									"useBinaryTransfer": false,
 									"disableChunking": false
@@ -112,7 +116,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-1))",
+									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-10))",
 									"type": "Expression"
 								},
 								"ifTrueActivities": [
@@ -201,7 +205,7 @@
 										},
 										"inputs": [
 											{
-												"referenceName": "DsSourceNetworkPathFileNameCsv",
+												"referenceName": "DsSourceNetworkPathFileNameFTP",
 												"type": "DatasetReference",
 												"parameters": {
 													"SourceNetworkPath": {
@@ -246,7 +250,7 @@
 		"parameters": {
 			"SourceNetworkPath": {
 				"type": "string",
-				"defaultValue": "ftp.smartfile.com"
+				"defaultValue": "shares/CallDetailRecord"
 			},
 			"DatalakeIngestRoot": {
 				"type": "string",
