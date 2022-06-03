@@ -91,7 +91,10 @@
 							"inputs": [
 								{
 									"referenceName": "DsSourceNetworkPathCsv",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"SourceNetworkPath": "ftp.smartfile.com"
+									}
 								}
 							],
 							"outputs": [
