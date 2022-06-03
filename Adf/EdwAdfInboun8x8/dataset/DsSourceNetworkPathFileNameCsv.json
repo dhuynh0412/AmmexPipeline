@@ -18,8 +18,12 @@
 		"typeProperties": {
 			"location": {
 				"type": "FtpServerLocation",
-				"folderPath": {
+				"fileName": {
 					"value": "@dataset().SourceNetworkPathFileName",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().SourceNetworkPath",
 					"type": "Expression"
 				}
 			},
