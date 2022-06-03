@@ -246,7 +246,7 @@
 		"parameters": {
 			"SourceNetworkPath": {
 				"type": "string",
-				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\OReilly\\2022\\Inventory"
+				"defaultValue": "General\\Ammex\\Power BI\\Supply Chain Data Project\\UNIS\\Invoice"
 			},
 			"DatalakeIngestRoot": {
 				"type": "string",
@@ -254,7 +254,7 @@
 			},
 			"DatalakeIngestRootPath": {
 				"type": "string",
-				"defaultValue": "sales/sellthroughdatafiles/oreilly"
+				"defaultValue": "warehouse/unis/"
 			},
 			"SourceNetworkPathSheetName": {
 				"type": "string",
