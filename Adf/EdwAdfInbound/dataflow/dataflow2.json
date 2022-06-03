@@ -72,9 +72,20 @@
 				"     truncate:true,",
 				"     format: 'table',",
 				"     staged: false,",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          {Manufacturer #},",
+				"          Article,",
+				"          {Article Name},",
+				"          SourceFileName,",
+				"          PipelineName,",
+				"          LoadDate,",
+				"          FileLastModifiedDate,",
+				"          IsSourceDeleted,",
+				"          IsSourceDeletedDate,",
+				"          {Period Shipped},",
+				"          {Sold Item}",
+				"     )) ~> sink1"
 			]
 		}
 	}
