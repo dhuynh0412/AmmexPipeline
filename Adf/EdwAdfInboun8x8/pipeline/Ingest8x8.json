@@ -58,7 +58,7 @@
 					"batchCount": 4,
 					"activities": [
 						{
-							"name": "GetFileLastModifiedDate",
+							"name": "LastUpdatedDate",
 							"type": "GetMetadata",
 							"dependsOn": [],
 							"policy": {
@@ -87,6 +87,7 @@
 								"fieldList": [],
 								"storeSettings": {
 									"type": "FtpReadSettings",
+									"recursive": true,
 									"enablePartitionDiscovery": false,
 									"useBinaryTransfer": false,
 									"disableChunking": false
@@ -101,7 +102,7 @@
 							"type": "IfCondition",
 							"dependsOn": [
 								{
-									"activity": "GetFileLastModifiedDate",
+									"activity": "LastUpdatedDate",
 									"dependencyConditions": [
 										"Succeeded"
 									]
