@@ -1,0 +1,48 @@
+{
+	"name": "DsDestinationAdlEdwInboundExcel_Test",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAdlEdwInbound",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"DatalakeIngestRoot": {
+				"type": "string"
+			},
+			"DatalakeIngestRootPath": {
+				"type": "string"
+			},
+			"DatalakeIngestRootPathFileName": {
+				"type": "string"
+			},
+			"DatalakeIngestRootPathSheetName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": {
+				"value": "@dataset().DatalakeIngestRootPathSheetName",
+				"type": "Expression"
+			},
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().DatalakeIngestRootPathFileName",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().DatalakeIngestRootPath",
+					"type": "Expression"
+				},
+				"fileSystem": {
+					"value": "@dataset().DatalakeIngestRoot",
+					"type": "Expression"
+				}
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": []
+	}
+}
