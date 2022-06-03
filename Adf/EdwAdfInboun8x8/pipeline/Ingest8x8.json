@@ -17,13 +17,20 @@
 				"typeProperties": {
 					"dataset": {
 						"referenceName": "DsSourceNetworkPathCsv",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"SourceNetworkPath": {
+								"value": "@pipeline().parameters.SourceNetworkPath",
+								"type": "Expression"
+							}
+						}
 					},
 					"fieldList": [
 						"childItems"
 					],
 					"storeSettings": {
 						"type": "FtpReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false,
 						"useBinaryTransfer": false,
 						"disableChunking": false
@@ -39,7 +46,11 @@
 				"type": "string",
 				"defaultValue": "ftp.smartfile.com"
 			},
-			"SourceNetworkPathFileName": {
+			"DatalakeIngestRoot": {
+				"type": "string",
+				"defaultValue": "8x8"
+			},
+			"DatalakeIngestRootPath": {
 				"type": "string",
 				"defaultValue": "shares/CallDetailRecord"
 			}
