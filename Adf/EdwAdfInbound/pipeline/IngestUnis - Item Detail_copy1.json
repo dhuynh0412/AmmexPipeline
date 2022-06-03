@@ -192,7 +192,7 @@
 														"type": "Expression"
 													},
 													"DatalakeIngestRootPathFileName": {
-														"value": "@if(equals(item().type,'xlxs'),concat(item().name,'.csv'),'.csv')\n",
+														"value": "@item().Name",
 														"type": "Expression"
 													}
 												}
