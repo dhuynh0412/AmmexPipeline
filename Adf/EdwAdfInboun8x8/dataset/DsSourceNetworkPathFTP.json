@@ -1,0 +1,30 @@
+{
+	"name": "DsSourceNetworkPathFTP",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAdfEdwFtp",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"SourceNetworkPath": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FtpServerLocation",
+				"folderPath": {
+					"value": "@dataset().SourceNetworkPath",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
