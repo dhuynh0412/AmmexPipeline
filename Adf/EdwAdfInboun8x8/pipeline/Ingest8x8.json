@@ -178,8 +178,7 @@
 													"disableChunking": false
 												},
 												"formatSettings": {
-													"type": "DelimitedTextReadSettings",
-													"skipLineCount": 5
+													"type": "DelimitedTextReadSettings"
 												}
 											},
 											"sink": {
