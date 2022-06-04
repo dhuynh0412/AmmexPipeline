@@ -60,18 +60,9 @@
 							"userProperties": [],
 							"typeProperties": {
 								"source": {
-									"type": "DelimitedTextSource",
-									"storeSettings": {
-										"type": "FtpReadSettings",
-										"recursive": true,
-										"wildcardFileName": "*",
-										"enablePartitionDiscovery": false,
-										"useBinaryTransfer": false,
-										"disableChunking": false
-									},
-									"formatSettings": {
-										"type": "DelimitedTextReadSettings"
-									}
+									"type": "SqlDWSource",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
 								},
 								"sink": {
 									"type": "SqlDWSink",
@@ -90,7 +81,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "DsSourceNetworkPathCsv",
+									"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
 									"type": "DatasetReference"
 								}
 							],
