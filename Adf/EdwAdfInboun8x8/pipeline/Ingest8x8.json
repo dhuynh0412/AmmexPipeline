@@ -116,7 +116,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-10))",
+									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-100))",
 									"type": "Expression"
 								},
 								"ifTrueActivities": [
@@ -190,7 +190,7 @@
 												"formatSettings": {
 													"type": "DelimitedTextWriteSettings",
 													"quoteAllText": true,
-													"fileExtension": ".txt"
+													"fileExtension": ".csv"
 												}
 											},
 											"enableStaging": false,
