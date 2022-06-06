@@ -60,7 +60,14 @@
 				"     truncate:true,",
 				"     format: 'table',",
 				"     staged: false,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          {Manufacturer #} = { Manufacturer #},",
+				"          Article,",
+				"          {Article Name},",
+				"          {Period Shipped},",
+				"          {Sold Item}",
+				"     )) ~> sink1"
 			]
 		}
 	}
