@@ -60,9 +60,23 @@
 							"userProperties": [],
 							"typeProperties": {
 								"source": {
-									"type": "SqlDWSource",
-									"queryTimeout": "02:00:00",
-									"partitionOption": "None"
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "AzureBlobFSReadSettings",
+										"recursive": true,
+										"wildcardFolderPath": {
+											"value": "@{item().DatalakeIngestRootPath}",
+											"type": "Expression"
+										},
+										"wildcardFileName": {
+											"value": "@{item().SourceNetworkPathFileName}",
+											"type": "Expression"
+										},
+										"enablePartitionDiscovery": false
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
 								},
 								"sink": {
 									"type": "SqlDWSink",
@@ -81,8 +95,22 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
-									"type": "DatasetReference"
+									"referenceName": "DsAdlsInboundEdw8x8Csv",
+									"type": "DatasetReference",
+									"parameters": {
+										"DatalakeIngestRoot": {
+											"value": "@{item().DatalakeIngestRoot}",
+											"type": "Expression"
+										},
+										"DatalakeIngestRootPath": {
+											"value": "@{item().DatalakeIngestRootPath}",
+											"type": "Expression"
+										},
+										"DatalakeIngestRootPathFileName": {
+											"value": "@toLower('')",
+											"type": "Expression"
+										}
+									}
 								}
 							],
 							"outputs": [
