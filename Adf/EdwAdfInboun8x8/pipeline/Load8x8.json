@@ -81,7 +81,9 @@
 								"sink": {
 									"type": "SqlDWSink",
 									"writeBehavior": "Insert",
-									"sqlWriterUseTableLock": false
+									"sqlWriterUseTableLock": false,
+									"tableOption": "autoCreate",
+									"disableMetricsCollection": false
 								},
 								"enableStaging": false,
 								"translator": {
