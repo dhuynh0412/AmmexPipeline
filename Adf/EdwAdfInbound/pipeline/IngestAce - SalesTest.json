@@ -95,41 +95,6 @@
 										"typeProperties": {
 											"source": {
 												"type": "DelimitedTextSource",
-												"additionalColumns": [
-													{
-														"name": "SourceFileName",
-														"value": "$$FILEPATH"
-													},
-													{
-														"name": "PipelineName",
-														"value": {
-															"value": "@pipeline().Pipeline",
-															"type": "Expression"
-														}
-													},
-													{
-														"name": "LoadDate",
-														"value": {
-															"value": "@utcNow()",
-															"type": "Expression"
-														}
-													},
-													{
-														"name": "FileLastModifiedDate",
-														"value": {
-															"value": "@activity('GetFileLastModifiedDate').output.lastModified",
-															"type": "Expression"
-														}
-													},
-													{
-														"name": "IsSourceDeleted",
-														"value": ""
-													},
-													{
-														"name": "IsSourceDeletedDate",
-														"value": ""
-													}
-												],
 												"storeSettings": {
 													"type": "FileServerReadSettings",
 													"recursive": true,
