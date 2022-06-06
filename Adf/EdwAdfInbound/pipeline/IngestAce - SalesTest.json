@@ -98,7 +98,7 @@
 												"additionalColumns": [
 													{
 														"name": "SourceFileName",
-														"value": "$$COLUMN:$$FILEPATH"
+														"value": "$$FILEPATH"
 													},
 													{
 														"name": "PipelineName",
