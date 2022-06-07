@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"folderPath": "sales/sellthroughdatafiles/test",
+				"folderPath": "sales/sellthroughdatafiles/ace/sales",
 				"container": "finance"
 			},
 			"columnDelimiter": ",",
