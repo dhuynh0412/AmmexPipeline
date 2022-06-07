@@ -23,7 +23,7 @@
 			],
 			"transformations": [
 				{
-					"name": "unpivot1"
+					"name": "UnpivotCSV"
 				}
 			],
 			"scriptLines": [
@@ -58,8 +58,8 @@
 				"          {Article Name},",
 				"          FileName),",
 				"     lateral: false,",
-				"     ignoreNullPivots: false) ~> unpivot1",
-				"unpivot1 sink(allowSchemaDrift: true,",
+				"     ignoreNullPivots: false) ~> UnpivotCSV",
+				"UnpivotCSV sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
