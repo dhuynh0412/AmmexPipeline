@@ -1,15 +1,15 @@
 {
-	"name": "dataflow2_3",
+	"name": "AceSales_Unpivot",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "DsAbsInboundEdw",
+						"referenceName": "DsAbsInboundEdw_AceSales",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "GetCSVfromDataLake"
 				}
 			],
 			"sinks": [
@@ -48,8 +48,8 @@
 				"     inferDriftedColumnTypes: true,",
 				"     ignoreNoFilesFound: false,",
 				"     rowUrlColumn: 'FileName',",
-				"     skipLines: 8) ~> source1",
-				"source1 unpivot(output(",
+				"     skipLines: 8) ~> GetCSVfromDataLake",
+				"GetCSVfromDataLake unpivot(output(",
 				"          {Period Shipped} as string,",
 				"          {Sold Item} as string",
 				"     ),",
@@ -65,7 +65,7 @@
 				"     insertable:true,",
 				"     updateable:false,",
 				"     upsertable:false,",
-				"     truncate:true,",
+				"     recreate:true,",
 				"     format: 'table',",
 				"     staged: false,",
 				"     errorHandlingOption: 'stopOnFirstError',",
