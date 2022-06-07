@@ -1,0 +1,22 @@
+{
+	"name": "DsSourceNetworkPathCsvTest_copy1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsSourceNetworkRoot",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation",
+				"folderPath": "General/Ammex/Sales/Sell Through Data Files/Ace/2022/Test"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": false,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
