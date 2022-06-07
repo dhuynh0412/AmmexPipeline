@@ -249,7 +249,7 @@
 		"parameters": {
 			"SourceNetworkPath": {
 				"type": "string",
-				"defaultValue": "/shares/CallDetailRecord"
+				"defaultValue": "/shares/CallDetailRecord/Archieve"
 			},
 			"DatalakeIngestRoot": {
 				"type": "string",
