@@ -18,7 +18,7 @@
 						"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite_Unpivot",
 						"type": "DatasetReference"
 					},
-					"name": "sink1"
+					"name": "UnpivotCSVtoEDW"
 				}
 			],
 			"transformations": [
@@ -76,7 +76,7 @@
 				"          FileName,",
 				"          {Period Shipped},",
 				"          {Sold Item}",
-				"     )) ~> sink1"
+				"     )) ~> UnpivotCSVtoEDW"
 			]
 		}
 	}
