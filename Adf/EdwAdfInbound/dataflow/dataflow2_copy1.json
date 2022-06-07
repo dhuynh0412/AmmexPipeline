@@ -41,7 +41,6 @@
 				"     validateSchema: false,",
 				"     inferDriftedColumnTypes: true,",
 				"     ignoreNoFilesFound: false,",
-				"     rowUrlColumn: 'File',",
 				"     skipLines: 8) ~> source1",
 				"source1 unpivot(output(",
 				"          {Period Shipped} as string,",
