@@ -65,7 +65,7 @@
 				"     errorHandlingOption: 'stopOnFirstError',",
 				"     mapColumn(",
 				"          {Manufacturer #},",
-				"          Article,",
+				"          Article = {Article Name},",
 				"          {Article Name},",
 				"          FileName,",
 				"          {Period Shipped},",
