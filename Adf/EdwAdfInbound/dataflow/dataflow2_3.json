@@ -74,7 +74,7 @@
 				"          Article,",
 				"          {Article Name},",
 				"          FileName,",
-				"          {Period Shipped} = {Manufacturer #},",
+				"          {Period Shipped},",
 				"          {Sold Item}",
 				"     )) ~> sink1"
 			]
