@@ -1,5 +1,5 @@
 {
-	"name": "DsAbsInboundEdw",
+	"name": "DsAbsInboundEdw_AceSales",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LsAbsEdwInbound",
