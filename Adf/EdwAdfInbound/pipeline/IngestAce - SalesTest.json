@@ -243,7 +243,7 @@
 		"parameters": {
 			"SourceNetworkPath": {
 				"type": "string",
-				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\Ace\\2022\\Test"
+				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\Ace\\2022\\Sales"
 			},
 			"DatalakeIngestRoot": {
 				"type": "string",
@@ -251,7 +251,7 @@
 			},
 			"DatalakeIngestRootPath": {
 				"type": "string",
-				"defaultValue": "sales/sellthroughdatafiles/test"
+				"defaultValue": "sales/sellthroughdatafiles/ace/sales"
 			}
 		},
 		"folder": {
