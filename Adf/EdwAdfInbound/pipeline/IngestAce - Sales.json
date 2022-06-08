@@ -216,6 +216,16 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"dataset": {
+						"referenceName": "DsSourceNetworkPathCsv_AceSales",
+						"type": "DatasetReference",
+						"parameters": {
+							"SourceNetworkPath": {
+								"value": "@pipeline().parameters.SourceNetworkPath",
+								"type": "Expression"
+							}
+						}
+					},
 					"fieldList": [
 						"childItems"
 					],
