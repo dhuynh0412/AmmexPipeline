@@ -24,12 +24,6 @@
 						"dependencyConditions": [
 							"Succeeded"
 						]
-					},
-					{
-						"activity": "IngestAce - Sales",
-						"dependencyConditions": [
-							"Succeeded"
-						]
 					}
 				],
 				"userProperties": [],
@@ -47,6 +41,12 @@
 				"dependsOn": [
 					{
 						"activity": "LoadAce",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "IngestAce - Sales",
 						"dependencyConditions": [
 							"Succeeded"
 						]
