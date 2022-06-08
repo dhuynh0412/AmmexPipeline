@@ -216,16 +216,6 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"dataset": {
-						"referenceName": "DsSourceNetworkPathCsvTest",
-						"type": "DatasetReference",
-						"parameters": {
-							"SourceNetworkPath": {
-								"value": "@pipeline().parameters.SourceNetworkPath",
-								"type": "Expression"
-							}
-						}
-					},
 					"fieldList": [
 						"childItems"
 					],
