@@ -67,6 +67,10 @@
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
+					"pipeline": {
+						"referenceName": "IngestAce - Sales",
+						"type": "PipelineReference"
+					},
 					"waitOnCompletion": true
 				}
 			}
