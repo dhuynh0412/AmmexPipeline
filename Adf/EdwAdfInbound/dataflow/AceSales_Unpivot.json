@@ -1,0 +1,83 @@
+{
+	"name": "AceSales_Unpivot",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DsAbsInboundEdw_AceSales",
+						"type": "DatasetReference"
+					},
+					"name": "GetCSVfromDataLake"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite_Unpivot",
+						"type": "DatasetReference"
+					},
+					"name": "UnpivotCSVtoEDW"
+				}
+			],
+			"transformations": [
+				{
+					"name": "UnpivotCSV"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {Manufacturer #} as string,",
+				"          Article as string,",
+				"          {Article Name} as string,",
+				"          {_col3_} as string,",
+				"          {_col4_} as string,",
+				"          {_col5_} as string,",
+				"          {_col6_} as string,",
+				"          {_col7_} as string,",
+				"          {_col8_} as string,",
+				"          {_col9_} as string,",
+				"          {_col10_} as string,",
+				"          {_col11_} as string,",
+				"          {_col12_} as string,",
+				"          {_col13_} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     inferDriftedColumnTypes: true,",
+				"     ignoreNoFilesFound: false,",
+				"     rowUrlColumn: 'FileName',",
+				"     skipLines: 8) ~> GetCSVfromDataLake",
+				"GetCSVfromDataLake unpivot(output(",
+				"          {Period Shipped} as string,",
+				"          {Sold Item} as string",
+				"     ),",
+				"     ungroupBy({Manufacturer #},",
+				"          Article,",
+				"          {Article Name},",
+				"          FileName),",
+				"     lateral: false,",
+				"     ignoreNullPivots: false) ~> UnpivotCSV",
+				"UnpivotCSV sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     recreate:true,",
+				"     format: 'table',",
+				"     staged: false,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          {Manufacturer #},",
+				"          Article,",
+				"          {Article Name},",
+				"          FileName,",
+				"          {Period Shipped},",
+				"          {Sold Item}",
+				"     )) ~> UnpivotCSVtoEDW"
+			]
+		}
+	}
+}

@@ -1,5 +1,5 @@
 {
-	"name": "IngestAce - Sales",
+	"name": "IngestUnis - Item Detail_copy1",
 	"properties": {
 		"activities": [
 			{
@@ -35,7 +35,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"dataset": {
-									"referenceName": "DsSourceNetworkPathFileNameCsv_OReilly",
+									"referenceName": "DsSourceNetworkPathFileNameExcel",
 									"type": "DatasetReference",
 									"parameters": {
 										"SourceNetworkPath": {
@@ -43,7 +43,11 @@
 											"type": "Expression"
 										},
 										"SourceNetworkPathFileName": {
-											"value": "@item().NAME",
+											"value": "@item().name",
+											"type": "Expression"
+										},
+										"SourceNetworkPathSheetName": {
+											"value": "@pipeline().parameters.SourceNetworkPathSheetName",
 											"type": "Expression"
 										}
 									}
@@ -56,9 +60,6 @@
 									"type": "FileServerReadSettings",
 									"recursive": true,
 									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
 								}
 							}
 						},
@@ -76,7 +77,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-1))",
+									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-50))",
 									"type": "Expression"
 								},
 								"ifTrueActivities": [
@@ -94,7 +95,7 @@
 										"userProperties": [],
 										"typeProperties": {
 											"source": {
-												"type": "DelimitedTextSource",
+												"type": "ExcelSource",
 												"additionalColumns": [
 													{
 														"name": "SourceFileName",
@@ -134,9 +135,6 @@
 													"type": "FileServerReadSettings",
 													"recursive": true,
 													"enablePartitionDiscovery": false
-												},
-												"formatSettings": {
-													"type": "DelimitedTextReadSettings"
 												}
 											},
 											"sink": {
@@ -147,7 +145,7 @@
 												"formatSettings": {
 													"type": "DelimitedTextWriteSettings",
 													"quoteAllText": true,
-													"fileExtension": ".txt"
+													"fileExtension": ".csv"
 												}
 											},
 											"enableStaging": false,
@@ -162,7 +160,7 @@
 										},
 										"inputs": [
 											{
-												"referenceName": "DsSourceNetworkPathFileNameCsv_OReilly",
+												"referenceName": "DsSourceNetworkPathFileNameExcel",
 												"type": "DatasetReference",
 												"parameters": {
 													"SourceNetworkPath": {
@@ -171,6 +169,10 @@
 													},
 													"SourceNetworkPathFileName": {
 														"value": "@item().name",
+														"type": "Expression"
+													},
+													"SourceNetworkPathSheetName": {
+														"value": "@pipeline().parameters.SourceNetworkPathSheetName",
 														"type": "Expression"
 													}
 												}
@@ -217,11 +219,15 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "DsSourceNetworkPathCsv_AceSales",
+						"referenceName": "DsSourceNetworkPathExcel",
 						"type": "DatasetReference",
 						"parameters": {
 							"SourceNetworkPath": {
 								"value": "@pipeline().parameters.SourceNetworkPath",
+								"type": "Expression"
+							},
+							"SourceNetworkPathSheetName": {
+								"value": "@pipeline().parameters.SourceNetworkPathSheetName",
 								"type": "Expression"
 							}
 						}
@@ -233,48 +239,14 @@
 						"type": "FileServerReadSettings",
 						"recursive": true,
 						"enablePartitionDiscovery": false
-					},
-					"formatSettings": {
-						"type": "DelimitedTextReadSettings"
 					}
-				}
-			},
-			{
-				"name": "DataCleansingToEDW",
-				"type": "ExecuteDataFlow",
-				"dependsOn": [
-					{
-						"activity": "LoopingThroughtNetworkFolders",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "1.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"dataflow": {
-						"referenceName": "AceSales_Unpivot",
-						"type": "DataFlowReference"
-					},
-					"compute": {
-						"coreCount": 8,
-						"computeType": "General"
-					},
-					"traceLevel": "Fine"
 				}
 			}
 		],
 		"parameters": {
 			"SourceNetworkPath": {
 				"type": "string",
-				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\Ace\\2022\\Sales"
+				"defaultValue": "General\\Ammex\\Power BI\\Supply Chain Data Project\\UNIS\\Invoice"
 			},
 			"DatalakeIngestRoot": {
 				"type": "string",
@@ -282,7 +254,11 @@
 			},
 			"DatalakeIngestRootPath": {
 				"type": "string",
-				"defaultValue": "sales/sellthroughdatafiles/ace/sales"
+				"defaultValue": "warehouse/unis/"
+			},
+			"SourceNetworkPathSheetName": {
+				"type": "string",
+				"defaultValue": "Item Detail"
 			}
 		},
 		"folder": {

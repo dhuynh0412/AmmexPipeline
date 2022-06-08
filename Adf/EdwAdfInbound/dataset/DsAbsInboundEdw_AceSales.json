@@ -1,0 +1,22 @@
+{
+	"name": "DsAbsInboundEdw_AceSales",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAbsEdwInbound",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "sales/sellthroughdatafiles/ace/sales",
+				"container": "finance"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
