@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "Loader",
-			"table": "StageInbound_CustomerAceSalesUnpivot"
+			"table": "StageInbound_CustomerAceSales"
 		}
 	}
 }
