@@ -1,5 +1,5 @@
 {
-	"name": "Ingest8x8",
+	"name": "Ingest8x8 - CallDetailRecord",
 	"properties": {
 		"activities": [
 			{
@@ -116,7 +116,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-100))",
+									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-38))",
 									"type": "Expression"
 								},
 								"ifTrueActivities": [
@@ -138,7 +138,7 @@
 												"additionalColumns": [
 													{
 														"name": "SourceFileName",
-														"value": ""
+														"value": "$$FILEPATH"
 													},
 													{
 														"name": "PipelineName",
@@ -249,7 +249,7 @@
 		"parameters": {
 			"SourceNetworkPath": {
 				"type": "string",
-				"defaultValue": "shares/CallDetailRecord"
+				"defaultValue": "/shares/CallDetailRecord/Archive"
 			},
 			"DatalakeIngestRoot": {
 				"type": "string",
