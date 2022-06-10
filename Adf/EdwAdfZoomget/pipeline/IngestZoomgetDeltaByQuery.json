@@ -1,5 +1,5 @@
 {
-	"name": "IngestAmmexDeltaByQuery",
+	"name": "IngestZoomgetDeltaByQuery",
 	"properties": {
 		"description": "Get data from Ammex_Staging database on Matterhorn",
 		"activities": [
@@ -16,6 +16,19 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"source": {
+						"type": "SqlDWSource",
+						"sqlReaderQuery": {
+							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = '[Amec]'\n\t  AND [SourceObjectType] = 'Table'\n\t  AND [IsLoad] = 1\n\t  AND [IsLoadTesting] = 1",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+						"type": "DatasetReference"
+					},
 					"firstRowOnly": false
 				}
 			},
