@@ -4,7 +4,7 @@
 		"annotations": [],
 		"type": "SqlServer",
 		"typeProperties": {
-			"connectionString": "Integrated Security=False;Data Source=AZR-VM-ZGSQL-01;Initial Catalog=Amec;User ID=EdwAdfPipelineReadOnly",
+			"connectionString": "Integrated Security=False;Data Source=AZR-VM-ZGSQL-01\\ZGSQL;Initial Catalog=Amec;User ID=EdwAdfPipelineReadOnly",
 			"password": {
 				"type": "AzureKeyVaultSecret",
 				"store": {
