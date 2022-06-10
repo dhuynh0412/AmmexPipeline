@@ -1,0 +1,137 @@
+{
+	"name": "IngestAmmexDeltaByQuery",
+	"properties": {
+		"description": "Get data from Ammex_Staging database on Matterhorn",
+		"activities": [
+			{
+				"name": "LkGetSourceObjects",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "LoopingLkGetSourceObjects",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "LkGetSourceObjects",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('LkGetSourceObjects').output.value",
+						"type": "Expression"
+					},
+					"isSequential": false,
+					"activities": [
+						{
+							"name": "CdTableToDataLake",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "LkFixColumnWithSpace",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"additionalColumns": [
+										{
+											"name": "PipelineName",
+											"value": {
+												"value": "@pipeline().Pipeline",
+												"type": "Expression"
+											}
+										},
+										{
+											"name": "LoadDate",
+											"value": {
+												"value": "@utcNow()",
+												"type": "Expression"
+											}
+										}
+									],
+									"sqlReaderQuery": {
+										"value": "@activity('LkFixColumnWithSpace').output.firstRow.Query",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings",
+										"maxConcurrentConnections": 4
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false
+							}
+						},
+						{
+							"name": "LkFixColumnWithSpace",
+							"type": "Lookup",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": {
+										"value": "@CONCAT(' DECLARE @SourceColumn VARCHAR(MAX),\n\t\t\t\t  @SourceTable VARCHAR(500) = ''', item().SourceObject, ''' \n\t\t  SELECT @SourceColumn = ISNULL(@SourceColumn + '', '', '''') + QUOTENAME(COLUMN_NAME) \n\t\t  FROM INFORMATION_SCHEMA.COLUMNS \n\t\t  WHERE QUOTENAME(TABLE_NAME) = @SourceTable SELECT ''SELECT '' + @SourceColumn + '' FROM '' + @SourceTable AS Query ')",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"firstRowOnly": true
+							}
+						}
+					]
+				}
+			}
+		],
+		"folder": {
+			"name": "1-Ingest"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-04-15T17:17:33Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
