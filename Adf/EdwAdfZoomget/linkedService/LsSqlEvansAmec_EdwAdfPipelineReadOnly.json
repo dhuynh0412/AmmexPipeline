@@ -1,0 +1,22 @@
+{
+	"name": "LsSqlEvansAmec_EdwAdfPipelineReadOnly",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "Integrated Security=False;Data Source=AZR-VM-ZGSQL-01;Initial Catalog=Amec;User ID=EdwAdfPipelineReadOnly",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "EdwAdfKeyVault",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "Evans-Amec-EdwAdfPipelineReadOnly"
+			}
+		},
+		"connectVia": {
+			"referenceName": "IrSqlMatterhorn",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
