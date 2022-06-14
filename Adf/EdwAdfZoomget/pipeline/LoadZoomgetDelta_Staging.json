@@ -99,7 +99,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "LsAdlZoomgetEdwDestinationCsv",
+									"referenceName": "LsAdlAmmexEdwDestinationCsv",
 									"type": "DatasetReference",
 									"parameters": {
 										"DatalakeIngestRoot": {
