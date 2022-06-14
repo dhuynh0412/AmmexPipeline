@@ -68,7 +68,7 @@
 								}
 							},
 							"linkedServiceName": {
-								"referenceName": "LsAsaZoomgetEdw_EdwAdfPipelineWrite",
+								"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
 								"type": "LinkedServiceReference"
 							}
 						},
@@ -98,7 +98,7 @@
 								}
 							},
 							"linkedServiceName": {
-								"referenceName": "LsAsaZoomgetEdw_EdwAdfPipelineWrite",
+								"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
 								"type": "LinkedServiceReference"
 							}
 						}
