@@ -1,5 +1,5 @@
 {
-	"name": "LsAdlZoomgetEdwDestinationCsv",
+	"name": "LsAdlAmmexEdwDestinationCsv",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LsAdlsAmmexEdw",
@@ -21,9 +21,18 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "@dataset().DatalakeIngestRootPathFileName",
-				"folderPath": "@dataset().DatalakeIngestRootPath",
-				"fileSystem": "@dataset().DatalakeIngestRoot"
+				"fileName": {
+					"value": "@dataset().DatalakeIngestRootPathFileName",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().DatalakeIngestRootPath",
+					"type": "Expression"
+				},
+				"fileSystem": {
+					"value": "@dataset().DatalakeIngestRoot",
+					"type": "Expression"
+				}
 			},
 			"columnDelimiter": "|",
 			"escapeChar": "\\",
