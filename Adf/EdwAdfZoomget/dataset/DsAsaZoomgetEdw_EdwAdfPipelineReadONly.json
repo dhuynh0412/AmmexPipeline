@@ -2,7 +2,7 @@
 	"name": "DsAsaZoomgetEdw_EdwAdfPipelineReadONly",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "LsAsaZoomgetEdw_EdwAdfPipelineReadOnly",
+			"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineReadOnly",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
