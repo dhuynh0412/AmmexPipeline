@@ -2,7 +2,7 @@
 	"name": "DsAsaZoomgetEdw_EdwAdfPipelineWrite",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "LsAsaZoomgetEdw_EdwAdfPipelineWrite",
+			"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
