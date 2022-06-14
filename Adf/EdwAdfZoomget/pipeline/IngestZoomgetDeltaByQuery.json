@@ -150,7 +150,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"source": {
-									"type": "SqlDWSource",
+									"type": "SqlServerSource",
 									"sqlReaderQuery": {
 										"value": "@CONCAT(' DECLARE @SourceColumn VARCHAR(MAX),\n\t\t\t\t  @SourceTable VARCHAR(500) = ''', item().SourceObject, ''' \n\t\t  SELECT @SourceColumn = ISNULL(@SourceColumn + '', '', '''') + QUOTENAME(COLUMN_NAME) \n\t\t  FROM INFORMATION_SCHEMA.COLUMNS \n\t\t  WHERE QUOTENAME(TABLE_NAME) = @SourceTable SELECT ''SELECT '' + @SourceColumn + '' FROM '' + @SourceTable AS Query ')",
 										"type": "Expression"
@@ -159,7 +159,7 @@
 									"partitionOption": "None"
 								},
 								"dataset": {
-									"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+									"referenceName": "DsSqlEvansAmec_EdwAdfPipelineReadOnly",
 									"type": "DatasetReference"
 								},
 								"firstRowOnly": true
