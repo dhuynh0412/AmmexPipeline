@@ -29,7 +29,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "LoadZoomgetDelta_Staging",
+						"referenceName": "LoadZoomgetDelta",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
