@@ -3,12 +3,19 @@
 	"properties": {
 		"annotations": [],
 		"runtimeState": "Started",
-		"pipelines": [],
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "MainAll",
+					"type": "PipelineReference"
+				}
+			}
+		],
 		"type": "ScheduleTrigger",
 		"typeProperties": {
 			"recurrence": {
-				"frequency": "Day",
-				"interval": 1,
+				"frequency": "Hour",
+				"interval": 24,
 				"startTime": "2022-06-16T22:07:00",
 				"timeZone": "Pacific Standard Time"
 			}
