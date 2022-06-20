@@ -18,14 +18,7 @@
 			{
 				"name": "MainLowes",
 				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "MainAce",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
@@ -38,14 +31,7 @@
 			{
 				"name": "MainOfficeDepot",
 				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "MainLowes",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
@@ -58,14 +44,7 @@
 			{
 				"name": "MainOReilly",
 				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "MainOfficeDepot",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
@@ -78,14 +57,7 @@
 			{
 				"name": "MainStaples",
 				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "MainOReilly",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
@@ -98,14 +70,7 @@
 			{
 				"name": "MainTrueValue",
 				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "MainStaples",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
