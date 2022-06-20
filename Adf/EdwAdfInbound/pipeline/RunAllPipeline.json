@@ -12,7 +12,7 @@
 						"referenceName": "MainAce",
 						"type": "PipelineReference"
 					},
-					"waitOnCompletion": true
+					"waitOnCompletion": false
 				}
 			},
 			{
@@ -32,7 +32,7 @@
 						"referenceName": "MainLowes",
 						"type": "PipelineReference"
 					},
-					"waitOnCompletion": true
+					"waitOnCompletion": false
 				}
 			},
 			{
@@ -52,7 +52,7 @@
 						"referenceName": "MainOfficeDepot",
 						"type": "PipelineReference"
 					},
-					"waitOnCompletion": true
+					"waitOnCompletion": false
 				}
 			},
 			{
@@ -72,7 +72,7 @@
 						"referenceName": "MainOReilly",
 						"type": "PipelineReference"
 					},
-					"waitOnCompletion": true
+					"waitOnCompletion": false
 				}
 			},
 			{
@@ -92,7 +92,7 @@
 						"referenceName": "MainStaples",
 						"type": "PipelineReference"
 					},
-					"waitOnCompletion": true
+					"waitOnCompletion": false
 				}
 			},
 			{
@@ -112,7 +112,7 @@
 						"referenceName": "MainTrueValue",
 						"type": "PipelineReference"
 					},
-					"waitOnCompletion": true
+					"waitOnCompletion": false
 				}
 			}
 		],
