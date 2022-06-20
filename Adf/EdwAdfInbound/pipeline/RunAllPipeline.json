@@ -1,0 +1,124 @@
+{
+	"name": "RunAllPipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "MainAce",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "MainAce",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "MainLowes",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "MainAce",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "MainLowes",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "MainOfficeDepot",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "MainLowes",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "MainOfficeDepot",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "MainOReilly",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "MainOfficeDepot",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "MainOReilly",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "MainStaples",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "MainOReilly",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "MainStaples",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "MainTrueValue",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "MainStaples",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "MainTrueValue",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "Run"
+		},
+		"annotations": []
+	}
+}
