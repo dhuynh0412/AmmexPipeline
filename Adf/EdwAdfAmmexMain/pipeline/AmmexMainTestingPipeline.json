@@ -35,6 +35,10 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadAmmexDelta",
+						"type": "PipelineReference"
+					},
 					"waitOnCompletion": true
 				}
 			},

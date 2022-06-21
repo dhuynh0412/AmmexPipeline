@@ -3,9 +3,16 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "IngestAmmexDelta_Staging",
+				"name": "IngestAmmexDelta",
 				"type": "ExecutePipeline",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "ArchiveAmmexDelta",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
@@ -20,7 +27,7 @@
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "IngestAmmexDelta_Staging",
+						"activity": "IngestAmmexDelta",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -36,7 +43,7 @@
 				}
 			},
 			{
-				"name": "PopulateAmmexDelta_Staging",
+				"name": "PopulateAmmexDelta",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
@@ -49,7 +56,20 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "PopulateAmmexDelta_Staging",
+						"referenceName": "PopulateAmmexDelta",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "ArchiveAmmexDelta",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "ArchiveAmmexDelta",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
