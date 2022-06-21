@@ -48,7 +48,7 @@
 						"value": "@activity('LkGetSourceObjects').output.value",
 						"type": "Expression"
 					},
-					"batchCount": 3,
+					"batchCount": 8,
 					"activities": [
 						{
 							"name": "ImportingCsvToEdw",
