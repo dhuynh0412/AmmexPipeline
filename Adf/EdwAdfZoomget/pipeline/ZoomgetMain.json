@@ -5,7 +5,14 @@
 			{
 				"name": "IngestZoomgetDelta_Staging",
 				"type": "ExecutePipeline",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "ArchiveZoomgetDelta",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
@@ -50,6 +57,19 @@
 				"typeProperties": {
 					"pipeline": {
 						"referenceName": "PopulateZoomgetDelta_Staging",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "ArchiveZoomgetDelta",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "ArchiveZoomgetDelta",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
