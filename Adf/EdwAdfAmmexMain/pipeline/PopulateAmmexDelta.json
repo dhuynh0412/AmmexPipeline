@@ -94,7 +94,7 @@
 					"source": {
 						"type": "SqlDWSource",
 						"sqlReaderQuery": {
-							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = '[Ammex]'\n\t  AND [SourceObjectType] = 'Table'\n\t  AND [IsLoad] = 1",
+							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = '[Ammex]'\n\t  AND [SourceObjectType] = 'Table'\n\t  AND [IsLoad] = 1\nORDER BY [SourceObject]",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
