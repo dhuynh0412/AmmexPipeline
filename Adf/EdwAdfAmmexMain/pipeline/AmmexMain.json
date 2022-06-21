@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "ArchiveAmmexDelta",
+						"referenceName": "IngestAmmexDelta",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
