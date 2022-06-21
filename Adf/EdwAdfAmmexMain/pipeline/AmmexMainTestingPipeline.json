@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "IngestAmmexDeltaByQuery",
+						"referenceName": "IngestAmmexDelta",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
@@ -35,10 +35,6 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"pipeline": {
-						"referenceName": "LoadAmmexDelta",
-						"type": "PipelineReference"
-					},
 					"waitOnCompletion": true
 				}
 			},

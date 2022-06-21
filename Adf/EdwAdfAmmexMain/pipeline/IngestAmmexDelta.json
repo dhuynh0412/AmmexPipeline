@@ -1,5 +1,5 @@
 {
-	"name": "IngestAmmexDeltaByQuery",
+	"name": "IngestAmmexDelta",
 	"properties": {
 		"description": "Get data from Ammex_Staging database on Matterhorn",
 		"activities": [
