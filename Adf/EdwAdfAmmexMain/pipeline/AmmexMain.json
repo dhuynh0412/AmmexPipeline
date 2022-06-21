@@ -9,14 +9,14 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "IngestAmmexDelta_Staging",
+						"referenceName": "ArchiveAmmexDelta",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
 				}
 			},
 			{
-				"name": "LoadAmmexDelta_Staging",
+				"name": "LoadAmmexDelta",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
@@ -40,7 +40,7 @@
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "LoadAmmexDelta_Staging",
+						"activity": "LoadAmmexDelta",
 						"dependencyConditions": [
 							"Succeeded"
 						]
