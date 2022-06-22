@@ -1,5 +1,5 @@
 {
-	"name": "IngestAmmexDelta_Staging_DoNotUse",
+	"name": "IngestAmmexDelta_Staging",
 	"properties": {
 		"description": "Get data from Ammex_Staging database on Matterhorn",
 		"activities": [
@@ -127,7 +127,7 @@
 											"type": "Expression"
 										},
 										"DatalakeIngestRootPathFileName": {
-											"value": "@{item().DatalakeIngestRootPathFileName}",
+											"value": "@{item().DatalakeIngestRootPathFileName}_@{utcNow('s')}.csv",
 											"type": "Expression"
 										}
 									}
