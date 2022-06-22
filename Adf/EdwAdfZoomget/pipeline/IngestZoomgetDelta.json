@@ -129,7 +129,7 @@
 											"type": "Expression"
 										},
 										"DatalakeIngestRootPathFileName": {
-											"value": "@{item().DatalakeIngestRootPathFileName}_@{utcNow('s')}.csv",
+											"value": "@{item().DatalakeIngestRootPathFileName}",
 											"type": "Expression"
 										}
 									}
