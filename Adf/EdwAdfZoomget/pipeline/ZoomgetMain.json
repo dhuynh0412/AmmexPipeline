@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "IngestZoomgetDelta_Staging",
+				"name": "IngestZoomgetDelta",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
@@ -16,18 +16,18 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "IngestZoomgetDelta_Staging",
+						"referenceName": "IngestZoomgetDelta",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
 				}
 			},
 			{
-				"name": "LoadZoomgetDelta_Staging",
+				"name": "LoadZoomgetDelta",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "IngestZoomgetDelta_Staging",
+						"activity": "IngestZoomgetDelta",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -43,11 +43,11 @@
 				}
 			},
 			{
-				"name": "PopulateZoomgetDelta_Staging",
+				"name": "PopulateZoomgetDelta",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "LoadZoomgetDelta_Staging",
+						"activity": "LoadZoomgetDelta",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -56,7 +56,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "PopulateZoomgetDelta_Staging",
+						"referenceName": "PopulateZoomgetDelta",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
