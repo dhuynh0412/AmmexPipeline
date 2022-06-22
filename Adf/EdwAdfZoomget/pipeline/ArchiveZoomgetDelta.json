@@ -84,11 +84,11 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"DatalakeRoot": {
-											"value": "@{item().DatalakeIngestRoot}",
+											"value": "@{item().ArchiveDatalakeIngestRoot}",
 											"type": "Expression"
 										},
 										"DatalakeRootPath": {
-											"value": "@{item().DatalakeIngestRootPath}",
+											"value": "@{item().ArchiveDatalakeIngestRootPath}",
 											"type": "Expression"
 										}
 									}
