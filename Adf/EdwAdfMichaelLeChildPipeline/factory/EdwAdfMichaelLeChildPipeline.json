@@ -1,0 +1,9 @@
+{
+	"name": "EdwAdfMichaelLeChildPipeline",
+	"location": "westus2",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "3bffec6f-f817-4d96-91ea-2dce780381dc",
+		"tenantId": "6fe8874b-b6a3-476c-9357-0389bdea5f53"
+	}
+}
