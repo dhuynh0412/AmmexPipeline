@@ -1,0 +1,9 @@
+{
+	"name": "EdwAdfOrchestrationMichaelLe",
+	"location": "westus2",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "96ad5e45-9ac2-4f3e-be3e-611a2c008ba5",
+		"tenantId": "6fe8874b-b6a3-476c-9357-0389bdea5f53"
+	}
+}
