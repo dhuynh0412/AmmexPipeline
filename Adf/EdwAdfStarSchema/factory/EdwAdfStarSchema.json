@@ -1,0 +1,9 @@
+{
+	"name": "EdwAdfStarSchema",
+	"location": "westus2",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "cc229de8-d2f6-48a3-b897-9eed2c98b7ad",
+		"tenantId": "6fe8874b-b6a3-476c-9357-0389bdea5f53"
+	}
+}
