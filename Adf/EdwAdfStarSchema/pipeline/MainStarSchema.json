@@ -1,8 +1,36 @@
 {
 	"name": "MainStarSchema",
 	"properties": {
+		"activities": [
+			{
+				"name": "LkGetSourceObjects",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlDWSource",
+						"sqlReaderQuery": "SELECT *\nFROM [ETL].[AdfLoadControl]\nwhere [SourceSystem] = 'StarSchema'\nand [SourceDatabase] = 'AmmexDataWarehouse'\nand [SourceNetworkRoot] = 'Dimension'\n--\t  AND [SourceObjectType] = ''\n\t  AND [IsLoad] = 1\n--\t  AND [IsLoadTesting] = 0\nORDER BY [SourceObject] ASC\n",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			}
+		],
 		"folder": {
-			"name": "Orchastrator"
+			"name": "3 - Orchastrator"
 		},
 		"annotations": []
 	}
