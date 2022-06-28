@@ -42,7 +42,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('LkGetSourceObjects').output.value",
+						"value": "@activity('LkGetSourceObjects').output",
 						"type": "Expression"
 					},
 					"activities": [

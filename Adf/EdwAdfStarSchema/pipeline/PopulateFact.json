@@ -1,8 +1,8 @@
 {
-	"name": "MainStarSchema",
+	"name": "PopulateFact",
 	"properties": {
 		"folder": {
-			"name": "3 - Orchastrator"
+			"name": "2 - Fact"
 		},
 		"annotations": []
 	}
