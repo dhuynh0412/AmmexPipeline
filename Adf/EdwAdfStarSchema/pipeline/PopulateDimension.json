@@ -45,6 +45,7 @@
 						"value": "@activity('LkGetSourceObjects').output",
 						"type": "Expression"
 					},
+					"batchCount": 2,
 					"activities": [
 						{
 							"name": "Proc Execute Populate",
