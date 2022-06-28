@@ -1,9 +1,0 @@
-{
-	"name": "Execute Ammex Main Pipelines",
-	"properties": {
-		"folder": {
-			"name": "AmmexMain"
-		},
-		"annotations": []
-	}
-}
