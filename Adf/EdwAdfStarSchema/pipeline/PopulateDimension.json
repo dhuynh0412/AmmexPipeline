@@ -17,7 +17,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlDWSource",
-						"sqlReaderQuery": "\nSELECT *\nFROM [ETL].[AdfLoadControl]\nwhere [SourceSystem] = 'StarSchema'\nand [SourceDatabase] = 'AmmexDataWarehouse'\nand [SourceNetworkRoot] = 'Dimension'\n--\t  AND [SourceObjectType] = ''\n\t  AND [IsLoad] = 1\n--\t  AND [IsLoadTesting] = 0\nORDER BY [SourceObject] ASC\n",
+						"sqlReaderQuery": {
+							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nwhere [SourceSystem] = 'StarSchema'\nand [SourceDatabase] = 'AmmexDataWarehouse'\nand [SourceNetworkRoot] = 'Dimension'\n--\t  AND [SourceObjectType] = ''\n\t  AND [IsLoad] = 1\n--\t  AND [IsLoadTesting] = 0\nORDER BY [SourceObject] ASC\n",
+							"type": "Expression"
+						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
