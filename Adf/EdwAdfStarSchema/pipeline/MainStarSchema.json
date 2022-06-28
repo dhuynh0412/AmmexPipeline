@@ -1,6 +1,41 @@
 {
 	"name": "MainStarSchema",
 	"properties": {
+		"activities": [
+			{
+				"name": "PopulateDimension",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PopulateDimension",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PopulateFact",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PopulateDimension",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PopulateFact",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
 		"folder": {
 			"name": "3 - Orchastrator"
 		},
