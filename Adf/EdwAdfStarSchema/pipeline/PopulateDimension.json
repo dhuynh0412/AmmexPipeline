@@ -45,7 +45,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('LkGetSourceObjects').output",
+						"value": "@activity('LkGetSourceObjects').output.value",
 						"type": "Expression"
 					},
 					"batchCount": 2,
