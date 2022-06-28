@@ -59,7 +59,10 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"storedProcedureName": "[DW].[DimCustomer_Populate]"
+								"storedProcedureName": {
+									"value": "@{item().Populate}",
+									"type": "Expression"
+								}
 							},
 							"linkedServiceName": {
 								"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
