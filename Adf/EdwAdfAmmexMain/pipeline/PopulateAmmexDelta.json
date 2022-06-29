@@ -52,7 +52,7 @@
 								{
 									"activity": "Proc Execute FormatDatatype",
 									"dependencyConditions": [
-										"Skipped"
+										"Completed"
 									]
 								}
 							],
