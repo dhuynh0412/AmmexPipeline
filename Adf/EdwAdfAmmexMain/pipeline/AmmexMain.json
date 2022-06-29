@@ -49,7 +49,7 @@
 					{
 						"activity": "LoadAmmexDelta",
 						"dependencyConditions": [
-							"Succeeded"
+							"Completed"
 						]
 					}
 				],
