@@ -29,7 +29,7 @@
 					{
 						"activity": "IngestAmmexDelta",
 						"dependencyConditions": [
-							"Succeeded"
+							"Completed"
 						]
 					}
 				],
