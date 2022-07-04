@@ -1,0 +1,153 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "EdwAdfAmmexMain"
+		},
+		"LsAsaAmmexEdw_EdwAdfPipelineReadOnly_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LsAsaAmmexEdw_EdwAdfPipelineReadOnly'"
+		},
+		"LsAsaAmmexEdw_EdwAdfPipelineWrite_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LsAsaAmmexEdw_EdwAdfPipelineWrite'"
+		},
+		"LsSqlDenaliAmmex_EDWExtractor_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LsSqlDenaliAmmex_EDWExtractor'"
+		},
+		"LsSqlDenaliAmmex_EdwAdfPipelineReadOnly_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LsSqlDenaliAmmex_EdwAdfPipelineReadOnly'"
+		},
+		"LsSqlMatterhornAmmexStaging_EdwAdfPiplineReadOnly_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LsSqlMatterhornAmmexStaging_EdwAdfPiplineReadOnly'"
+		},
+		"EdwAdfKeyVault_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://EdwAdfKeyVault.vault.azure.net/"
+		},
+		"LsAdlEdwInbound_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://edwinbound.dfs.core.windows.net"
+		},
+		"LsAdlsAmmexEdw_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://ammexedwsynapsestorage.dfs.core.windows.net"
+		},
+		"LsSalesforce_SfAdmin_properties_typeProperties_environmentUrl": {
+			"type": "string",
+			"defaultValue": "https://login.salesforce.com"
+		},
+		"LsSalesforce_SfAdmin_properties_typeProperties_username": {
+			"type": "string",
+			"defaultValue": "sfadmin@ammex.com"
+		},
+		"LsSourceNetworkRoot_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "\\\\WU2-VM-FS-01\\FileShare\\"
+		},
+		"LsSourceNetworkRoot_properties_typeProperties_userId": {
+			"type": "string",
+			"defaultValue": "ammexcorp\\EdwAdfPipelineSvc"
+		},
+		"IrSqlMatterhorn_properties_typeProperties_linkedInfo_resourceId": {
+			"type": "string",
+			"defaultValue": "/subscriptions/cae64f29-6572-4d75-acf6-8f05b8d4e501/resourcegroups/EDWTeamResourceGroup/providers/Microsoft.DataFactory/factories/EdwAdfMain/integrationruntimes/IrSqlMatterhorn"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "EdwAdfAmmexMain_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"LsAsaAmmexEdw_EdwAdfPipelineReadOnly_connectionString": {
+						"value": "[parameters('LsAsaAmmexEdw_EdwAdfPipelineReadOnly_connectionString')]"
+					},
+					"LsAsaAmmexEdw_EdwAdfPipelineWrite_connectionString": {
+						"value": "[parameters('LsAsaAmmexEdw_EdwAdfPipelineWrite_connectionString')]"
+					},
+					"LsSqlDenaliAmmex_EDWExtractor_connectionString": {
+						"value": "[parameters('LsSqlDenaliAmmex_EDWExtractor_connectionString')]"
+					},
+					"LsSqlDenaliAmmex_EdwAdfPipelineReadOnly_connectionString": {
+						"value": "[parameters('LsSqlDenaliAmmex_EdwAdfPipelineReadOnly_connectionString')]"
+					},
+					"LsSqlMatterhornAmmexStaging_EdwAdfPiplineReadOnly_connectionString": {
+						"value": "[parameters('LsSqlMatterhornAmmexStaging_EdwAdfPiplineReadOnly_connectionString')]"
+					},
+					"EdwAdfKeyVault_properties_typeProperties_baseUrl": {
+						"value": "[parameters('EdwAdfKeyVault_properties_typeProperties_baseUrl')]"
+					},
+					"IrSqlMatterhorn_properties_typeProperties_linkedInfo_resourceId": {
+						"value": "[parameters('IrSqlMatterhorn_properties_typeProperties_linkedInfo_resourceId')]"
+					},
+					"LsAdlEdwInbound_properties_typeProperties_url": {
+						"value": "[parameters('LsAdlEdwInbound_properties_typeProperties_url')]"
+					},
+					"LsAdlsAmmexEdw_properties_typeProperties_url": {
+						"value": "[parameters('LsAdlsAmmexEdw_properties_typeProperties_url')]"
+					},
+					"LsSalesforce_SfAdmin_properties_typeProperties_environmentUrl": {
+						"value": "[parameters('LsSalesforce_SfAdmin_properties_typeProperties_environmentUrl')]"
+					},
+					"LsSalesforce_SfAdmin_properties_typeProperties_username": {
+						"value": "[parameters('LsSalesforce_SfAdmin_properties_typeProperties_username')]"
+					},
+					"LsSourceNetworkRoot_properties_typeProperties_host": {
+						"value": "[parameters('LsSourceNetworkRoot_properties_typeProperties_host')]"
+					},
+					"LsSourceNetworkRoot_properties_typeProperties_userId": {
+						"value": "[parameters('LsSourceNetworkRoot_properties_typeProperties_userId')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "EdwAdfAmmexMain_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'EdwAdfAmmexMain_ArmTemplate_0')]"
+			]
+		}
+	]
+}

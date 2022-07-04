@@ -1,0 +1,1972 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "EdwAdfAmmexMain"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/DsSqlDenaliAmmex_EdwAdfPipelineReadOnly')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LsSqlDenaliAmmex_EdwAdfPipelineReadOnly",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DsSqlDenaliAmmex_EdwAdfPipelineReadOnly_Table')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LsSqlDenaliAmmex_EdwAdfPipelineReadOnly",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DsSqlMatterhornAmmexStaging_EdwAdfPiplineReadOnly')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LsSqlMatterhornAmmexStaging_EdwAdfPiplineReadOnly",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ArchiveAmmexDelta')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LkGetSourceObjects",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlDWSource",
+								"sqlReaderQuery": {
+									"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = '[Ammex]'\n--\t  AND [SourceObjectType] = ''\n\t  AND [IsLoad] = 1\n--\t  AND [IsLoadTesting] = 0\nORDER BY [SourceObject] ASC",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "FetchingTableForArchiving",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "LkGetSourceObjects",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('LkGetSourceObjects').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Archiving",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "BinarySource",
+											"storeSettings": {
+												"type": "AzureBlobFSReadSettings",
+												"recursive": true,
+												"deleteFilesAfterCompletion": true
+											},
+											"formatSettings": {
+												"type": "BinaryReadSettings"
+											}
+										},
+										"sink": {
+											"type": "BinarySink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											}
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "DsAdlsAmmexEdwBinary",
+											"type": "DatasetReference",
+											"parameters": {
+												"DatalakeRoot": {
+													"value": "@{item().DatalakeIngestRoot}",
+													"type": "Expression"
+												},
+												"DatalakeRootPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												}
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DsAdlsAmmexEdwBinary",
+											"type": "DatasetReference",
+											"parameters": {
+												"DatalakeRoot": {
+													"value": "@{item().ArchiveDatalakeIngestRoot}",
+													"type": "Expression"
+												},
+												"DatalakeRootPath": {
+													"value": "@{item().ArchiveDatalakeIngestRootPath}",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "1-Ingest"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IngestAdfLoadControlSourceSystemInformationSchema')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "AdfLoadControlSourceSystemInformationSchema",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": {
+									"value": "/**************************************************************************************\n* Name\t\t: AdfLoadControl_PopulateAmmex.SQL\n* Author\t: Duy Huynh\n* Date\t\t: 2022-05-19\n* Details\t: Collect the meatadata from source system for subject to build pipelines on to EDW.\n\t\t\t  The following script execute against the system\n\t\t\t\tServer: Denali\n\t\t\t\tDatabase: Ammex\n* DataBase\t: AmmexDataWarehouse\n* Schema\t: ETL\n**************************************************************************************/\n\nSELECT\tDISTINCT\n\t\t[ServerName] = QUOTENAME(@@SERVERNAME), \n\t\t[SourceSystem] = 'Ammex',\n\t\t[Table_Catalog] = QUOTENAME(T.TABLE_CATALOG),\n\t\t[Table_Schema] = QUOTENAME(T.TABLE_SCHEMA),\n\t\t[Table_Name] = QUOTENAME(T.TABLE_NAME),\n\t\t[Table_Type] = 'Table',\n\t\t[Column_Name] = QUOTENAME(C.COLUMN_NAME),\n\t\t[IsPrimaryKeyColumn] = CASE WHEN TC.CONSTRAINT_TYPE = 'PRIMARY KEY' AND CCU.COLUMN_NAME IS NOT NULL THEN 1  ELSE 0 END,\n\t\tC.[IS_NULLABLE],\n\t\tC.[Data_Type],\n\t\tC.[Numeric_Precision],\n\t\tC.[Numeric_Precision_Radix],\n\t\tC.[Character_Maximum_Length],\n\t\t[FormatDatatype] = CASE \n                                WHEN UPPER(C.DATA_TYPE) IN ('date', 'datetime', 'smalldatetime')                                     \n\t\t\t\t\t\t\t\t\tTHEN CONCAT(QUOTENAME(C.COLUMN_NAME), ' = CASE WHEN [SRC].', QUOTENAME(C.COLUMN_NAME), ' = ''NULL'' THEN NULL ELSE CONVERT(DATETIME2, [SRC].', QUOTENAME(C.COLUMN_NAME), ') END,')\n\t\t\t\t\t\t\t\tWHEN UPPER(C.DATA_TYPE) IN ('uniqueidentifier', 'bit', 'tinyint', 'int', 'bigint', 'float', 'money', 'real', 'smallint', 'binary')                                     \n\t\t\t\t\t\t\t\t\tTHEN CONCAT(QUOTENAME(C.COLUMN_NAME), ' = CONVERT(', QUOTENAME(UPPER(C.DATA_TYPE)), ', [SRC].', QUOTENAME(C.COLUMN_NAME), '),')\n                                WHEN UPPER(C.DATA_TYPE) IN ('numeric', 'decimal') \n                                    THEN CONCAT(QUOTENAME(C.COLUMN_NAME), ' = CONVERT(', QUOTENAME(UPPER(C.DATA_TYPE)), '(', C.NUMERIC_PRECISION, ', ', C.NUMERIC_PRECISION_RADIX, ')', ', [SRC].', QUOTENAME(C.COLUMN_NAME), '),')\t\t\t\t\t\t\t\t\t\t \n                                WHEN UPPER(C.DATA_TYPE) IN ('char', 'nvarchar', 'varchar', 'varbinary') \n                                    THEN CONCAT(QUOTENAME(C.COLUMN_NAME), ' = CONVERT(NVARCHAR(', C.CHARACTER_MAXIMUM_LENGTH, '), [SRC].', QUOTENAME(C.COLUMN_NAME), '),')\n                                ELSE quotename(C.COLUMN_NAME) + ','\n                            END,\n\t\t[UpdateStatement] = CASE WHEN C.COLUMN_NAME = 'LastUpdateDate' THEN '['+ C.COLUMN_NAME + '] = GETDATE()' ELSE '['+ C.COLUMN_NAME + '] = SRC.[' + C.COLUMN_NAME + '],' END,\n\t\t[View_Definition] = NULL,\n\t\t[LoadDate] = GETDATE(),\n\t\t[IsSourceDeleted] = CONVERT([BIT], 0),\n\t\t[IsSourceDeletedDate] = CONVERT([DATETIME2], NULL),\n\t\t[LastUpdatedDate] = CONVERT([DATETIME2], NULL)\nFROM INFORMATION_SCHEMA.TABLES T\n\t JOIN INFORMATION_SCHEMA.COLUMNS C\n\t\t  ON T.TABLE_NAME = C.TABLE_NAME\n\t LEFT JOIN INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC\n\t\t  ON T.TABLE_NAME = TC.TABLE_NAME\n\t\t\t AND TC.CONSTRAINT_TYPE = 'PRIMARY KEY'\n\t LEFT JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CCU\n\t\t  ON CCU.CONSTRAINT_NAME = TC.CONSTRAINT_NAME  \n\t\t\t AND CCU.TABLE_NAME = T.TABLE_NAME\n\t\t\t AND CCU.COLUMN_NAME = C.COLUMN_NAME\nWHERE T.TABLE_TYPE = 'BASE TABLE'\nUNION\nSELECT\tDISTINCT\n\t\t[ServerName] = QUOTENAME(@@SERVERNAME), \n\t\t[SourceSystem] = 'Ammex',\n\t\t[Table_Catalog] = QUOTENAME(V.[TABLE_CATALOG]),\n\t\t[Table_Schema] = QUOTENAME(V.[TABLE_SCHEMA]),\n\t\t[Table_Name] = QUOTENAME(V.[TABLE_NAME]),\n\t\t[IS_NULLABLE] = 'NO',\n\t\t[Table_Type] = 'View',\n\t\t[Column_Name] = NULL,\n\t\t[IsPrimaryKeyColumn] = NULL,\n\t\t[Data_Type] = NULL,\n\t\t[Numeric_Precision] = NULL,\n\t\t[Numeric_Precision_Radix] = NULL,\n\t\t[Character_Maximum_Length] = NULL,\n\t\t[FormatDatatype] = NULL,\n\t\t[UpdateStatement] = NULL,\n\t\t[View_Definition] = V.[VIEW_DEFINITION],\n\t\t[LoadDate] = GETDATE(),\n\t\t[IsSourceDeleted] = CONVERT([BIT], 0),\n\t\t[IsSourceDeletedDate] = CONVERT([DATETIME2], NULL),\n\t\t[LastUpdatedDate] = CONVERT([DATETIME2], NULL)\nFROM INFORMATION_SCHEMA.VIEWS V",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "SqlDWSink",
+								"preCopyScript": {
+									"value": "IF OBJECT_ID('[Loader].[AdfLoadControlSourceSystemInformationSchema]') IS NOT NULL    DROP TABLE [Loader].[AdfLoadControlSourceSystemInformationSchema];",
+									"type": "Expression"
+								},
+								"writeBehavior": "Insert",
+								"sqlWriterUseTableLock": false,
+								"tableOption": "autoCreate",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DsSqlDenaliAmmex_EdwAdfPipelineReadOnly",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+								"type": "DatasetReference",
+								"parameters": {
+									"Schema": "Loader",
+									"Table": "AdfLoadControlSourceSystemInformationSchema"
+								}
+							}
+						]
+					},
+					{
+						"name": "Execute Proc ETL AdfLoadControlInboundMetadata_Populate",
+						"type": "Script",
+						"dependsOn": [
+							{
+								"activity": "AdfLoadControlSourceSystemInformationSchema",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": {
+										"value": "EXEC [ETL].[AdfLoadControlInboundMetadata_Populate]",
+										"type": "Expression"
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "1-Ingest"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DsSqlDenaliAmmex_EdwAdfPipelineReadOnly')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IngestAmmexDelta')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Get data from Ammex_Staging database on Matterhorn",
+				"activities": [
+					{
+						"name": "LkGetSourceObjects",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlDWSource",
+								"sqlReaderQuery": {
+									"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = '[Ammex]'\n--\t  AND [SourceObjectType] = ''\n\t  AND [IsLoad] = 1\n--\t  AND [IsLoadTesting] = 0\nORDER BY [SourceObject] ASC",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "LoopingLkGetSourceObjects",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "LkGetSourceObjects",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('LkGetSourceObjects').output.value",
+								"type": "Expression"
+							},
+							"isSequential": false,
+							"activities": [
+								{
+									"name": "CdTableToDataLake",
+									"type": "Copy",
+									"dependsOn": [
+										{
+											"activity": "LkFixColumnWithSpace",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "SqlServerSource",
+											"additionalColumns": [
+												{
+													"name": "PipelineName",
+													"value": {
+														"value": "@pipeline().Pipeline",
+														"type": "Expression"
+													}
+												},
+												{
+													"name": "LoadDate",
+													"value": {
+														"value": "@utcNow()",
+														"type": "Expression"
+													}
+												}
+											],
+											"sqlReaderQuery": {
+												"value": "@activity('LkFixColumnWithSpace').output.firstRow.Query",
+												"type": "Expression"
+											},
+											"queryTimeout": "02:00:00",
+											"partitionOption": "None"
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings",
+												"maxConcurrentConnections": 4
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".txt"
+											}
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "DsSqlDenaliAmmex_EdwAdfPipelineReadOnly",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DsAdlAmmexEdwDestinationCsv",
+											"type": "DatasetReference",
+											"parameters": {
+												"DatalakeIngestRoot": {
+													"value": "@{item().DatalakeIngestRoot}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPathFileName": {
+													"value": "@{item().DatalakeIngestRootPathFileName}_@{utcNow('s')}.csv",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								},
+								{
+									"name": "LkFixColumnWithSpace",
+									"type": "Lookup",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "SqlServerSource",
+											"sqlReaderQuery": {
+												"value": "@CONCAT(' DECLARE @SourceColumn VARCHAR(MAX),\n\t\t\t\t  @SourceTable VARCHAR(500) = ''', item().SourceObject, ''' \n\t\t  SELECT @SourceColumn = ISNULL(@SourceColumn + '', '', '''') + QUOTENAME(COLUMN_NAME) \n\t\t  FROM INFORMATION_SCHEMA.COLUMNS \n\t\t  WHERE QUOTENAME(TABLE_NAME) = @SourceTable SELECT ''SELECT '' + @SourceColumn + '' FROM '' + @SourceTable AS Query ')",
+												"type": "Expression"
+											},
+											"queryTimeout": "02:00:00",
+											"partitionOption": "None"
+										},
+										"dataset": {
+											"referenceName": "DsSqlDenaliAmmex_EdwAdfPipelineReadOnly",
+											"type": "DatasetReference",
+											"parameters": {}
+										},
+										"firstRowOnly": true
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "1-Ingest"
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-04-15T17:17:33Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DsSqlDenaliAmmex_EdwAdfPipelineReadOnly')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IngestAmmexDeltaByTable_DoNotUse')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Get data from Ammex_Staging database on Matterhorn",
+				"activities": [
+					{
+						"name": "LkGetSourceObjects",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlDWSource",
+								"sqlReaderQuery": {
+									"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = '[Ammex]'\n\t  AND [SourceObjectType] = 'Table'\n\t  AND [SourceObject] = '[CN40300]'\n",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "LoopingLkGetSourceObjects",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "LkGetSourceObjects",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('LkGetSourceObjects').output.value",
+								"type": "Expression"
+							},
+							"isSequential": false,
+							"activities": [
+								{
+									"name": "CdTableToDataLake",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "SqlServerSource",
+											"additionalColumns": [
+												{
+													"name": "PipelineName",
+													"value": {
+														"value": "@pipeline().Pipeline",
+														"type": "Expression"
+													}
+												},
+												{
+													"name": "LoadDate",
+													"value": {
+														"value": "@utcNow()",
+														"type": "Expression"
+													}
+												}
+											],
+											"sqlReaderQuery": {
+												"value": "SELECT TOP 11 * FROM DBO.[CN40300]",
+												"type": "Expression"
+											},
+											"queryTimeout": "02:00:00",
+											"partitionOption": "None"
+										},
+										"sink": {
+											"type": "ParquetSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											},
+											"formatSettings": {
+												"type": "ParquetWriteSettings"
+											}
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "DsSqlDenaliAmmex_EdwAdfPipelineReadOnly_Table",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DsAdlAmmexEdwParquet",
+											"type": "DatasetReference",
+											"parameters": {
+												"DatalakeIngestRoot": {
+													"value": "@{item().DatalakeIngestRoot}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPathFileName": {
+													"value": "@{item().DatalakeIngestRootPathFileName}",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "1-Ingest"
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-04-15T17:17:33Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DsSqlDenaliAmmex_EdwAdfPipelineReadOnly_Table')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IngestAmmexDelta_Staging')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Get data from Ammex_Staging database on Matterhorn",
+				"activities": [
+					{
+						"name": "LkGetSourceObjects",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlDWSource",
+								"sqlReaderQuery": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Ammex_Staging'\n\t  AND IsLoad = 1\nORDER BY [SourceObject]",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "LoopingLkGetSourceObjects",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "LkGetSourceObjects",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('LkGetSourceObjects').output.value",
+								"type": "Expression"
+							},
+							"isSequential": false,
+							"batchCount": 4,
+							"activities": [
+								{
+									"name": "CdTableToDataLake",
+									"type": "Copy",
+									"dependsOn": [
+										{
+											"activity": "LkFixColumnWithSpace",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "SqlServerSource",
+											"additionalColumns": [
+												{
+													"name": "PipelineName",
+													"value": {
+														"value": "@pipeline().Pipeline",
+														"type": "Expression"
+													}
+												},
+												{
+													"name": "LoadDate",
+													"value": {
+														"value": "@utcNow()",
+														"type": "Expression"
+													}
+												}
+											],
+											"sqlReaderQuery": {
+												"value": "@activity('LkFixColumnWithSpace').output.firstRow.Query",
+												"type": "Expression"
+											},
+											"queryTimeout": "02:00:00",
+											"partitionOption": "None"
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".txt"
+											}
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "DsSqlMatterhornAmmexStaging_EdwAdfPiplineReadOnly",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DsAdlAmmexEdwDestinationCsv",
+											"type": "DatasetReference",
+											"parameters": {
+												"DatalakeIngestRoot": {
+													"value": "@{item().DatalakeIngestRoot}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPathFileName": {
+													"value": "@{item().DatalakeIngestRootPathFileName}_@{utcNow('s')}.csv",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								},
+								{
+									"name": "LkFixColumnWithSpace",
+									"type": "Lookup",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "SqlServerSource",
+											"sqlReaderQuery": {
+												"value": "@CONCAT(' DECLARE @SourceColumn VARCHAR(MAX),\n\t\t\t\t  @SourceTable VARCHAR(500) = ''', item().SourceObject, ''' \n\t\t  SELECT @SourceColumn = ISNULL(@SourceColumn + '', '', '''') + QUOTENAME(COLUMN_NAME) \n\t\t  FROM INFORMATION_SCHEMA.COLUMNS \n\t\t  WHERE QUOTENAME(TABLE_NAME) = @SourceTable SELECT ''SELECT '' + @SourceColumn + '' FROM '' + @SourceTable AS Query ')",
+												"type": "Expression"
+											},
+											"queryTimeout": "02:00:00",
+											"partitionOption": "None"
+										},
+										"dataset": {
+											"referenceName": "DsSqlMatterhornAmmexStaging_EdwAdfPiplineReadOnly",
+											"type": "DatasetReference",
+											"parameters": {}
+										},
+										"firstRowOnly": true
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "1-Ingest"
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-04-15T17:17:33Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DsSqlMatterhornAmmexStaging_EdwAdfPiplineReadOnly')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LoadAmmexDelta')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LkGetSourceObjects",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlDWSource",
+								"sqlReaderQuery": {
+									"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = '[Ammex]'\n--\t  AND [SourceObjectType] = ''\n\t  AND [IsLoad] = 1\n--\t  AND [IsLoadTesting] = 0\nORDER BY [SourceObject] ASC",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "LoopingLkGetSourceObjects",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "LkGetSourceObjects",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('LkGetSourceObjects').output.value",
+								"type": "Expression"
+							},
+							"batchCount": 8,
+							"activities": [
+								{
+									"name": "ImportingCsvToEdw",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "AzureBlobFSReadSettings",
+												"recursive": true,
+												"wildcardFolderPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												},
+												"wildcardFileName": "*.*",
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "SqlDWSink",
+											"preCopyScript": {
+												"value": "@{item().SinkPreCopyScript}",
+												"type": "Expression"
+											},
+											"writeBehavior": "Insert",
+											"sqlWriterUseTableLock": false,
+											"tableOption": "autoCreate",
+											"disableMetricsCollection": false
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "DsAdlAmmexEdwDestinationCsv",
+											"type": "DatasetReference",
+											"parameters": {
+												"DatalakeIngestRoot": {
+													"value": "@{item().DatalakeIngestRoot}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPathFileName": {
+													"value": "@toLower('')",
+													"type": "Expression"
+												}
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+											"type": "DatasetReference",
+											"parameters": {
+												"Schema": {
+													"value": "@{item().SinkSchema}",
+													"type": "Expression"
+												},
+												"Table": {
+													"value": "@{item().SinkTable}",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "2-Load"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LoadAmmexDelta_Staging')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LkGetSourceObjects",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlDWSource",
+								"sqlReaderQuery": {
+									"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Ammex_Staging'\n\t  AND IsLoad = 1\nORDER BY [SourceObject]",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "LoopingLkGetSourceObjects",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "LkGetSourceObjects",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('LkGetSourceObjects').output.value",
+								"type": "Expression"
+							},
+							"batchCount": 8,
+							"activities": [
+								{
+									"name": "ImportingCsvToEdw",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "AzureBlobFSReadSettings",
+												"recursive": true,
+												"wildcardFolderPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												},
+												"wildcardFileName": "*.*",
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "SqlDWSink",
+											"preCopyScript": {
+												"value": "@{item().SinkPreCopyScript}",
+												"type": "Expression"
+											},
+											"writeBehavior": "Insert",
+											"sqlWriterUseTableLock": false,
+											"tableOption": "autoCreate",
+											"disableMetricsCollection": false
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "DsAdlAmmexEdwDestinationCsv",
+											"type": "DatasetReference",
+											"parameters": {
+												"DatalakeIngestRoot": {
+													"value": "@{item().DatalakeIngestRoot}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPathFileName": {
+													"value": "@toLower('')",
+													"type": "Expression"
+												}
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+											"type": "DatasetReference",
+											"parameters": {
+												"Schema": {
+													"value": "@{item().SinkSchema}",
+													"type": "Expression"
+												},
+												"Table": {
+													"value": "@{item().SinkTable}",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "2-Load"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PopulateAmmexDelta')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LoopingLkGetSourceObjects",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "LkGetSourceObjects",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('LkGetSourceObjects').output.value",
+								"type": "Expression"
+							},
+							"isSequential": false,
+							"batchCount": 2,
+							"activities": [
+								{
+									"name": "Proc Execute FormatDatatype",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": {
+											"value": "@{item().FormatDatatype}",
+											"type": "Expression"
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
+										"type": "LinkedServiceReference"
+									}
+								},
+								{
+									"name": "Proc Execute Populate",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
+										{
+											"activity": "Proc Execute FormatDatatype",
+											"dependencyConditions": [
+												"Completed"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": {
+											"value": "@{item().Populate}",
+											"type": "Expression"
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
+										"type": "LinkedServiceReference"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "LkGetSourceObjects",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlDWSource",
+								"sqlReaderQuery": {
+									"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = '[Ammex]'\n--\t  AND [SourceObjectType] = ''\n\t  AND [IsLoad] = 1\n--\t  AND [IsLoadTesting] = 0\nORDER BY [SourceObject] ASC",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "3-Populate"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Unpivot')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite_Unpivot",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "unpivot1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          color as string,",
+						"          Paul as integer,",
+						"          John as integer,",
+						"          Tim as integer,",
+						"          Eric as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'select * from Loader.yourTable',",
+						"     format: 'query',",
+						"     staged: false) ~> source1",
+						"source1 unpivot(output(",
+						"          name as string,",
+						"          value as integer",
+						"     ),",
+						"     ungroupBy(color),",
+						"     lateral: false,",
+						"     ignoreNullPivots: false,",
+						"     partitionBy('hash', 1)) ~> unpivot1",
+						"unpivot1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          color as string,",
+						"          value as integer,",
+						"          name as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     truncate:true,",
+						"     format: 'table',",
+						"     staged: false,",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Unpivot_CustomerOReillySalesUnit_Duy')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+								"type": "DatasetReference"
+							},
+							"name": "source2"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+								"type": "DatasetReference"
+							},
+							"name": "sink2"
+						}
+					],
+					"transformations": [
+						{
+							"name": "unpivot1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          Line as string,",
+						"          Plcd as string,",
+						"          Subc as string,",
+						"          Item as string,",
+						"          Mfg as string,",
+						"          {POS Description} as string,",
+						"          {Item Description} as string,",
+						"          {Pop Code} as string,",
+						"          {01-09-2022 Sales} as string,",
+						"          {01-02-2022 Sales} as string,",
+						"          {12-26-2021 Sales} as string,",
+						"          {12-19-2021 Sales} as string,",
+						"          {12-12-2021 Sales} as string,",
+						"          {12-05-2021 Sales} as string,",
+						"          {11-28-2021 Sales} as string,",
+						"          {11-21-2021 Sales} as string,",
+						"          {11-14-2021 Sales} as string,",
+						"          {11-07-2021 Sales} as string,",
+						"          {10-31-2021 Sales} as string,",
+						"          {10-24-2021 Sales} as string,",
+						"          {10-17-2021 Sales} as string,",
+						"          {10-10-2021 Sales} as string,",
+						"          {10-03-2021 Sales} as string,",
+						"          {09-26-2021 Sales} as string,",
+						"          {01-09-2022 Units} as string,",
+						"          {01-02-2022 Units} as string,",
+						"          {12-26-2021 Units} as string,",
+						"          {12-19-2021 Units} as string,",
+						"          {12-12-2021 Units} as string,",
+						"          {12-05-2021 Units} as string,",
+						"          {11-28-2021 Units} as string,",
+						"          {11-21-2021 Units} as string,",
+						"          {11-14-2021 Units} as string,",
+						"          {11-07-2021 Units} as string,",
+						"          {10-31-2021 Units} as string,",
+						"          {10-24-2021 Units} as string,",
+						"          {10-17-2021 Units} as string,",
+						"          {10-10-2021 Units} as string,",
+						"          {10-03-2021 Units} as string,",
+						"          {09-26-2021 Units} as string,",
+						"          {Product Manager} as string,",
+						"          Category as string,",
+						"          Subcategory as string,",
+						"          Segment as string,",
+						"          SourceFileName as string,",
+						"          PipelineName as string,",
+						"          LoadDate as string,",
+						"          FileLastModifiedDate as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'select *\\nfrom [Loader].[StageInbound_CustomerOReillySales_Duy]',",
+						"     format: 'query',",
+						"     staged: false) ~> source2",
+						"source2 unpivot(output(",
+						"          UnitsDate as string,",
+						"          Units as string",
+						"     ),",
+						"     ungroupBy(Line,",
+						"          Plcd,",
+						"          Subc,",
+						"          Item,",
+						"          Mfg,",
+						"          {POS Description},",
+						"          {Item Description},",
+						"          {Pop Code},",
+						"          {Product Manager},",
+						"          Category,",
+						"          Subcategory,",
+						"          Segment,",
+						"          SourceFileName,",
+						"          PipelineName,",
+						"          FileLastModifiedDate),",
+						"     lateral: true,",
+						"     ignoreNullPivots: false,",
+						"     partitionBy('hash', 1)) ~> unpivot1",
+						"unpivot1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     truncate:true,",
+						"     format: 'table',",
+						"     staged: false,",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink2"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Unpivot_CustomerOReillySales_Duy')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+								"type": "DatasetReference"
+							},
+							"name": "source2"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+								"type": "DatasetReference"
+							},
+							"name": "sink2"
+						}
+					],
+					"transformations": [
+						{
+							"name": "unpivot1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          Line as string,",
+						"          Plcd as string,",
+						"          Subc as string,",
+						"          Item as string,",
+						"          Mfg as string,",
+						"          {POS Description} as string,",
+						"          {Item Description} as string,",
+						"          {Pop Code} as string,",
+						"          {01-09-2022 Sales} as string,",
+						"          {01-02-2022 Sales} as string,",
+						"          {12-26-2021 Sales} as string,",
+						"          {12-19-2021 Sales} as string,",
+						"          {12-12-2021 Sales} as string,",
+						"          {12-05-2021 Sales} as string,",
+						"          {11-28-2021 Sales} as string,",
+						"          {11-21-2021 Sales} as string,",
+						"          {11-14-2021 Sales} as string,",
+						"          {11-07-2021 Sales} as string,",
+						"          {10-31-2021 Sales} as string,",
+						"          {10-24-2021 Sales} as string,",
+						"          {10-17-2021 Sales} as string,",
+						"          {10-10-2021 Sales} as string,",
+						"          {10-03-2021 Sales} as string,",
+						"          {09-26-2021 Sales} as string,",
+						"          {01-09-2022 Units} as string,",
+						"          {01-02-2022 Units} as string,",
+						"          {12-26-2021 Units} as string,",
+						"          {12-19-2021 Units} as string,",
+						"          {12-12-2021 Units} as string,",
+						"          {12-05-2021 Units} as string,",
+						"          {11-28-2021 Units} as string,",
+						"          {11-21-2021 Units} as string,",
+						"          {11-14-2021 Units} as string,",
+						"          {11-07-2021 Units} as string,",
+						"          {10-31-2021 Units} as string,",
+						"          {10-24-2021 Units} as string,",
+						"          {10-17-2021 Units} as string,",
+						"          {10-10-2021 Units} as string,",
+						"          {10-03-2021 Units} as string,",
+						"          {09-26-2021 Units} as string,",
+						"          {Product Manager} as string,",
+						"          Category as string,",
+						"          Subcategory as string,",
+						"          Segment as string,",
+						"          SourceFileName as string,",
+						"          PipelineName as string,",
+						"          LoadDate as string,",
+						"          FileLastModifiedDate as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'select *\\nfrom [Loader].[StageInbound_CustomerOReillySales_Duy]',",
+						"     format: 'query',",
+						"     staged: false) ~> source2",
+						"source2 unpivot(output(",
+						"          SalesDate as string,",
+						"          Sales as string",
+						"     ),",
+						"     ungroupBy(Line,",
+						"          Plcd,",
+						"          Subc,",
+						"          Item,",
+						"          Mfg,",
+						"          {POS Description},",
+						"          {Item Description},",
+						"          {Pop Code},",
+						"          {Product Manager},",
+						"          Category,",
+						"          Subcategory,",
+						"          Segment,",
+						"          SourceFileName,",
+						"          PipelineName,",
+						"          FileLastModifiedDate),",
+						"     lateral: false,",
+						"     ignoreNullPivots: false,",
+						"     partitionBy('hash', 1)) ~> unpivot1",
+						"unpivot1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     truncate:true,",
+						"     format: 'table',",
+						"     staged: false,",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink2"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AmmexMain')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "IngestAmmexDelta",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "ArchiveAmmexDelta",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "IngestAmmexDelta",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "LoadAmmexDelta",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "IngestAmmexDelta",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "LoadAmmexDelta",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "PopulateAmmexDelta",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "LoadAmmexDelta",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PopulateAmmexDelta",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "ArchiveAmmexDelta",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "ArchiveAmmexDelta",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "4-Orchestration"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/IngestAmmexDelta')]",
+				"[concat(variables('factoryId'), '/pipelines/LoadAmmexDelta')]",
+				"[concat(variables('factoryId'), '/pipelines/PopulateAmmexDelta')]",
+				"[concat(variables('factoryId'), '/pipelines/ArchiveAmmexDelta')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AmmexMainTestingPipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "IngestAmmexDeltaByQuery",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "ArchiveAmmexDelta",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "IngestAmmexDelta",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "LoadAmmexDelta",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "IngestAmmexDeltaByQuery",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "LoadAmmexDelta",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "ArchiveAmmexDelta",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "ArchiveAmmexDelta",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "4-Orchestration"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/IngestAmmexDelta')]",
+				"[concat(variables('factoryId'), '/pipelines/LoadAmmexDelta')]",
+				"[concat(variables('factoryId'), '/pipelines/ArchiveAmmexDelta')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UnpivotPipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "UnpivotPipeline",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "Unpivot",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "ProtoType"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/Unpivot')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UnpivotPipeline_CustomerOReillySalesUnit_Duy')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "UnpivotPipeline",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "Unpivot_CustomerOReillySales_Duy",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source2": {},
+									"sink2": {
+										"Schema": "Loader",
+										"Table": "StageInbound_CustomerOReillySales_DuyUnpivot"
+									}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "ProtoType"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/Unpivot_CustomerOReillySales_Duy')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UnpivotPipeline_CustomerOReillySales_Duy')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "UnpivotPipeline",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "Unpivot_CustomerOReillySales_Duy",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source2": {},
+									"sink2": {
+										"Schema": "Loader",
+										"Table": "StageInbound_CustomerOReillySales_DuyUnpivot"
+									}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "ProtoType"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/Unpivot_CustomerOReillySales_Duy')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/TriggerDailyLoadAmmexDelta')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "AmmexMain",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Hour",
+						"interval": 24,
+						"startTime": "2022-06-21T06:00:00",
+						"timeZone": "Pacific Standard Time"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/AmmexMain')]"
+			]
+		}
+	]
+}

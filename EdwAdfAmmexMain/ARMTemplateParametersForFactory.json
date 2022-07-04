@@ -1,0 +1,48 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "EdwAdfAmmexMain"
+		},
+		"LsAsaAmmexEdw_EdwAdfPipelineReadOnly_connectionString": {
+			"value": ""
+		},
+		"LsAsaAmmexEdw_EdwAdfPipelineWrite_connectionString": {
+			"value": ""
+		},
+		"LsSqlDenaliAmmex_EDWExtractor_connectionString": {
+			"value": ""
+		},
+		"LsSqlDenaliAmmex_EdwAdfPipelineReadOnly_connectionString": {
+			"value": ""
+		},
+		"LsSqlMatterhornAmmexStaging_EdwAdfPiplineReadOnly_connectionString": {
+			"value": ""
+		},
+		"EdwAdfKeyVault_properties_typeProperties_baseUrl": {
+			"value": "https://EdwAdfKeyVault.vault.azure.net/"
+		},
+		"LsAdlEdwInbound_properties_typeProperties_url": {
+			"value": "https://edwinbound.dfs.core.windows.net"
+		},
+		"LsAdlsAmmexEdw_properties_typeProperties_url": {
+			"value": "https://ammexedwsynapsestorage.dfs.core.windows.net"
+		},
+		"LsSalesforce_SfAdmin_properties_typeProperties_environmentUrl": {
+			"value": "https://login.salesforce.com"
+		},
+		"LsSalesforce_SfAdmin_properties_typeProperties_username": {
+			"value": "sfadmin@ammex.com"
+		},
+		"LsSourceNetworkRoot_properties_typeProperties_host": {
+			"value": "\\\\WU2-VM-FS-01\\FileShare\\"
+		},
+		"LsSourceNetworkRoot_properties_typeProperties_userId": {
+			"value": "ammexcorp\\EdwAdfPipelineSvc"
+		},
+		"IrSqlMatterhorn_properties_typeProperties_linkedInfo_resourceId": {
+			"value": "/subscriptions/cae64f29-6572-4d75-acf6-8f05b8d4e501/resourcegroups/EDWTeamResourceGroup/providers/Microsoft.DataFactory/factories/EdwAdfMain/integrationruntimes/IrSqlMatterhorn"
+		}
+	}
+}
