@@ -1,0 +1,20 @@
+{
+	"name": "Main - Inbound",
+	"properties": {
+		"activities": [
+			{
+				"name": "Ingest",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "4 - Orchestration"
+		},
+		"annotations": []
+	}
+}
