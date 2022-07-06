@@ -1,0 +1,18 @@
+{
+	"name": "LsAdlEdwInboundBR",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://edwinbound.dfs.core.windows.net",
+			"accountKey": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "EdwAdfKeyVault",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "AmmexEdw-DatalakeInbound"
+			}
+		}
+	}
+}
