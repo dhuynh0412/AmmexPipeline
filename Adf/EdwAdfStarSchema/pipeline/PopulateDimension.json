@@ -5,7 +5,14 @@
 			{
 				"name": "LkGetSourceObjects",
 				"type": "Lookup",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "ScriptExecuteDimDatePopulate",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -72,6 +79,38 @@
 								"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
 								"type": "LinkedServiceReference"
 							}
+						}
+					]
+				}
+			},
+			{
+				"name": "ScriptExecuteDimDatePopulate",
+				"type": "Script",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"parameters": [
+								{
+									"name": "",
+									"type": "Datetime",
+									"value": ""
+								}
+							],
+							"type": "Query",
+							"text": " DECLARE @DATE DATE = CONVERT(DATE, DATEADD(DAY,30,DATEADD(year, DATEDIFF(year, -1, GETUTCDATE())+3, 0)) );\n Exec DW.DimDate_Populate '1900-01-01', @DATE"
 						}
 					]
 				}
