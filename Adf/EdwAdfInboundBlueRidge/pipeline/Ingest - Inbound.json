@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Get Metadata1",
+				"name": "GetSourceNetworkFolder",
 				"type": "GetMetadata",
 				"dependsOn": [],
 				"policy": {
