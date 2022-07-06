@@ -1,11 +1,50 @@
 {
-	"name": "pipeline1",
+	"name": "PipelineTestedFailure",
 	"properties": {
 		"activities": [
 			{
 				"name": "FailedWait",
 				"type": "Wait",
 				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 2
+				}
+			},
+			{
+				"name": "FailedActivities",
+				"type": "Fail",
+				"dependsOn": [
+					{
+						"activity": "FailedWait",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"message": {
+						"value": "This is a failed pipeline.",
+						"type": "Expression"
+					},
+					"errorCode": {
+						"value": "501",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "PostFailedWait",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "FailedActivities",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
 					"waitTimeInSeconds": 1
