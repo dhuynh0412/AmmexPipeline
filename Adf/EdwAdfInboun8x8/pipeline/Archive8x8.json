@@ -76,7 +76,8 @@
 								"sink": {
 									"type": "BinarySink",
 									"storeSettings": {
-										"type": "AzureBlobFSWriteSettings"
+										"type": "AzureBlobFSWriteSettings",
+										"maxConcurrentConnections": 4
 									}
 								},
 								"enableStaging": false
