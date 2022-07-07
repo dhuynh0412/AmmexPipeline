@@ -1,0 +1,36 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "EdwAdfInboundBlueRidge"
+		},
+		"LsAsaAmmexEdw_EdwAdfPipelineReadOnly_connectionString": {
+			"value": ""
+		},
+		"LsAsaAmmexEdw_EdwAdfPipelineWrite_connectionString": {
+			"value": ""
+		},
+		"EdwAdfKeyVault_properties_typeProperties_baseUrl": {
+			"value": "https://EdwAdfKeyVault.vault.azure.net/"
+		},
+		"LsAdfEdwFTPBR_properties_typeProperties_host": {
+			"value": "ftp.brinv.com"
+		},
+		"LsAdfEdwFTPBR_properties_typeProperties_userName": {
+			"value": "Ammex_Prod"
+		},
+		"LsAdlEdwInboundBR_properties_typeProperties_url": {
+			"value": "https://edwinbound.dfs.core.windows.net"
+		},
+		"LsAdlsAmmexEdw_properties_typeProperties_url": {
+			"value": "https://ammexedwsynapsestorage.dfs.core.windows.net"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
