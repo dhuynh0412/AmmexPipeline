@@ -1,0 +1,32 @@
+{
+	"name": "DsDestinationAdlEdwInboundBRTXT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAdlEdwInboundBR",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"DatalakeIngestRoot": {
+				"type": "string"
+			},
+			"DatalakeIngestRootPath": {
+				"type": "string"
+			},
+			"DatalakeIngestRootPathFileName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
