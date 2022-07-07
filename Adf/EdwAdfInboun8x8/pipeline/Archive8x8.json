@@ -84,7 +84,13 @@
 							"inputs": [
 								{
 									"referenceName": "DsAdlsAmmexEdwBinary",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"DatalakeRoot": {
+											"value": "@{item().DatalakeIngestRoot}",
+											"type": "Expression"
+										}
+									}
 								}
 							],
 							"outputs": [
