@@ -5,7 +5,14 @@
 			{
 				"name": "Ingest8x8",
 				"type": "ExecutePipeline",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Archive8x8",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
@@ -50,6 +57,19 @@
 				"typeProperties": {
 					"pipeline": {
 						"referenceName": "Populate8x8",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Archive8x8",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Archive8x8",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
