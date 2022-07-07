@@ -1,5 +1,5 @@
 {
-	"name": "Archive8x8Delta",
+	"name": "Archive8x8",
 	"properties": {
 		"activities": [
 			{
@@ -87,7 +87,7 @@
 			}
 		],
 		"folder": {
-			"name": "1-Ingest"
+			"name": "1 - Ingest"
 		},
 		"annotations": []
 	}
