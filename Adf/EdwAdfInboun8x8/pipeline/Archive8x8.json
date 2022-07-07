@@ -18,7 +18,7 @@
 					"source": {
 						"type": "SqlDWSource",
 						"sqlReaderQuery": {
-							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = 'Call'\n--\t  AND [SourceSchema] = '8x8'\n\t  AND [IsLoad] = 1\n--\t  AND [IsLoadTesting] = 0\nORDER BY [SourceObject] ASC",
+							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = 'Call'\n\t  AND [SourceSchema] = '8x8'\n\t  AND [IsLoad] = 1\n\t  AND [IsLoadTesting] = 0\nORDER BY [SourceObject] ASC",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -80,7 +80,29 @@
 									}
 								},
 								"enableStaging": false
-							}
+							},
+							"inputs": [
+								{
+									"referenceName": "DsAdlsAmmexEdwBinary",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DsAdlsAmmexEdwBinary",
+									"type": "DatasetReference",
+									"parameters": {
+										"DatalakeRoot": {
+											"value": "@{item().ArchiveDatalakeIngestRoot}",
+											"type": "Expression"
+										},
+										"DatalakeRootPath": {
+											"value": "@{item().ArchiveDatalakeIngestRootPath}",
+											"type": "Expression"
+										}
+									}
+								}
+							]
 						}
 					]
 				}
