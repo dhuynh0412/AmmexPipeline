@@ -1,0 +1,30 @@
+{
+	"name": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"SinkSchema": {
+				"type": "string"
+			},
+			"SinkTable": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": {
+				"value": "@dataset().SinkSchema",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().SinkTable",
+				"type": "Expression"
+			}
+		}
+	}
+}
