@@ -89,6 +89,10 @@
 										"DatalakeRoot": {
 											"value": "@{item().DatalakeIngestRoot}",
 											"type": "Expression"
+										},
+										"DatalakeRootPath": {
+											"value": "@{item().DatalakeIngestRootPath}",
+											"type": "Expression"
 										}
 									}
 								}
