@@ -1,0 +1,1912 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "EdwAdfInbound8x8"
+		},
+		"LsAsaAmmexEdw_EdwAdfPipelineReadOnly_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LsAsaAmmexEdw_EdwAdfPipelineReadOnly'"
+		},
+		"LsAsaAmmexEdw_EdwAdfPipelineWrite_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LsAsaAmmexEdw_EdwAdfPipelineWrite'"
+		},
+		"EdwAdfKeyVault_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://EdwAdfKeyVault.vault.azure.net/"
+		},
+		"LsAdfEdwFtp_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "ftp.smartfile.com"
+		},
+		"LsAdfEdwFtp_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "ammexcorporation"
+		},
+		"LsAdlEdwInbound8x8_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://edwinbound.dfs.core.windows.net"
+		},
+		"LsAdlsAmmexEdw_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://ammexedwsynapsestorage.dfs.core.windows.net"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/EdwAdfKeyVault')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('EdwAdfKeyVault_properties_typeProperties_baseUrl')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LsAdfEdwFtp')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "FtpServer",
+				"typeProperties": {
+					"host": "[parameters('LsAdfEdwFtp_properties_typeProperties_host')]",
+					"port": 21,
+					"enableSsl": false,
+					"enableServerCertificateValidation": false,
+					"authenticationType": "Basic",
+					"userName": "[parameters('LsAdfEdwFtp_properties_typeProperties_userName')]",
+					"password": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "EdwAdfKeyVault",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "FtpSmartfile-AmmexCorporation"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/EdwAdfKeyVault')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LsAdlEdwInbound8x8')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('LsAdlEdwInbound8x8_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "EdwAdfKeyVault",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "AmmexEdw-DatalakeInbound"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/EdwAdfKeyVault')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LsAdlsAmmexEdw')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('LsAdlsAmmexEdw_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "EdwAdfKeyVault",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "AmmexEdw-DataLakeStorage"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/EdwAdfKeyVault')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LsAsaAmmexEdw_EdwAdfPipelineReadOnly')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDW",
+				"typeProperties": {
+					"connectionString": "[parameters('LsAsaAmmexEdw_EdwAdfPipelineReadOnly_connectionString')]",
+					"password": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "EdwAdfKeyVault",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "AmmexEdw-AmmexDataWarehouse-EdwAdfPipelineReadOnly"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/EdwAdfKeyVault')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LsAsaAmmexEdw_EdwAdfPipelineWrite')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDW",
+				"typeProperties": {
+					"connectionString": "[parameters('LsAsaAmmexEdw_EdwAdfPipelineWrite_connectionString')]",
+					"password": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "EdwAdfKeyVault",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "AmmexEdw-AmmexDataWarehouse-EdwAdfPipelineWrite"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/EdwAdfKeyVault')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DsAdlsAmmexEdwBinary')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LsAdlEdwInbound8x8",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"DatalakeRoot": {
+						"type": "string"
+					},
+					"DatalakeRootPath": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": {
+							"value": "@dataset().DatalakeRootPath",
+							"type": "Expression"
+						},
+						"fileSystem": {
+							"value": "@dataset().DatalakeRoot",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LsAdlEdwInbound8x8')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DsAdlsInboundEdw8x8Csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LsAdlEdwInbound8x8",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"DatalakeIngestRoot": {
+						"type": "string"
+					},
+					"DatalakeIngestRootPath": {
+						"type": "string"
+					},
+					"DatalakeIngestRootPathFileName": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().DatalakeIngestRootPathFileName",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@dataset().DatalakeIngestRootPath",
+							"type": "Expression"
+						},
+						"fileSystem": {
+							"value": "@dataset().DatalakeIngestRoot",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LsAdlEdwInbound8x8')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DsAsaAmmexEdw_EdwAdfPipelineReadONly')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineReadOnly",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlDWTable",
+				"schema": [
+					{
+						"name": "AdfLoadControlKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "IsLoad",
+						"type": "bit"
+					},
+					{
+						"name": "IsLoadTesting",
+						"type": "bit"
+					},
+					{
+						"name": "SourceSystem",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceDatabase",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceSchema",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceObject",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceObjectType",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceNetworkRoot",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceNetworkPath",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceNetworkPathFileName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SinkSchema",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SinkTable",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SinkPreCopyScript",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LastModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "LastModifiedDateField",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LoadFrequency",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LoadStatus",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LoadStartDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "LoadEndDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "FormatDatatype",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Populate",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DatalakeIngestRoot",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DatalakeIngestRootPath",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DatalakeIngestRootPathFileName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ArchiveDatalakeIngestRoot",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ArchiveDatalakeIngestRootPath",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ArchiveDatalakeIngestRootPathFileName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "IsSourceDeleted",
+						"type": "bit"
+					},
+					{
+						"name": "IsSourceDeletedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "LastUpdatedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "LoadDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "ETL",
+					"table": "AdfLoadControl"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LsAsaAmmexEdw_EdwAdfPipelineReadOnly')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DsAsaAmmexEdw_EdwAdfPipelineWrite')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"SinkSchema": {
+						"type": "string"
+					},
+					"SinkTable": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "AzureSqlDWTable",
+				"schema": [
+					{
+						"name": "AdfLoadControlKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "IsLoad",
+						"type": "bit"
+					},
+					{
+						"name": "IsLoadTesting",
+						"type": "bit"
+					},
+					{
+						"name": "SourceSystem",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceDatabase",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceSchema",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceObject",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceObjectType",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceNetworkRoot",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceNetworkPath",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceNetworkPathFileName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SinkSchema",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SinkTable",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SinkPreCopyScript",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LastModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "LastModifiedDateField",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LoadFrequency",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LoadStatus",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LoadStartDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "LoadEndDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "FormatDatatype",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Populate",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DatalakeIngestRoot",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DatalakeIngestRootPath",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DatalakeIngestRootPathFileName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ArchiveDatalakeIngestRoot",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ArchiveDatalakeIngestRootPath",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ArchiveDatalakeIngestRootPathFileName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "IsSourceDeleted",
+						"type": "bit"
+					},
+					{
+						"name": "IsSourceDeletedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "LastUpdatedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "LoadDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": {
+						"value": "@dataset().SinkSchema",
+						"type": "Expression"
+					},
+					"table": {
+						"value": "@dataset().SinkTable",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LsAsaAmmexEdw_EdwAdfPipelineWrite')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DsDestinationAdlEdwInbound8x8Csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LsAdlEdwInbound8x8",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"DatalakeIngestRoot": {
+						"type": "string"
+					},
+					"DatalakeIngestRootPath": {
+						"type": "string"
+					},
+					"DatalakeIngestRootPathFileName": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "shares/calldetailrecord",
+						"fileSystem": "8x8"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LsAdlEdwInbound8x8')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DsSourceNetworkPathCsv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LsAdfEdwFtp",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"SourceNetworkPath": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "FtpServerLocation",
+						"folderPath": {
+							"value": "@dataset().SourceNetworkPath",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "MasterCatalogName",
+						"type": "String"
+					},
+					{
+						"name": "ProductCode",
+						"type": "String"
+					},
+					{
+						"name": "LocationCode",
+						"type": "String"
+					},
+					{
+						"name": "ParentProductCode",
+						"type": "String"
+					},
+					{
+						"name": "StockAvailable",
+						"type": "String"
+					},
+					{
+						"name": "StockOnBackOrder",
+						"type": "String"
+					},
+					{
+						"name": "StockOnHand",
+						"type": "String"
+					},
+					{
+						"name": "StockUpdateOption",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LsAdfEdwFtp')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DsSourceNetworkPathFTP')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LsAdfEdwFtp",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"SourceNetworkPath": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "FtpServerLocation",
+						"folderPath": {
+							"value": "@dataset().SourceNetworkPath",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LsAdfEdwFtp')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DsSourceNetworkPathFileNameCsv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LsAdfEdwFtp",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"SourceNetworkPath": {
+						"type": "string"
+					},
+					"SourceNetworkPathFileName": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "FtpServerLocation",
+						"fileName": {
+							"value": "@dataset().SourceNetworkPathFileName",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@dataset().SourceNetworkPath",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "MasterCatalogName",
+						"type": "String"
+					},
+					{
+						"name": "ProductCode",
+						"type": "String"
+					},
+					{
+						"name": "LocationCode",
+						"type": "String"
+					},
+					{
+						"name": "ParentProductCode",
+						"type": "String"
+					},
+					{
+						"name": "StockAvailable",
+						"type": "String"
+					},
+					{
+						"name": "StockOnBackOrder",
+						"type": "String"
+					},
+					{
+						"name": "StockOnHand",
+						"type": "String"
+					},
+					{
+						"name": "StockUpdateOption",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LsAdfEdwFtp')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DsSourceNetworkPathFileNameFTP')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LsAdfEdwFtp",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"SourceNetworkPath": {
+						"type": "string"
+					},
+					"SourceNetworkPathFileName": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "FtpServerLocation",
+						"fileName": {
+							"value": "@dataset().SourceNetworkPathFileName",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@dataset().SourceNetworkPath",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LsAdfEdwFtp')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Archive8x8')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LkGetSourceObjects",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlDWSource",
+								"sqlReaderQuery": {
+									"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = 'Call'\n\t  AND [SourceSchema] = '8x8'\n\t  AND [IsLoad] = 1\n\t  AND [IsLoadTesting] = 0\nORDER BY [SourceObject] ASC",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "FetchingTableForArchiving",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "LkGetSourceObjects",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('LkGetSourceObjects').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Archiving",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "BinarySource",
+											"storeSettings": {
+												"type": "AzureBlobFSReadSettings",
+												"recursive": true,
+												"deleteFilesAfterCompletion": true
+											},
+											"formatSettings": {
+												"type": "BinaryReadSettings"
+											}
+										},
+										"sink": {
+											"type": "BinarySink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings",
+												"maxConcurrentConnections": 4
+											}
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "DsAdlsAmmexEdwBinary",
+											"type": "DatasetReference",
+											"parameters": {
+												"DatalakeRoot": {
+													"value": "@{item().DatalakeIngestRoot}",
+													"type": "Expression"
+												},
+												"DatalakeRootPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												}
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DsAdlsAmmexEdwBinary",
+											"type": "DatasetReference",
+											"parameters": {
+												"DatalakeRoot": {
+													"value": "@{item().ArchiveDatalakeIngestRoot}",
+													"type": "Expression"
+												},
+												"DatalakeRootPath": {
+													"value": "@{item().ArchiveDatalakeIngestRootPath}",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "1 - Ingest"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DsAsaAmmexEdw_EdwAdfPipelineReadONly')]",
+				"[concat(variables('factoryId'), '/datasets/DsAdlsAmmexEdwBinary')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Ingest8x8 - CallDetailRecord')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "GetSourceNetworkFolder",
+						"type": "GetMetadata",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "DsSourceNetworkPathFTP",
+								"type": "DatasetReference",
+								"parameters": {
+									"SourceNetworkPath": {
+										"value": "@pipeline().parameters.SourceNetworkPath",
+										"type": "Expression"
+									}
+								}
+							},
+							"fieldList": [
+								"childItems"
+							],
+							"storeSettings": {
+								"type": "FtpReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false,
+								"useBinaryTransfer": false,
+								"disableChunking": false
+							},
+							"formatSettings": {
+								"type": "DelimitedTextReadSettings"
+							}
+						}
+					},
+					{
+						"name": "LoopingThroughNetworkFolders",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GetSourceNetworkFolder",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetSourceNetworkFolder').output.childItems",
+								"type": "Expression"
+							},
+							"batchCount": 4,
+							"activities": [
+								{
+									"name": "GetFileLastModifiedDate",
+									"type": "GetMetadata",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"dataset": {
+											"referenceName": "DsSourceNetworkPathFileNameFTP",
+											"type": "DatasetReference",
+											"parameters": {
+												"SourceNetworkPath": {
+													"value": "@pipeline().parameters.SourceNetworkPath",
+													"type": "Expression"
+												},
+												"SourceNetworkPathFileName": {
+													"value": "@item().name",
+													"type": "Expression"
+												}
+											}
+										},
+										"fieldList": [
+											"lastModified",
+											"itemName"
+										],
+										"storeSettings": {
+											"type": "FtpReadSettings",
+											"recursive": true,
+											"enablePartitionDiscovery": false,
+											"useBinaryTransfer": false,
+											"disableChunking": false
+										},
+										"formatSettings": {
+											"type": "DelimitedTextReadSettings"
+										}
+									}
+								},
+								{
+									"name": "If Condition1",
+									"type": "IfCondition",
+									"dependsOn": [
+										{
+											"activity": "GetFileLastModifiedDate",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"expression": {
+											"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-3))",
+											"type": "Expression"
+										},
+										"ifTrueActivities": [
+											{
+												"name": "CopyingCsvToDataLake",
+												"type": "Copy",
+												"dependsOn": [],
+												"policy": {
+													"timeout": "7.00:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"source": {
+														"type": "DelimitedTextSource",
+														"additionalColumns": [
+															{
+																"name": "SourceFileName",
+																"value": "$$FILEPATH"
+															},
+															{
+																"name": "PipelineName",
+																"value": {
+																	"value": "@pipeline().Pipeline",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "LoadDate",
+																"value": {
+																	"value": "@utcNow()",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "LastUpdatedDate",
+																"value": {
+																	"value": "@activity('GetFileLastModifiedDate').output.lastModified",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "IsSourceDeleted",
+																"value": ""
+															},
+															{
+																"name": "IsSourceDeletedDate",
+																"value": ""
+															}
+														],
+														"storeSettings": {
+															"type": "FtpReadSettings",
+															"recursive": true,
+															"enablePartitionDiscovery": false,
+															"useBinaryTransfer": false,
+															"disableChunking": false
+														},
+														"formatSettings": {
+															"type": "DelimitedTextReadSettings"
+														}
+													},
+													"sink": {
+														"type": "DelimitedTextSink",
+														"storeSettings": {
+															"type": "AzureBlobFSWriteSettings"
+														},
+														"formatSettings": {
+															"type": "DelimitedTextWriteSettings",
+															"quoteAllText": true,
+															"fileExtension": ".csv"
+														}
+													},
+													"enableStaging": false,
+													"translator": {
+														"type": "TabularTranslator",
+														"typeConversion": true,
+														"typeConversionSettings": {
+															"allowDataTruncation": true,
+															"treatBooleanAsNumber": false
+														}
+													}
+												},
+												"inputs": [
+													{
+														"referenceName": "DsSourceNetworkPathFileNameFTP",
+														"type": "DatasetReference",
+														"parameters": {
+															"SourceNetworkPath": {
+																"value": "@pipeline().parameters.SourceNetworkPath",
+																"type": "Expression"
+															},
+															"SourceNetworkPathFileName": {
+																"value": "@item().name",
+																"type": "Expression"
+															}
+														}
+													}
+												],
+												"outputs": [
+													{
+														"referenceName": "DsDestinationAdlEdwInbound8x8Csv",
+														"type": "DatasetReference",
+														"parameters": {
+															"DatalakeIngestRoot": {
+																"value": "@pipeline().parameters.DatalakeIngestRoot",
+																"type": "Expression"
+															},
+															"DatalakeIngestRootPath": {
+																"value": "@pipeline().parameters.DatalakeIngestRootPath",
+																"type": "Expression"
+															},
+															"DatalakeIngestRootPathFileName": {
+																"value": "@item().name",
+																"type": "Expression"
+															}
+														}
+													}
+												]
+											}
+										]
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"SourceNetworkPath": {
+						"type": "string",
+						"defaultValue": "/shares/CallDetailRecord/Archive"
+					},
+					"DatalakeIngestRoot": {
+						"type": "string",
+						"defaultValue": "8x8"
+					},
+					"DatalakeIngestRootPath": {
+						"type": "string",
+						"defaultValue": "shares/calldetailrecord"
+					}
+				},
+				"folder": {
+					"name": "1 - Ingest"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DsSourceNetworkPathFTP')]",
+				"[concat(variables('factoryId'), '/datasets/DsSourceNetworkPathFileNameFTP')]",
+				"[concat(variables('factoryId'), '/datasets/DsDestinationAdlEdwInbound8x8Csv')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Load8x8')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "GetListOfSourceFiles",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlDWSource",
+								"sqlReaderQuery": {
+									"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Inbound'\n      AND [SourceDatabase] = 'Call'\n\t  AND [SourceSchema] = '8x8'\n\t  AND [IsLoad] = 1\nORDER BY [SourceObject]",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "LoopingThroughDataLake",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GetListOfSourceFiles",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetListOfSourceFiles').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "ImportingCsvToEdw",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "AzureBlobFSReadSettings",
+												"recursive": true,
+												"wildcardFolderPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												},
+												"wildcardFileName": {
+													"value": "@{item().SourceNetworkPathFileName}",
+													"type": "Expression"
+												},
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "SqlDWSink",
+											"preCopyScript": {
+												"value": "@{ITEM().SinkPreCopyScript}",
+												"type": "Expression"
+											},
+											"writeBehavior": "Insert",
+											"sqlWriterUseTableLock": false,
+											"tableOption": "autoCreate",
+											"disableMetricsCollection": false
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "DsAdlsInboundEdw8x8Csv",
+											"type": "DatasetReference",
+											"parameters": {
+												"DatalakeIngestRoot": {
+													"value": "@{item().DatalakeIngestRoot}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPathFileName": {
+													"value": "@toLower('')",
+													"type": "Expression"
+												}
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+											"type": "DatasetReference",
+											"parameters": {
+												"SinkSchema": {
+													"value": "@{item().SinkSchema}",
+													"type": "Expression"
+												},
+												"SinkTable": {
+													"value": "@{item().SinkTable}",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "2 - Load"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DsAsaAmmexEdw_EdwAdfPipelineReadONly')]",
+				"[concat(variables('factoryId'), '/datasets/DsAdlsInboundEdw8x8Csv')]",
+				"[concat(variables('factoryId'), '/datasets/DsAsaAmmexEdw_EdwAdfPipelineWrite')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Populate8x8')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "GetValueFromAdfLoadControl",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlDWSource",
+								"sqlReaderQuery": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Inbound'\n      AND [SourceDatabase] = 'Call'\n\t  AND [SourceSchema] = '8x8'\n\t  AND [IsLoad] = 1\nORDER BY [SourceObject]",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "LoopingThroughAdfLoadControlObjects",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GetValueFromAdfLoadControl",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetValueFromAdfLoadControl').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "ExecuteFormatDatatype",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": {
+											"value": "@{item().FormatDatatype}",
+											"type": "Expression"
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
+										"type": "LinkedServiceReference"
+									}
+								},
+								{
+									"name": "ExecutePopulate",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
+										{
+											"activity": "ExecuteFormatDatatype",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": {
+											"value": "@{item().Populate}",
+											"type": "Expression"
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
+										"type": "LinkedServiceReference"
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "3 - Populate"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DsAsaAmmexEdw_EdwAdfPipelineReadONly')]",
+				"[concat(variables('factoryId'), '/linkedServices/LsAsaAmmexEdw_EdwAdfPipelineWrite')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MainCall8x8')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Ingest8x8",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Archive8x8",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "Ingest8x8 - CallDetailRecord",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Load8x8",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Ingest8x8",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "Load8x8",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Populate8x8",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Load8x8",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "Populate8x8",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Archive8x8",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "Archive8x8",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "4 - Orchestration"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/Ingest8x8 - CallDetailRecord')]",
+				"[concat(variables('factoryId'), '/pipelines/Load8x8')]",
+				"[concat(variables('factoryId'), '/pipelines/Populate8x8')]",
+				"[concat(variables('factoryId'), '/pipelines/Archive8x8')]"
+			]
+		}
+	]
+}

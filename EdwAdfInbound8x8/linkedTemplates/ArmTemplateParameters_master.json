@@ -1,0 +1,36 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "EdwAdfInbound8x8"
+		},
+		"LsAsaAmmexEdw_EdwAdfPipelineReadOnly_connectionString": {
+			"value": ""
+		},
+		"LsAsaAmmexEdw_EdwAdfPipelineWrite_connectionString": {
+			"value": ""
+		},
+		"EdwAdfKeyVault_properties_typeProperties_baseUrl": {
+			"value": "https://EdwAdfKeyVault.vault.azure.net/"
+		},
+		"LsAdfEdwFtp_properties_typeProperties_host": {
+			"value": "ftp.smartfile.com"
+		},
+		"LsAdfEdwFtp_properties_typeProperties_userName": {
+			"value": "ammexcorporation"
+		},
+		"LsAdlEdwInbound8x8_properties_typeProperties_url": {
+			"value": "https://edwinbound.dfs.core.windows.net"
+		},
+		"LsAdlsAmmexEdw_properties_typeProperties_url": {
+			"value": "https://ammexedwsynapsestorage.dfs.core.windows.net"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
