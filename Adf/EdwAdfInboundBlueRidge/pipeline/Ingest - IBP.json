@@ -1,6 +1,9 @@
 {
 	"name": "Ingest - IBP",
 	"properties": {
+		"folder": {
+			"name": "1 - Ingest"
+		},
 		"annotations": []
 	}
 }
