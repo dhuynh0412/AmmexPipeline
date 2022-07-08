@@ -104,25 +104,6 @@
 									"type": "DelimitedTextReadSettings"
 								}
 							}
-						},
-						{
-							"name": "If Condition1",
-							"type": "IfCondition",
-							"dependsOn": [
-								{
-									"activity": "GetFileLastModifiedDate",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"userProperties": [],
-							"typeProperties": {
-								"expression": {
-									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-3))",
-									"type": "Expression"
-								}
-							}
 						}
 					]
 				}
