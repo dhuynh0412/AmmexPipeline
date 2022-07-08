@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "DsSourceNetworkPathFTP",
+						"referenceName": "DsSourceNetworkPathTxt",
 						"type": "DatasetReference",
 						"parameters": {
 							"SourceNetworkPath": {
@@ -26,7 +26,7 @@
 						}
 					},
 					"fieldList": [
-						"columnCount"
+						"childItems"
 					],
 					"storeSettings": {
 						"type": "FtpReadSettings",
