@@ -81,7 +81,7 @@
 											"type": "Expression"
 										},
 										"SourceNetworkPathFileName": {
-											"value": "@item().name",
+											"value": "@variables('item')",
 											"type": "Expression"
 										}
 									}
