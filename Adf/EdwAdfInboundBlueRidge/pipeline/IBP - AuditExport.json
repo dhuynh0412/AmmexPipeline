@@ -1,5 +1,5 @@
 {
-	"name": "Ingest - IBP",
+	"name": "IBP - AuditExport",
 	"properties": {
 		"activities": [
 			{
