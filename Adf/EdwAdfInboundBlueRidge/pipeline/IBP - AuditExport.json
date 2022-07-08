@@ -141,7 +141,10 @@
 												"additionalColumns": [
 													{
 														"name": "SourceFileName",
-														"value": "@variables('item')"
+														"value": {
+															"value": "@variables('item')",
+															"type": "Expression"
+														}
 													},
 													{
 														"name": "PipelineName",
