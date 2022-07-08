@@ -20,7 +20,9 @@
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
-				"type": "AzureBlobFSLocation"
+				"type": "AzureBlobFSLocation",
+				"folderPath": "ibpdata",
+				"fileSystem": "blueridge"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
