@@ -1,0 +1,64 @@
+{
+	"name": "Main - IBPConsensus",
+	"properties": {
+		"activities": [
+			{
+				"name": "IngestIBPConsensus",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Ingest IBP - Audit",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "LoadIBPConsensus",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "IngestIBPConsensus",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Load IBP - Audit",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PopulateIBPConsensus",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "LoadIBPConsensus",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Populate IBP - Audit",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "4 - Orchestration"
+		},
+		"annotations": []
+	}
+}
