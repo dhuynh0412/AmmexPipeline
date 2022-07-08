@@ -30,6 +30,7 @@
 					],
 					"storeSettings": {
 						"type": "FtpReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false,
 						"useBinaryTransfer": false,
 						"disableChunking": false
@@ -91,6 +92,7 @@
 								],
 								"storeSettings": {
 									"type": "FtpReadSettings",
+									"recursive": true,
 									"enablePartitionDiscovery": false,
 									"useBinaryTransfer": false,
 									"disableChunking": false
@@ -248,11 +250,11 @@
 			},
 			"DatalakeIngestRoot": {
 				"type": "string",
-				"defaultValue": "IBPData"
+				"defaultValue": "blueridge"
 			},
 			"DatalakeIngestRootPath": {
 				"type": "string",
-				"defaultValue": "IBPData"
+				"defaultValue": "ibpdata"
 			}
 		},
 		"folder": {
