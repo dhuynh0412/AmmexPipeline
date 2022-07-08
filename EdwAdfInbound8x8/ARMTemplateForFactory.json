@@ -1925,10 +1925,11 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/TriggerDailyCall8x8Main')]",
+			"name": "[concat(parameters('factoryName'), '/TriggerHourlyCall8x8Main')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"description": "The files send to us 4 times each",
 				"annotations": [],
 				"runtimeState": "Started",
 				"pipelines": [
@@ -1944,8 +1945,8 @@
 				"typeProperties": {
 					"recurrence": {
 						"frequency": "Hour",
-						"interval": 24,
-						"startTime": "2022-06-23T17:45:00",
+						"interval": 1,
+						"startTime": "2022-06-23T10:30:00",
 						"timeZone": "Pacific Standard Time"
 					}
 				}
