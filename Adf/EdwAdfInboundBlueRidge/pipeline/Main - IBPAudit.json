@@ -1,6 +1,61 @@
 {
 	"name": "Main - IBPAudit",
 	"properties": {
+		"activities": [
+			{
+				"name": "IngestIBPAudit",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Ingest IBP - Audit",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "LoadIBPAudit",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "IngestIBPAudit",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Load IBP - Audit",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PopulateIBPAudit",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "LoadIBPAudit",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Populate IBP - Audit",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
 		"folder": {
 			"name": "4 - Orchestration"
 		},
