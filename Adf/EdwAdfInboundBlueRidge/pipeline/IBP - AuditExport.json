@@ -181,7 +181,26 @@
 													"type": "DelimitedTextReadSettings"
 												}
 											},
-											"enableStaging": false
+											"sink": {
+												"type": "DelimitedTextSink",
+												"storeSettings": {
+													"type": "AzureBlobFSWriteSettings"
+												},
+												"formatSettings": {
+													"type": "DelimitedTextWriteSettings",
+													"quoteAllText": true,
+													"fileExtension": ".txt"
+												}
+											},
+											"enableStaging": false,
+											"translator": {
+												"type": "TabularTranslator",
+												"typeConversion": true,
+												"typeConversionSettings": {
+													"allowDataTruncation": true,
+													"treatBooleanAsNumber": false
+												}
+											}
 										},
 										"inputs": [
 											{
@@ -193,6 +212,26 @@
 														"type": "Expression"
 													},
 													"SourceNetworkPathFileName": {
+														"value": "@item().name",
+														"type": "Expression"
+													}
+												}
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "DsDestinationAdlEdwInboundBRTxt",
+												"type": "DatasetReference",
+												"parameters": {
+													"DatalakeIngestRoot": {
+														"value": "@pipeline().parameters.DatalakeIngestRoot",
+														"type": "Expression"
+													},
+													"DatalakeIngestRootPath": {
+														"value": "@pipeline().parameters.DatalakeIngestRootPath",
+														"type": "Expression"
+													},
+													"DatalakeIngestRootPathFileName": {
 														"value": "@item().name",
 														"type": "Expression"
 													}
