@@ -1,6 +1,7 @@
 {
-	"name": "TriggerDailyCall8x8Main",
+	"name": "TriggerHourlyCall8x8Main",
 	"properties": {
+		"description": "The files send to us 4 times each",
 		"annotations": [],
 		"runtimeState": "Started",
 		"pipelines": [
@@ -15,8 +16,8 @@
 		"typeProperties": {
 			"recurrence": {
 				"frequency": "Hour",
-				"interval": 24,
-				"startTime": "2022-06-23T17:45:00",
+				"interval": 1,
+				"startTime": "2022-06-23T10:30:00",
 				"timeZone": "Pacific Standard Time"
 			}
 		}
