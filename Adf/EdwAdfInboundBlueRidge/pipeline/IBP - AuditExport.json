@@ -258,6 +258,10 @@
 			"DatalakeIngestRootPath": {
 				"type": "string",
 				"defaultValue": "ibpdata"
+			},
+			"SourceNetworkPathFileName": {
+				"type": "string",
+				"defaultValue": "IBP_Audit_Export.txt"
 			}
 		},
 		"folder": {
