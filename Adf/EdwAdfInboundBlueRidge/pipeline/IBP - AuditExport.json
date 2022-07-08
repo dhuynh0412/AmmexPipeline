@@ -141,7 +141,7 @@
 												"additionalColumns": [
 													{
 														"name": "SourceFileName",
-														"value": "$$FILEPATH"
+														"value": "@variables('item')"
 													},
 													{
 														"name": "PipelineName",
