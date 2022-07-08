@@ -260,12 +260,6 @@
 				"defaultValue": "ibpdata"
 			}
 		},
-		"variables": {
-			"item": {
-				"type": "String",
-				"defaultValue": "IBP_Audit_Export.txt"
-			}
-		},
 		"folder": {
 			"name": "1 - Ingest"
 		},
