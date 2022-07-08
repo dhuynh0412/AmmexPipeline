@@ -9,7 +9,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "Ingest IBP - Audit",
+						"referenceName": "Ingest IBP - Consensus",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
@@ -29,7 +29,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "Load IBP - Audit",
+						"referenceName": "Load IBP - Consensus",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
@@ -49,7 +49,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "Populate IBP - Audit",
+						"referenceName": "Populate IBP - Consensus",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
