@@ -652,7 +652,7 @@
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{
-								"activity": "Ingest8x8",
+								"activity": "Wait10Seconds",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -701,6 +701,22 @@
 							},
 							"waitOnCompletion": true,
 							"parameters": {}
+						}
+					},
+					{
+						"name": "Wait10Seconds",
+						"type": "Wait",
+						"dependsOn": [
+							{
+								"activity": "Ingest8x8",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 10
 						}
 					}
 				],
