@@ -18,7 +18,7 @@
 					"source": {
 						"type": "SqlDWSource",
 						"sqlReaderQuery": {
-							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSchema] = 'Blueridge' \n\t  AND [IsLoad] = 1\n\t  AND [SourceDatabase] = 'IBPAuditExport'\nORDER BY [SourceObject]",
+							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSchema] = 'Blueridge' \n\t  AND [IsLoad] = 1\n\t  AND [SourceDatabase] = 'IBPConsensusExport'\nORDER BY [SourceObject]",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
