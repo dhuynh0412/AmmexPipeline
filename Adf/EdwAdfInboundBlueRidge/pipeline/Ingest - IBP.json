@@ -138,7 +138,7 @@
 												"additionalColumns": [
 													{
 														"name": "SourceFileName",
-														"value": "$$FILEPATH"
+														"value": ""
 													},
 													{
 														"name": "PipelineName",
@@ -211,7 +211,10 @@
 														"value": "@pipeline().parameters.SourceNetworkPath",
 														"type": "Expression"
 													},
-													"SourceNetworkPathFileName": "@item().name"
+													"SourceNetworkPathFileName": {
+														"value": "@item().name",
+														"type": "Expression"
+													}
 												}
 											}
 										],
