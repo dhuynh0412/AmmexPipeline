@@ -15,7 +15,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "FtpServerLocation",
-				"fileName": "IBP_Audit_Export.txt",
 				"folderPath": {
 					"value": "@dataset().SourceNetworkPath",
 					"type": "Expression"
