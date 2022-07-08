@@ -73,7 +73,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"dataset": {
-									"referenceName": "DsSourceNetworkPathFileNameFTP",
+									"referenceName": "DsSourceNetworkPathFileNameTxt",
 									"type": "DatasetReference",
 									"parameters": {
 										"SourceNetworkPath": {
@@ -81,17 +81,14 @@
 											"type": "Expression"
 										},
 										"SourceNetworkPathFileName": {
-											"value": "@variables('item')",
+											"value": "@item().name",
 											"type": "Expression"
 										}
 									}
 								},
 								"fieldList": [
 									"lastModified",
-									{
-										"value": "@variables('item')",
-										"type": "Expression"
-									}
+									"itemName"
 								],
 								"storeSettings": {
 									"type": "FtpReadSettings",
@@ -103,6 +100,107 @@
 								"formatSettings": {
 									"type": "DelimitedTextReadSettings"
 								}
+							}
+						},
+						{
+							"name": "If Condition1",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "GetFileLastModifiedDate",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-3))",
+									"type": "Expression"
+								},
+								"ifTrueActivities": [
+									{
+										"name": "CopyingCsvToDataLake",
+										"type": "Copy",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "7.00:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "DelimitedTextSource",
+												"additionalColumns": [
+													{
+														"name": "SourceFileName",
+														"value": ""
+													},
+													{
+														"name": "PipelineName",
+														"value": {
+															"value": "@pipeline().Pipeline",
+															"type": "Expression"
+														}
+													},
+													{
+														"name": "LoadDate",
+														"value": {
+															"value": "@utcNow()",
+															"type": "Expression"
+														}
+													},
+													{
+														"name": "FileLastModifiedDate",
+														"value": {
+															"value": "@activity('GetFileLastModifiedDate').output.lastModified",
+															"type": "Expression"
+														}
+													},
+													{
+														"name": "IsSourceDeleted",
+														"value": ""
+													},
+													{
+														"name": "IsSourceDeletedDate",
+														"value": ""
+													}
+												],
+												"storeSettings": {
+													"type": "FtpReadSettings",
+													"recursive": true,
+													"enablePartitionDiscovery": false,
+													"useBinaryTransfer": false,
+													"disableChunking": false
+												},
+												"formatSettings": {
+													"type": "DelimitedTextReadSettings"
+												}
+											},
+											"enableStaging": false
+										},
+										"inputs": [
+											{
+												"referenceName": "DsSourceNetworkPathFileNameTxt",
+												"type": "DatasetReference",
+												"parameters": {
+													"SourceNetworkPath": {
+														"value": "@pipeline().parameters.SourceNetworkPath",
+														"type": "Expression"
+													},
+													"SourceNetworkPathFileName": {
+														"value": "@item().name",
+														"type": "Expression"
+													}
+												}
+											}
+										]
+									}
+								]
 							}
 						}
 					]
