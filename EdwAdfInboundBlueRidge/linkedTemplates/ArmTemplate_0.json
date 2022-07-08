@@ -177,62 +177,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DsAsaAmmexEdw_EdwAdfPipelineWrite')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"SinkSchema": {
-						"type": "string"
-					},
-					"SinkTable": {
-						"type": "string"
-					}
-				},
-				"annotations": [],
-				"type": "AzureSqlDWTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": {
-						"value": "@dataset().SinkSchema",
-						"type": "Expression"
-					},
-					"table": {
-						"value": "@dataset().SinkTable",
-						"type": "Expression"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LsAsaAmmexEdw_EdwAdfPipelineWrite')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DsAsaAmmexEdw_EdwAdfPipelineReadONly')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineReadOnly",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlDWTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "ETL",
-					"table": "AdfLoadControl"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LsAsaAmmexEdw_EdwAdfPipelineReadOnly')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/DsAdlsInboundEdwBRTxt')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -282,6 +226,62 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DsAsaAmmexEdw_EdwAdfPipelineReadONly')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineReadOnly",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlDWTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "ETL",
+					"table": "AdfLoadControl"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LsAsaAmmexEdw_EdwAdfPipelineReadOnly')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DsAsaAmmexEdw_EdwAdfPipelineWrite')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"SinkSchema": {
+						"type": "string"
+					},
+					"SinkTable": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "AzureSqlDWTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": {
+						"value": "@dataset().SinkSchema",
+						"type": "Expression"
+					},
+					"table": {
+						"value": "@dataset().SinkTable",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LsAsaAmmexEdw_EdwAdfPipelineWrite')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DsDestinationAdlEdwInboundBRTxt')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -305,7 +305,9 @@
 				"type": "DelimitedText",
 				"typeProperties": {
 					"location": {
-						"type": "AzureBlobFSLocation"
+						"type": "AzureBlobFSLocation",
+						"folderPath": "ibpdata",
+						"fileSystem": "blueridge"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -319,7 +321,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DsSourceNetworkPathTxt')]",
+			"name": "[concat(parameters('factoryName'), '/DsSourceNetworkPathFTP')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -337,48 +339,6 @@
 				"typeProperties": {
 					"location": {
 						"type": "FtpServerLocation",
-						"folderPath": {
-							"value": "@dataset().SourceNetworkPath",
-							"type": "Expression"
-						}
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LsAdfEdwFTPBR')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DsSourceNetworkPathFileNameTxt')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LsAdfEdwFTPBR",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"SourceNetworkPath": {
-						"type": "string"
-					},
-					"SourceNetworkPathFileName": {
-						"type": "string"
-					}
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "FtpServerLocation",
-						"fileName": {
-							"value": "@dataset().SourceNetworkPathFileName",
-							"type": "Expression"
-						},
 						"folderPath": {
 							"value": "@dataset().SourceNetworkPath",
 							"type": "Expression"
@@ -438,7 +398,49 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DsSourceNetworkPathFTP')]",
+			"name": "[concat(parameters('factoryName'), '/DsSourceNetworkPathFileNameTxt')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LsAdfEdwFTPBR",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"SourceNetworkPath": {
+						"type": "string"
+					},
+					"SourceNetworkPathFileName": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "FtpServerLocation",
+						"fileName": {
+							"value": "@dataset().SourceNetworkPathFileName",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@dataset().SourceNetworkPath",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LsAdfEdwFTPBR')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DsSourceNetworkPathTxt')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -473,7 +475,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Ingest - IBP')]",
+			"name": "[concat(parameters('factoryName'), '/IBP - AuditExport')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -506,6 +508,7 @@
 							],
 							"storeSettings": {
 								"type": "FtpReadSettings",
+								"recursive": true,
 								"enablePartitionDiscovery": false,
 								"useBinaryTransfer": false,
 								"disableChunking": false
@@ -567,6 +570,7 @@
 										],
 										"storeSettings": {
 											"type": "FtpReadSettings",
+											"recursive": true,
 											"enablePartitionDiscovery": false,
 											"useBinaryTransfer": false,
 											"disableChunking": false
@@ -612,7 +616,7 @@
 														"additionalColumns": [
 															{
 																"name": "SourceFileName",
-																"value": "$$FILEPATH"
+																"value": ""
 															},
 															{
 																"name": "PipelineName",
@@ -685,7 +689,10 @@
 																"value": "@pipeline().parameters.SourceNetworkPath",
 																"type": "Expression"
 															},
-															"SourceNetworkPathFileName": "@item().name"
+															"SourceNetworkPathFileName": {
+																"value": "@item().name",
+																"type": "Expression"
+															}
 														}
 													}
 												],
@@ -728,11 +735,11 @@
 					},
 					"DatalakeIngestRoot": {
 						"type": "string",
-						"defaultValue": "IBPData"
+						"defaultValue": "blueridge"
 					},
 					"DatalakeIngestRootPath": {
 						"type": "string",
-						"defaultValue": "IBPData"
+						"defaultValue": "ibpdata"
 					}
 				},
 				"folder": {
