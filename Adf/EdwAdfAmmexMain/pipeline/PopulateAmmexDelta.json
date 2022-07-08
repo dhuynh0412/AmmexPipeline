@@ -50,9 +50,9 @@
 							"type": "SqlServerStoredProcedure",
 							"dependsOn": [
 								{
-									"activity": "Proc Execute FormatDatatype",
+									"activity": "Waitfor5Seconds",
 									"dependencyConditions": [
-										"Completed"
+										"Succeeded"
 									]
 								}
 							],
@@ -73,6 +73,22 @@
 							"linkedServiceName": {
 								"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
 								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "Waitfor5Seconds",
+							"type": "Wait",
+							"dependsOn": [
+								{
+									"activity": "Proc Execute FormatDatatype",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 5
 							}
 						}
 					]
