@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "IBP*Export.txt",
+				"fileName": "IBP_Consensus_Export.txt",
 				"folderPath": "ibpdata",
 				"fileSystem": "blueridge"
 			},
