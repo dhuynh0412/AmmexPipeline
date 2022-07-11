@@ -36,7 +36,16 @@
 				"userProperties": [],
 				"typeProperties": {
 					"functionName": "EdwAdfOrchestrationFunctionAppMichaelLe",
-					"method": "POST"
+					"method": "POST",
+					"body": {
+						"tenantId": "1234-1234-1234-1234-1234",
+						"applicationId": "1234-1234-1234-1234-1234",
+						"authenticationKey": "Passw0rd123!",
+						"subscriptionId": "1234-1234-1234-1234-1234",
+						"resourceGroup": "CommunityDemos",
+						"factoryName": "EdwAdfOrchestrationMichaelLe",
+						"pipelineName": "WaitingPipeline"
+					}
 				},
 				"linkedServiceName": {
 					"referenceName": "LSFunctionGetPipelineDetailsMichaelLe",
