@@ -13,6 +13,833 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/Ingest IBP - Consensus')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "GetSourceNetworkFolder",
+						"type": "GetMetadata",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "DsSourceNetworkPathTxt",
+								"type": "DatasetReference",
+								"parameters": {
+									"SourceNetworkPath": {
+										"value": "@pipeline().parameters.SourceNetworkPath",
+										"type": "Expression"
+									}
+								}
+							},
+							"fieldList": [
+								"childItems"
+							],
+							"storeSettings": {
+								"type": "FtpReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false,
+								"useBinaryTransfer": false,
+								"disableChunking": false
+							},
+							"formatSettings": {
+								"type": "DelimitedTextReadSettings"
+							}
+						}
+					},
+					{
+						"name": "LoopingThroughNetworkFolders",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GetSourceNetworkFolder",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetSourceNetworkFolder').output.childItems",
+								"type": "Expression"
+							},
+							"batchCount": 4,
+							"activities": [
+								{
+									"name": "GetFileLastModifiedDate",
+									"type": "GetMetadata",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"dataset": {
+											"referenceName": "DsSourceNetworkPathFileNameTxt",
+											"type": "DatasetReference",
+											"parameters": {
+												"SourceNetworkPath": {
+													"value": "@pipeline().parameters.SourceNetworkPath",
+													"type": "Expression"
+												},
+												"SourceNetworkPathFileName": {
+													"value": "@item().name",
+													"type": "Expression"
+												}
+											}
+										},
+										"fieldList": [
+											"lastModified",
+											"itemName"
+										],
+										"storeSettings": {
+											"type": "FtpReadSettings",
+											"recursive": true,
+											"enablePartitionDiscovery": false,
+											"useBinaryTransfer": false,
+											"disableChunking": false
+										},
+										"formatSettings": {
+											"type": "DelimitedTextReadSettings"
+										}
+									}
+								},
+								{
+									"name": "If Condition1",
+									"type": "IfCondition",
+									"dependsOn": [
+										{
+											"activity": "GetFileLastModifiedDate",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"expression": {
+											"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-3))",
+											"type": "Expression"
+										},
+										"ifTrueActivities": [
+											{
+												"name": "CopyingTxtToDataLake",
+												"type": "Copy",
+												"dependsOn": [],
+												"policy": {
+													"timeout": "7.00:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"source": {
+														"type": "DelimitedTextSource",
+														"additionalColumns": [
+															{
+																"name": "SourceFileName",
+																"value": "$$FILEPATH"
+															},
+															{
+																"name": "PipelineName",
+																"value": {
+																	"value": "@pipeline().Pipeline",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "LoadDate",
+																"value": {
+																	"value": "@utcNow()",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "FileLastModifiedDate",
+																"value": {
+																	"value": "@activity('GetFileLastModifiedDate').output.lastModified",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "IsSourceDeleted",
+																"value": ""
+															},
+															{
+																"name": "IsSourceDeletedDate",
+																"value": ""
+															}
+														],
+														"storeSettings": {
+															"type": "FtpReadSettings",
+															"recursive": true,
+															"enablePartitionDiscovery": false,
+															"useBinaryTransfer": false,
+															"disableChunking": false
+														},
+														"formatSettings": {
+															"type": "DelimitedTextReadSettings"
+														}
+													},
+													"sink": {
+														"type": "DelimitedTextSink",
+														"storeSettings": {
+															"type": "AzureBlobFSWriteSettings"
+														},
+														"formatSettings": {
+															"type": "DelimitedTextWriteSettings",
+															"quoteAllText": true,
+															"fileExtension": ".txt"
+														}
+													},
+													"enableStaging": false,
+													"translator": {
+														"type": "TabularTranslator",
+														"typeConversion": true,
+														"typeConversionSettings": {
+															"allowDataTruncation": true,
+															"treatBooleanAsNumber": false
+														}
+													}
+												},
+												"inputs": [
+													{
+														"referenceName": "DsSourceNetworkPathFileNameTxt",
+														"type": "DatasetReference",
+														"parameters": {
+															"SourceNetworkPath": {
+																"value": "@pipeline().parameters.SourceNetworkPath",
+																"type": "Expression"
+															},
+															"SourceNetworkPathFileName": {
+																"value": "@item().name",
+																"type": "Expression"
+															}
+														}
+													}
+												],
+												"outputs": [
+													{
+														"referenceName": "DsDestinationAdlEdwInboundBRTxt",
+														"type": "DatasetReference",
+														"parameters": {
+															"DatalakeIngestRoot": {
+																"value": "@pipeline().parameters.DatalakeIngestRoot",
+																"type": "Expression"
+															},
+															"DatalakeIngestRootPath": {
+																"value": "@pipeline().parameters.DatalakeIngestRootPath",
+																"type": "Expression"
+															},
+															"DatalakeIngestRootPathFileName": {
+																"value": "@item().name",
+																"type": "Expression"
+															}
+														}
+													}
+												]
+											}
+										]
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"SourceNetworkPath": {
+						"type": "string",
+						"defaultValue": "/IBPData"
+					},
+					"DatalakeIngestRoot": {
+						"type": "string",
+						"defaultValue": "blueridge"
+					},
+					"DatalakeIngestRootPath": {
+						"type": "string",
+						"defaultValue": "ibpdata"
+					}
+				},
+				"folder": {
+					"name": "1 - Ingest"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Load IBP - Audit')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "GetListOfSourceFiles",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlDWSource",
+								"sqlReaderQuery": {
+									"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Blueridge'\n\t  AND [IsLoad] = 1\n\t  AND [SourceObject] = 'IBPAuditExport'\nORDER BY [SourceObject]",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "LoopingThroughtDataLake",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GetListOfSourceFiles",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetListOfSourceFiles').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "ImportingTxtToEdw",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "AzureBlobFSReadSettings",
+												"recursive": true,
+												"wildcardFolderPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												},
+												"wildcardFileName": {
+													"value": "@{item().SourceNetworkPathFileName}",
+													"type": "Expression"
+												},
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "SqlDWSink",
+											"writeBehavior": "Insert",
+											"sqlWriterUseTableLock": false,
+											"tableOption": "autoCreate",
+											"disableMetricsCollection": false
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "DsAdlsInboundEdwBRTxt",
+											"type": "DatasetReference",
+											"parameters": {
+												"DatalakeIngestRoot": {
+													"value": "@{item().DatalakeIngestRoot}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPathFileName": {
+													"value": "@toLower('')",
+													"type": "Expression"
+												}
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+											"type": "DatasetReference",
+											"parameters": {
+												"SinkSchema": {
+													"value": "@{item().SinkSchema}",
+													"type": "Expression"
+												},
+												"SinkTable": {
+													"value": "@{item().SinkTable}",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "2 - Load"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Load IBP - Consensus')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "GetListOfSourceFiles",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlDWSource",
+								"sqlReaderQuery": {
+									"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Blueridge'\n\t  AND [IsLoad] = 1\n\t  AND [SourceObject] = 'IBPConsensusExport'\nORDER BY [SourceObject]",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "LoopingThroughtDataLake",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GetListOfSourceFiles",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetListOfSourceFiles').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "ImportingTxtToEdw",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "AzureBlobFSReadSettings",
+												"recursive": true,
+												"wildcardFolderPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												},
+												"wildcardFileName": {
+													"value": "@{item().SourceNetworkPathFileName}",
+													"type": "Expression"
+												},
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "SqlDWSink",
+											"writeBehavior": "Insert",
+											"sqlWriterUseTableLock": false,
+											"tableOption": "autoCreate",
+											"disableMetricsCollection": false
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "DsAdlsInboundEdwBRTxt",
+											"type": "DatasetReference",
+											"parameters": {
+												"DatalakeIngestRoot": {
+													"value": "@{item().DatalakeIngestRoot}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPathFileName": {
+													"value": "@toLower('')",
+													"type": "Expression"
+												}
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+											"type": "DatasetReference",
+											"parameters": {
+												"SinkSchema": {
+													"value": "@{item().SinkSchema}",
+													"type": "Expression"
+												},
+												"SinkTable": {
+													"value": "@{item().SinkTable}",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "2 - Load"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Populate IBP - Audit')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "GetValueFromAdfLoadControl",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlDWSource",
+								"sqlReaderQuery": {
+									"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSchema] = 'Blueridge' \n\t  AND [IsLoad] = 1\n\t  AND [SourceDatabase] = 'IBPAuditExport'\nORDER BY [SourceObject]",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "LoopingThroughtAdfLoadControlObjects",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GetValueFromAdfLoadControl",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetValueFromAdfLoadControl').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "ExecuteFormatDatatype",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": {
+											"value": "@{item().FormatDatatype}",
+											"type": "Expression"
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
+										"type": "LinkedServiceReference"
+									}
+								},
+								{
+									"name": "ExecutePopulate",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
+										{
+											"activity": "ExecuteFormatDatatype",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": {
+											"value": "@{item().Populate}",
+											"type": "Expression"
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
+										"type": "LinkedServiceReference"
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "3 - Populate"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Populate IBP - Consensus')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "GetValueFromAdfLoadControl",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlDWSource",
+								"sqlReaderQuery": {
+									"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSchema] = 'Blueridge' \n\t  AND [IsLoad] = 1\n\t  AND [SourceDatabase] = 'IBPConsensusExport'\nORDER BY [SourceObject]",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "LoopingThroughtAdfLoadControlObjects",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GetValueFromAdfLoadControl",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetValueFromAdfLoadControl').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "ExecuteFormatDatatype",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": {
+											"value": "@{item().FormatDatatype}",
+											"type": "Expression"
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
+										"type": "LinkedServiceReference"
+									}
+								},
+								{
+									"name": "ExecutePopulate",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
+										{
+											"activity": "ExecuteFormatDatatype",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": {
+											"value": "@{item().Populate}",
+											"type": "Expression"
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
+										"type": "LinkedServiceReference"
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "3 - Populate"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Main - IBPAudit')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -37,7 +864,7 @@
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{
-								"activity": "IngestIBPAudit",
+								"activity": "Wait10Seconds",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -73,6 +900,22 @@
 							"waitOnCompletion": true,
 							"parameters": {}
 						}
+					},
+					{
+						"name": "Wait10Seconds",
+						"type": "Wait",
+						"dependsOn": [
+							{
+								"activity": "IngestIBPAudit",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 10
+						}
 					}
 				],
 				"policy": {
@@ -84,7 +927,10 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/Load IBP - Audit')]",
+				"[concat(variables('factoryId'), '/pipelines/Populate IBP - Audit')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Main - IBPConsensus')]",
@@ -111,7 +957,7 @@
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{
-								"activity": "IngestIBPConsensus",
+								"activity": "Wait10Seconds",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -147,6 +993,22 @@
 							"waitOnCompletion": true,
 							"parameters": {}
 						}
+					},
+					{
+						"name": "Wait10Seconds",
+						"type": "Wait",
+						"dependsOn": [
+							{
+								"activity": "IngestIBPConsensus",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 10
+						}
 					}
 				],
 				"policy": {
@@ -158,7 +1020,11 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/Ingest IBP - Consensus')]",
+				"[concat(variables('factoryId'), '/pipelines/Load IBP - Consensus')]",
+				"[concat(variables('factoryId'), '/pipelines/Populate IBP - Consensus')]"
+			]
 		}
 	]
 }
