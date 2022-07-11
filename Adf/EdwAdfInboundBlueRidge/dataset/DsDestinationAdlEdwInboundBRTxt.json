@@ -24,7 +24,7 @@
 				"folderPath": "ibpdata",
 				"fileSystem": "blueridge"
 			},
-			"columnDelimiter": ",",
+			"columnDelimiter": "\t",
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
