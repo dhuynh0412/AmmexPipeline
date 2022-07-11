@@ -40,7 +40,7 @@
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "LoadTrueValue",
+						"activity": "WaitFor10Seconds",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -53,6 +53,22 @@
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "WaitFor10Seconds",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "LoadTrueValue",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 10
 				}
 			}
 		],
