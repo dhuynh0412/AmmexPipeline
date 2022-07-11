@@ -1,0 +1,180 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "EdwAdfInbound"
+		},
+		"LsAbsEdwInbound_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LsAbsEdwInbound'"
+		},
+		"LsAsaAmmexEdw_EdwAdfPipelineReadOnly_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LsAsaAmmexEdw_EdwAdfPipelineReadOnly'"
+		},
+		"LsAsaAmmexEdw_EdwAdfPipelineWrite_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LsAsaAmmexEdw_EdwAdfPipelineWrite'"
+		},
+		"LsAsqlDataWarehouse_EdwAdfPipelineReadOnly_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LsAsqlDataWarehouse_EdwAdfPipelineReadOnly'"
+		},
+		"EdwAdfKeyVault_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://EdwAdfKeyVault.vault.azure.net/"
+		},
+		"LSFtpAmmexSmartfile_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "ftp.smartfile.com"
+		},
+		"LSFtpAmmexSmartfile_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "ammexcorporation"
+		},
+		"LsAdlEdwInbound_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://edwinbound.dfs.core.windows.net"
+		},
+		"LsAdlsAmmexEdw_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://ammexedwsynapsestorage.dfs.core.windows.net"
+		},
+		"LsSourceNetworkRoot_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "\\\\WU2-VM-FS-01\\FileShare\\"
+		},
+		"LsSourceNetworkRoot_properties_typeProperties_userId": {
+			"type": "string",
+			"defaultValue": "ammexcorp\\EdwAdfPipelineSvc"
+		},
+		"Salesforce_properties_typeProperties_environmentUrl": {
+			"type": "string",
+			"defaultValue": "https://login.salesforce.com"
+		},
+		"Salesforce_properties_typeProperties_username": {
+			"type": "string",
+			"defaultValue": "sfadmin@ammex.com"
+		},
+		"IrSqlMatterhorn_properties_typeProperties_linkedInfo_resourceId": {
+			"type": "string",
+			"defaultValue": "/subscriptions/cae64f29-6572-4d75-acf6-8f05b8d4e501/resourcegroups/EDWTeamResourceGroup/providers/Microsoft.DataFactory/factories/EdwAdfAmmex/integrationruntimes/IrSqlMatterhorn"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "EdwAdfInbound_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"LsAbsEdwInbound_connectionString": {
+						"value": "[parameters('LsAbsEdwInbound_connectionString')]"
+					},
+					"LsAsaAmmexEdw_EdwAdfPipelineReadOnly_connectionString": {
+						"value": "[parameters('LsAsaAmmexEdw_EdwAdfPipelineReadOnly_connectionString')]"
+					},
+					"LsAsaAmmexEdw_EdwAdfPipelineWrite_connectionString": {
+						"value": "[parameters('LsAsaAmmexEdw_EdwAdfPipelineWrite_connectionString')]"
+					},
+					"LsAsqlDataWarehouse_EdwAdfPipelineReadOnly_connectionString": {
+						"value": "[parameters('LsAsqlDataWarehouse_EdwAdfPipelineReadOnly_connectionString')]"
+					},
+					"EdwAdfKeyVault_properties_typeProperties_baseUrl": {
+						"value": "[parameters('EdwAdfKeyVault_properties_typeProperties_baseUrl')]"
+					},
+					"IrSqlMatterhorn_properties_typeProperties_linkedInfo_resourceId": {
+						"value": "[parameters('IrSqlMatterhorn_properties_typeProperties_linkedInfo_resourceId')]"
+					},
+					"LSFtpAmmexSmartfile_properties_typeProperties_host": {
+						"value": "[parameters('LSFtpAmmexSmartfile_properties_typeProperties_host')]"
+					},
+					"LSFtpAmmexSmartfile_properties_typeProperties_userName": {
+						"value": "[parameters('LSFtpAmmexSmartfile_properties_typeProperties_userName')]"
+					},
+					"LsAdlEdwInbound_properties_typeProperties_url": {
+						"value": "[parameters('LsAdlEdwInbound_properties_typeProperties_url')]"
+					},
+					"LsAdlsAmmexEdw_properties_typeProperties_url": {
+						"value": "[parameters('LsAdlsAmmexEdw_properties_typeProperties_url')]"
+					},
+					"LsSourceNetworkRoot_properties_typeProperties_host": {
+						"value": "[parameters('LsSourceNetworkRoot_properties_typeProperties_host')]"
+					},
+					"LsSourceNetworkRoot_properties_typeProperties_userId": {
+						"value": "[parameters('LsSourceNetworkRoot_properties_typeProperties_userId')]"
+					},
+					"Salesforce_properties_typeProperties_environmentUrl": {
+						"value": "[parameters('Salesforce_properties_typeProperties_environmentUrl')]"
+					},
+					"Salesforce_properties_typeProperties_username": {
+						"value": "[parameters('Salesforce_properties_typeProperties_username')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "EdwAdfInbound_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'EdwAdfInbound_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "EdwAdfInbound_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'EdwAdfInbound_ArmTemplate_1')]"
+			]
+		}
+	]
+}

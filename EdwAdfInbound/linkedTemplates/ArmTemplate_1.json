@@ -1,0 +1,3589 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "EdwAdfInbound"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/DsSourceNetworkPathCsv_AceSales')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LsSourceNetworkRoot",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"SourceNetworkPath": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "FileServerLocation",
+						"folderPath": {
+							"value": "@dataset().SourceNetworkPath",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": false,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DsSourceNetworkPathExcel')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LsSourceNetworkRoot",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"SourceNetworkPath": {
+						"type": "string"
+					},
+					"SourceNetworkPathSheetName": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": {
+						"value": "@dataset().SourceNetworkPathSheetName",
+						"type": "Expression"
+					},
+					"location": {
+						"type": "FileServerLocation",
+						"folderPath": {
+							"value": "@dataset().SourceNetworkPath",
+							"type": "Expression"
+						}
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DsSourceNetworkPathFileNameCsv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LsSourceNetworkRoot",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"SourceNetworkPath": {
+						"type": "string"
+					},
+					"SourceNetworkPathFileName": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "FileServerLocation",
+						"fileName": {
+							"value": "@dataset().SourceNetworkPathFileName",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@dataset().SourceNetworkPath",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DsSourceNetworkPathFileNameCsv_OReilly')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LsSourceNetworkRoot",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"SourceNetworkPath": {
+						"type": "string"
+					},
+					"SourceNetworkPathFileName": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "FileServerLocation",
+						"fileName": {
+							"value": "@dataset().SourceNetworkPathFileName",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@dataset().SourceNetworkPath",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": false,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DsSourceNetworkPathFileNameExcel')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LsSourceNetworkRoot",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"SourceNetworkPath": {
+						"type": "string"
+					},
+					"SourceNetworkPathFileName": {
+						"type": "string"
+					},
+					"SourceNetworkPathSheetName": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": {
+						"value": "@dataset().SourceNetworkPathSheetName",
+						"type": "Expression"
+					},
+					"location": {
+						"type": "FileServerLocation",
+						"fileName": {
+							"value": "@dataset().SourceNetworkPathFileName",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@dataset().SourceNetworkPath",
+							"type": "Expression"
+						}
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IngestAce - InventoryAndOrder')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LoopingThroughtNetworkFolders",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GetSourceNetworkFolder",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetSourceNetworkFolder').output.childItems",
+								"type": "Expression"
+							},
+							"batchCount": 4,
+							"activities": [
+								{
+									"name": "GetFileLastModifiedDate",
+									"type": "GetMetadata",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"dataset": {
+											"referenceName": "DsSourceNetworkPathFileNameCsv",
+											"type": "DatasetReference",
+											"parameters": {
+												"SourceNetworkPath": {
+													"value": "@pipeline().parameters.SourceNetworkPath",
+													"type": "Expression"
+												},
+												"SourceNetworkPathFileName": {
+													"value": "@item().name",
+													"type": "Expression"
+												}
+											}
+										},
+										"fieldList": [
+											"lastModified",
+											"itemName"
+										],
+										"storeSettings": {
+											"type": "FileServerReadSettings",
+											"recursive": true,
+											"enablePartitionDiscovery": false
+										},
+										"formatSettings": {
+											"type": "DelimitedTextReadSettings"
+										}
+									}
+								},
+								{
+									"name": "If Condition1",
+									"type": "IfCondition",
+									"dependsOn": [
+										{
+											"activity": "GetFileLastModifiedDate",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"expression": {
+											"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-3))",
+											"type": "Expression"
+										},
+										"ifTrueActivities": [
+											{
+												"name": "CopyingCsvToDataLake",
+												"type": "Copy",
+												"dependsOn": [],
+												"policy": {
+													"timeout": "7.00:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"source": {
+														"type": "DelimitedTextSource",
+														"additionalColumns": [
+															{
+																"name": "SourceFileName",
+																"value": "$$FILEPATH"
+															},
+															{
+																"name": "PipelineName",
+																"value": {
+																	"value": "@pipeline().Pipeline",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "LoadDate",
+																"value": {
+																	"value": "@utcNow()",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "FileLastModifiedDate",
+																"value": {
+																	"value": "@activity('GetFileLastModifiedDate').output.lastModified",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "IsSourceDeleted",
+																"value": ""
+															},
+															{
+																"name": "IsSourceDeletedDate",
+																"value": ""
+															}
+														],
+														"storeSettings": {
+															"type": "FileServerReadSettings",
+															"recursive": true,
+															"enablePartitionDiscovery": false
+														},
+														"formatSettings": {
+															"type": "DelimitedTextReadSettings",
+															"skipLineCount": 5
+														}
+													},
+													"sink": {
+														"type": "DelimitedTextSink",
+														"storeSettings": {
+															"type": "AzureBlobFSWriteSettings"
+														},
+														"formatSettings": {
+															"type": "DelimitedTextWriteSettings",
+															"quoteAllText": true,
+															"fileExtension": ".txt"
+														}
+													},
+													"enableStaging": false,
+													"translator": {
+														"type": "TabularTranslator",
+														"typeConversion": true,
+														"typeConversionSettings": {
+															"allowDataTruncation": true,
+															"treatBooleanAsNumber": false
+														}
+													}
+												},
+												"inputs": [
+													{
+														"referenceName": "DsSourceNetworkPathFileNameCsv_OReilly",
+														"type": "DatasetReference",
+														"parameters": {
+															"SourceNetworkPath": {
+																"value": "@pipeline().parameters.SourceNetworkPath",
+																"type": "Expression"
+															},
+															"SourceNetworkPathFileName": {
+																"value": "@item().name",
+																"type": "Expression"
+															}
+														}
+													}
+												],
+												"outputs": [
+													{
+														"referenceName": "DsDestinationAdlEdwInboundCsv",
+														"type": "DatasetReference",
+														"parameters": {
+															"DatalakeIngestRoot": {
+																"value": "@pipeline().parameters.DatalakeIngestRoot",
+																"type": "Expression"
+															},
+															"DatalakeIngestRootPath": {
+																"value": "@pipeline().parameters.DatalakeIngestRootPath",
+																"type": "Expression"
+															},
+															"DatalakeIngestRootPathFileName": {
+																"value": "@item().name",
+																"type": "Expression"
+															}
+														}
+													}
+												]
+											}
+										]
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "GetSourceNetworkFolder",
+						"type": "GetMetadata",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "DsSourceNetworkPathCsv",
+								"type": "DatasetReference",
+								"parameters": {
+									"SourceNetworkPath": {
+										"value": "@pipeline().parameters.SourceNetworkPath",
+										"type": "Expression"
+									}
+								}
+							},
+							"fieldList": [
+								"childItems"
+							],
+							"storeSettings": {
+								"type": "FileServerReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false
+							},
+							"formatSettings": {
+								"type": "DelimitedTextReadSettings"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"SourceNetworkPath": {
+						"type": "string",
+						"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\Ace\\2022\\Inventory and Order Projection"
+					},
+					"DatalakeIngestRoot": {
+						"type": "string",
+						"defaultValue": "finance"
+					},
+					"DatalakeIngestRootPath": {
+						"type": "string",
+						"defaultValue": "sales/sellthroughdatafiles/ace"
+					}
+				},
+				"folder": {
+					"name": "1-Ingest"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DsSourceNetworkPathFileNameCsv')]",
+				"[concat(variables('factoryId'), '/datasets/DsSourceNetworkPathFileNameCsv_OReilly')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IngestLowes - SalesAndInventory')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LoopingThroughtNetworkFolders",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GetSourceNetworkFolder",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetSourceNetworkFolder').output.childItems",
+								"type": "Expression"
+							},
+							"batchCount": 4,
+							"activities": [
+								{
+									"name": "GetFileLastModifiedDate",
+									"type": "GetMetadata",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"dataset": {
+											"referenceName": "DsSourceNetworkPathFileNameCsv",
+											"type": "DatasetReference",
+											"parameters": {
+												"SourceNetworkPath": {
+													"value": "@pipeline().parameters.SourceNetworkPath",
+													"type": "Expression"
+												},
+												"SourceNetworkPathFileName": {
+													"value": "@item().name",
+													"type": "Expression"
+												}
+											}
+										},
+										"fieldList": [
+											"lastModified",
+											"itemName"
+										],
+										"storeSettings": {
+											"type": "FileServerReadSettings",
+											"recursive": true,
+											"enablePartitionDiscovery": false
+										},
+										"formatSettings": {
+											"type": "DelimitedTextReadSettings"
+										}
+									}
+								},
+								{
+									"name": "If Condition1",
+									"type": "IfCondition",
+									"dependsOn": [
+										{
+											"activity": "GetFileLastModifiedDate",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"expression": {
+											"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-3))",
+											"type": "Expression"
+										},
+										"ifTrueActivities": [
+											{
+												"name": "CopyingCsvToDataLake",
+												"type": "Copy",
+												"dependsOn": [],
+												"policy": {
+													"timeout": "7.00:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"source": {
+														"type": "DelimitedTextSource",
+														"additionalColumns": [
+															{
+																"name": "SourceFileName",
+																"value": "$$FILEPATH"
+															},
+															{
+																"name": "PipelineName",
+																"value": {
+																	"value": "@pipeline().Pipeline",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "LoadDate",
+																"value": {
+																	"value": "@utcNow()",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "FileLastModifiedDate",
+																"value": {
+																	"value": "@activity('GetFileLastModifiedDate').output.lastModified",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "IsSourceDeleted",
+																"value": ""
+															},
+															{
+																"name": "IsSourceDeletedDate",
+																"value": ""
+															}
+														],
+														"storeSettings": {
+															"type": "FileServerReadSettings",
+															"recursive": true,
+															"enablePartitionDiscovery": false
+														},
+														"formatSettings": {
+															"type": "DelimitedTextReadSettings",
+															"skipLineCount": 2
+														}
+													},
+													"sink": {
+														"type": "DelimitedTextSink",
+														"storeSettings": {
+															"type": "AzureBlobFSWriteSettings"
+														},
+														"formatSettings": {
+															"type": "DelimitedTextWriteSettings",
+															"quoteAllText": true,
+															"fileExtension": ".txt"
+														}
+													},
+													"enableStaging": false,
+													"translator": {
+														"type": "TabularTranslator",
+														"typeConversion": true,
+														"typeConversionSettings": {
+															"allowDataTruncation": true,
+															"treatBooleanAsNumber": false
+														}
+													}
+												},
+												"inputs": [
+													{
+														"referenceName": "DsSourceNetworkPathFileNameCsv",
+														"type": "DatasetReference",
+														"parameters": {
+															"SourceNetworkPath": {
+																"value": "@pipeline().parameters.SourceNetworkPath",
+																"type": "Expression"
+															},
+															"SourceNetworkPathFileName": {
+																"value": "@item().name",
+																"type": "Expression"
+															}
+														}
+													}
+												],
+												"outputs": [
+													{
+														"referenceName": "DsDestinationAdlEdwInboundCsv",
+														"type": "DatasetReference",
+														"parameters": {
+															"DatalakeIngestRoot": {
+																"value": "@pipeline().parameters.DatalakeIngestRoot",
+																"type": "Expression"
+															},
+															"DatalakeIngestRootPath": {
+																"value": "@pipeline().parameters.DatalakeIngestRootPath",
+																"type": "Expression"
+															},
+															"DatalakeIngestRootPathFileName": {
+																"value": "@item().name",
+																"type": "Expression"
+															}
+														}
+													}
+												]
+											}
+										]
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "GetSourceNetworkFolder",
+						"type": "GetMetadata",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "DsSourceNetworkPathCsv",
+								"type": "DatasetReference",
+								"parameters": {
+									"SourceNetworkPath": {
+										"value": "@pipeline().parameters.SourceNetworkPath",
+										"type": "Expression"
+									}
+								}
+							},
+							"fieldList": [
+								"childItems"
+							],
+							"storeSettings": {
+								"type": "FileServerReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false
+							},
+							"formatSettings": {
+								"type": "DelimitedTextReadSettings"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"SourceNetworkPath": {
+						"type": "string",
+						"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\Lowes\\2022\\Sales and Inventory"
+					},
+					"DatalakeIngestRoot": {
+						"type": "string",
+						"defaultValue": "finance"
+					},
+					"DatalakeIngestRootPath": {
+						"type": "string",
+						"defaultValue": "sales/sellthroughdatafiles/lowes"
+					}
+				},
+				"folder": {
+					"name": "1-Ingest"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DsSourceNetworkPathFileNameCsv')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IngestOReilly - Inventory')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LoopingThroughtNetworkFolders",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GetSourceNetworkFolder",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetSourceNetworkFolder').output.childItems",
+								"type": "Expression"
+							},
+							"batchCount": 4,
+							"activities": [
+								{
+									"name": "GetFileLastModifiedDate",
+									"type": "GetMetadata",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"dataset": {
+											"referenceName": "DsSourceNetworkPathFileNameCsv",
+											"type": "DatasetReference",
+											"parameters": {
+												"SourceNetworkPath": {
+													"value": "@pipeline().parameters.SourceNetworkPath",
+													"type": "Expression"
+												},
+												"SourceNetworkPathFileName": {
+													"value": "@item().name",
+													"type": "Expression"
+												}
+											}
+										},
+										"fieldList": [
+											"lastModified",
+											"itemName"
+										],
+										"storeSettings": {
+											"type": "FileServerReadSettings",
+											"recursive": true,
+											"enablePartitionDiscovery": false
+										},
+										"formatSettings": {
+											"type": "DelimitedTextReadSettings"
+										}
+									}
+								},
+								{
+									"name": "If Condition1",
+									"type": "IfCondition",
+									"dependsOn": [
+										{
+											"activity": "GetFileLastModifiedDate",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"expression": {
+											"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-3))",
+											"type": "Expression"
+										},
+										"ifTrueActivities": [
+											{
+												"name": "CopyingCsvToDataLake",
+												"type": "Copy",
+												"dependsOn": [],
+												"policy": {
+													"timeout": "7.00:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"source": {
+														"type": "DelimitedTextSource",
+														"additionalColumns": [
+															{
+																"name": "SourceFileName",
+																"value": "$$FILEPATH"
+															},
+															{
+																"name": "PipelineName",
+																"value": {
+																	"value": "@pipeline().Pipeline",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "LoadDate",
+																"value": {
+																	"value": "@utcNow()",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "FileLastModifiedDate",
+																"value": {
+																	"value": "@activity('GetFileLastModifiedDate').output.lastModified",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "IsSourceDeleted",
+																"value": ""
+															},
+															{
+																"name": "IsSourceDeletedDate",
+																"value": ""
+															}
+														],
+														"storeSettings": {
+															"type": "FileServerReadSettings",
+															"recursive": true,
+															"enablePartitionDiscovery": false
+														},
+														"formatSettings": {
+															"type": "DelimitedTextReadSettings"
+														}
+													},
+													"sink": {
+														"type": "DelimitedTextSink",
+														"storeSettings": {
+															"type": "AzureBlobFSWriteSettings"
+														},
+														"formatSettings": {
+															"type": "DelimitedTextWriteSettings",
+															"quoteAllText": true,
+															"fileExtension": ".txt"
+														}
+													},
+													"enableStaging": false,
+													"translator": {
+														"type": "TabularTranslator",
+														"typeConversion": true,
+														"typeConversionSettings": {
+															"allowDataTruncation": true,
+															"treatBooleanAsNumber": false
+														}
+													}
+												},
+												"inputs": [
+													{
+														"referenceName": "DsSourceNetworkPathFileNameCsv",
+														"type": "DatasetReference",
+														"parameters": {
+															"SourceNetworkPath": {
+																"value": "@pipeline().parameters.SourceNetworkPath",
+																"type": "Expression"
+															},
+															"SourceNetworkPathFileName": {
+																"value": "@item().name",
+																"type": "Expression"
+															}
+														}
+													}
+												],
+												"outputs": [
+													{
+														"referenceName": "DsDestinationAdlEdwInboundCsv",
+														"type": "DatasetReference",
+														"parameters": {
+															"DatalakeIngestRoot": {
+																"value": "@pipeline().parameters.DatalakeIngestRoot",
+																"type": "Expression"
+															},
+															"DatalakeIngestRootPath": {
+																"value": "@pipeline().parameters.DatalakeIngestRootPath",
+																"type": "Expression"
+															},
+															"DatalakeIngestRootPathFileName": {
+																"value": "@item().name",
+																"type": "Expression"
+															}
+														}
+													}
+												]
+											}
+										]
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "GetSourceNetworkFolder",
+						"type": "GetMetadata",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "DsSourceNetworkPathCsv",
+								"type": "DatasetReference",
+								"parameters": {
+									"SourceNetworkPath": {
+										"value": "@pipeline().parameters.SourceNetworkPath",
+										"type": "Expression"
+									}
+								}
+							},
+							"fieldList": [
+								"childItems"
+							],
+							"storeSettings": {
+								"type": "FileServerReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false
+							},
+							"formatSettings": {
+								"type": "DelimitedTextReadSettings"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"SourceNetworkPath": {
+						"type": "string",
+						"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\OReilly\\2022\\Inventory"
+					},
+					"DatalakeIngestRoot": {
+						"type": "string",
+						"defaultValue": "finance"
+					},
+					"DatalakeIngestRootPath": {
+						"type": "string",
+						"defaultValue": "sales/sellthroughdatafiles/oreilly"
+					}
+				},
+				"folder": {
+					"name": "1-Ingest"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DsSourceNetworkPathFileNameCsv')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IngestOReilly - Sales')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LoopingThroughtNetworkFolders",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GetSourceNetworkFolder",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetSourceNetworkFolder').output.childItems",
+								"type": "Expression"
+							},
+							"batchCount": 4,
+							"activities": [
+								{
+									"name": "GetFileLastModifiedDate",
+									"type": "GetMetadata",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"dataset": {
+											"referenceName": "DsSourceNetworkPathFileNameCsv",
+											"type": "DatasetReference",
+											"parameters": {
+												"SourceNetworkPath": {
+													"value": "@pipeline().parameters.SourceNetworkPath",
+													"type": "Expression"
+												},
+												"SourceNetworkPathFileName": {
+													"value": "@item().name",
+													"type": "Expression"
+												}
+											}
+										},
+										"fieldList": [
+											"lastModified",
+											"itemName"
+										],
+										"storeSettings": {
+											"type": "FileServerReadSettings",
+											"recursive": true,
+											"enablePartitionDiscovery": false
+										},
+										"formatSettings": {
+											"type": "DelimitedTextReadSettings"
+										}
+									}
+								},
+								{
+									"name": "If Condition1",
+									"type": "IfCondition",
+									"dependsOn": [
+										{
+											"activity": "GetFileLastModifiedDate",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"expression": {
+											"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-3))",
+											"type": "Expression"
+										},
+										"ifTrueActivities": [
+											{
+												"name": "CopyingCsvToDataLake",
+												"type": "Copy",
+												"dependsOn": [],
+												"policy": {
+													"timeout": "7.00:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"source": {
+														"type": "DelimitedTextSource",
+														"additionalColumns": [
+															{
+																"name": "SourceFileName",
+																"value": "$$FILEPATH"
+															},
+															{
+																"name": "PipelineName",
+																"value": {
+																	"value": "@pipeline().Pipeline",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "LoadDate",
+																"value": {
+																	"value": "@utcNow()",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "FileLastModifiedDate",
+																"value": {
+																	"value": "@activity('GetFileLastModifiedDate').output.lastModified",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "IsSourceDeleted",
+																"value": ""
+															},
+															{
+																"name": "IsSourceDeletedDate",
+																"value": ""
+															},
+															{
+																"name": "SalesDate",
+																"value": ""
+															}
+														],
+														"storeSettings": {
+															"type": "FileServerReadSettings",
+															"recursive": true,
+															"enablePartitionDiscovery": false
+														},
+														"formatSettings": {
+															"type": "DelimitedTextReadSettings"
+														}
+													},
+													"sink": {
+														"type": "DelimitedTextSink",
+														"storeSettings": {
+															"type": "AzureBlobFSWriteSettings"
+														},
+														"formatSettings": {
+															"type": "DelimitedTextWriteSettings",
+															"quoteAllText": true,
+															"fileExtension": ".txt"
+														}
+													},
+													"enableStaging": false,
+													"translator": {
+														"type": "TabularTranslator",
+														"typeConversion": true,
+														"typeConversionSettings": {
+															"allowDataTruncation": true,
+															"treatBooleanAsNumber": false
+														}
+													}
+												},
+												"inputs": [
+													{
+														"referenceName": "DsSourceNetworkPathFileNameCsv_OReilly",
+														"type": "DatasetReference",
+														"parameters": {
+															"SourceNetworkPath": {
+																"value": "@pipeline().parameters.SourceNetworkPath",
+																"type": "Expression"
+															},
+															"SourceNetworkPathFileName": {
+																"value": "@item().name",
+																"type": "Expression"
+															}
+														}
+													}
+												],
+												"outputs": [
+													{
+														"referenceName": "DsDestinationAdlEdwInboundCsv",
+														"type": "DatasetReference",
+														"parameters": {
+															"DatalakeIngestRoot": {
+																"value": "@pipeline().parameters.DatalakeIngestRoot",
+																"type": "Expression"
+															},
+															"DatalakeIngestRootPath": {
+																"value": "@pipeline().parameters.DatalakeIngestRootPath",
+																"type": "Expression"
+															},
+															"DatalakeIngestRootPathFileName": {
+																"value": "@item().name",
+																"type": "Expression"
+															}
+														}
+													}
+												]
+											}
+										]
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "GetSourceNetworkFolder",
+						"type": "GetMetadata",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "DsSourceNetworkPathCsv",
+								"type": "DatasetReference",
+								"parameters": {
+									"SourceNetworkPath": {
+										"value": "@pipeline().parameters.SourceNetworkPath",
+										"type": "Expression"
+									}
+								}
+							},
+							"fieldList": [
+								"childItems"
+							],
+							"storeSettings": {
+								"type": "FileServerReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false
+							},
+							"formatSettings": {
+								"type": "DelimitedTextReadSettings"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"SourceNetworkPath": {
+						"type": "string",
+						"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\OReilly\\2022\\Sales"
+					},
+					"DatalakeIngestRoot": {
+						"type": "string",
+						"defaultValue": "finance"
+					},
+					"DatalakeIngestRootPath": {
+						"type": "string",
+						"defaultValue": "sales/sellthroughdatafiles/oreilly"
+					}
+				},
+				"folder": {
+					"name": "1-Ingest"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DsSourceNetworkPathFileNameCsv')]",
+				"[concat(variables('factoryId'), '/datasets/DsSourceNetworkPathFileNameCsv_OReilly')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IngestOfficeDepot - Sales')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LoopingThroughtNetworkFolders",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GetSourceNetworkFolder",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetSourceNetworkFolder').output.childItems",
+								"type": "Expression"
+							},
+							"batchCount": 4,
+							"activities": [
+								{
+									"name": "GetFileLastModifiedDate",
+									"type": "GetMetadata",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"dataset": {
+											"referenceName": "DsSourceNetworkPathFileNameCsv",
+											"type": "DatasetReference",
+											"parameters": {
+												"SourceNetworkPath": {
+													"value": "@pipeline().parameters.SourceNetworkPath",
+													"type": "Expression"
+												},
+												"SourceNetworkPathFileName": {
+													"value": "@item().name",
+													"type": "Expression"
+												}
+											}
+										},
+										"fieldList": [
+											"lastModified",
+											"itemName"
+										],
+										"storeSettings": {
+											"type": "FileServerReadSettings",
+											"recursive": true,
+											"enablePartitionDiscovery": false
+										},
+										"formatSettings": {
+											"type": "DelimitedTextReadSettings"
+										}
+									}
+								},
+								{
+									"name": "If Condition1",
+									"type": "IfCondition",
+									"dependsOn": [
+										{
+											"activity": "GetFileLastModifiedDate",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"expression": {
+											"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-3))",
+											"type": "Expression"
+										},
+										"ifTrueActivities": [
+											{
+												"name": "CopyingCsvToDataLake",
+												"type": "Copy",
+												"dependsOn": [],
+												"policy": {
+													"timeout": "7.00:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"source": {
+														"type": "DelimitedTextSource",
+														"additionalColumns": [
+															{
+																"name": "SourceFileName",
+																"value": "$$FILEPATH"
+															},
+															{
+																"name": "PipelineName",
+																"value": {
+																	"value": "@pipeline().Pipeline",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "LoadDate",
+																"value": {
+																	"value": "@utcNow()",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "FileLastModifiedDate",
+																"value": {
+																	"value": "@activity('GetFileLastModifiedDate').output.lastModified",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "IsSourceDeleted",
+																"value": ""
+															},
+															{
+																"name": "IsSourceDeletedDate",
+																"value": ""
+															}
+														],
+														"storeSettings": {
+															"type": "FileServerReadSettings",
+															"recursive": true,
+															"enablePartitionDiscovery": false
+														},
+														"formatSettings": {
+															"type": "DelimitedTextReadSettings"
+														}
+													},
+													"sink": {
+														"type": "DelimitedTextSink",
+														"storeSettings": {
+															"type": "AzureBlobFSWriteSettings"
+														},
+														"formatSettings": {
+															"type": "DelimitedTextWriteSettings",
+															"quoteAllText": true,
+															"fileExtension": ".txt"
+														}
+													},
+													"enableStaging": false,
+													"translator": {
+														"type": "TabularTranslator",
+														"typeConversion": true,
+														"typeConversionSettings": {
+															"allowDataTruncation": true,
+															"treatBooleanAsNumber": false
+														}
+													}
+												},
+												"inputs": [
+													{
+														"referenceName": "DsSourceNetworkPathFileNameCsv",
+														"type": "DatasetReference",
+														"parameters": {
+															"SourceNetworkPath": {
+																"value": "@pipeline().parameters.SourceNetworkPath",
+																"type": "Expression"
+															},
+															"SourceNetworkPathFileName": {
+																"value": "@item().name",
+																"type": "Expression"
+															}
+														}
+													}
+												],
+												"outputs": [
+													{
+														"referenceName": "DsDestinationAdlEdwInboundCsv",
+														"type": "DatasetReference",
+														"parameters": {
+															"DatalakeIngestRoot": {
+																"value": "@pipeline().parameters.DatalakeIngestRoot",
+																"type": "Expression"
+															},
+															"DatalakeIngestRootPath": {
+																"value": "@pipeline().parameters.DatalakeIngestRootPath",
+																"type": "Expression"
+															},
+															"DatalakeIngestRootPathFileName": {
+																"value": "@item().name",
+																"type": "Expression"
+															}
+														}
+													}
+												]
+											}
+										]
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "GetSourceNetworkFolder",
+						"type": "GetMetadata",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "DsSourceNetworkPathCsv",
+								"type": "DatasetReference",
+								"parameters": {
+									"SourceNetworkPath": {
+										"value": "@pipeline().parameters.SourceNetworkPath",
+										"type": "Expression"
+									}
+								}
+							},
+							"fieldList": [
+								"childItems"
+							],
+							"storeSettings": {
+								"type": "FileServerReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false
+							},
+							"formatSettings": {
+								"type": "DelimitedTextReadSettings"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"SourceNetworkPath": {
+						"type": "string",
+						"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\Office Depot\\2022"
+					},
+					"DatalakeIngestRoot": {
+						"type": "string",
+						"defaultValue": "finance"
+					},
+					"DatalakeIngestRootPath": {
+						"type": "string",
+						"defaultValue": "sales/sellthroughdatafiles/officedepot"
+					}
+				},
+				"folder": {
+					"name": "1-Ingest"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DsSourceNetworkPathFileNameCsv')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IngestStaples - Sales')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LoopingThroughtNetworkFolders",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GetSourceNetworkFolder",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetSourceNetworkFolder').output.childItems",
+								"type": "Expression"
+							},
+							"batchCount": 4,
+							"activities": [
+								{
+									"name": "GetFileLastModifiedDate",
+									"type": "GetMetadata",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"dataset": {
+											"referenceName": "DsSourceNetworkPathFileNameCsv",
+											"type": "DatasetReference",
+											"parameters": {
+												"SourceNetworkPath": {
+													"value": "@pipeline().parameters.SourceNetworkPath",
+													"type": "Expression"
+												},
+												"SourceNetworkPathFileName": {
+													"value": "@item().name",
+													"type": "Expression"
+												}
+											}
+										},
+										"fieldList": [
+											"lastModified",
+											"itemName"
+										],
+										"storeSettings": {
+											"type": "FileServerReadSettings",
+											"recursive": true,
+											"enablePartitionDiscovery": false
+										},
+										"formatSettings": {
+											"type": "DelimitedTextReadSettings"
+										}
+									}
+								},
+								{
+									"name": "If Condition1",
+									"type": "IfCondition",
+									"dependsOn": [
+										{
+											"activity": "GetFileLastModifiedDate",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"expression": {
+											"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-3))",
+											"type": "Expression"
+										},
+										"ifTrueActivities": [
+											{
+												"name": "CopyingCsvToDataLake",
+												"type": "Copy",
+												"dependsOn": [],
+												"policy": {
+													"timeout": "7.00:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"source": {
+														"type": "DelimitedTextSource",
+														"additionalColumns": [
+															{
+																"name": "SourceFileName",
+																"value": "$$FILEPATH"
+															},
+															{
+																"name": "PipelineName",
+																"value": {
+																	"value": "@pipeline().Pipeline",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "LoadDate",
+																"value": {
+																	"value": "@utcNow()",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "FileLastModifiedDate",
+																"value": {
+																	"value": "@activity('GetFileLastModifiedDate').output.lastModified",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "IsSourceDeleted",
+																"value": ""
+															},
+															{
+																"name": "IsSourceDeletedDate",
+																"value": ""
+															}
+														],
+														"storeSettings": {
+															"type": "FileServerReadSettings",
+															"recursive": true,
+															"enablePartitionDiscovery": false
+														},
+														"formatSettings": {
+															"type": "DelimitedTextReadSettings"
+														}
+													},
+													"sink": {
+														"type": "DelimitedTextSink",
+														"storeSettings": {
+															"type": "AzureBlobFSWriteSettings"
+														},
+														"formatSettings": {
+															"type": "DelimitedTextWriteSettings",
+															"quoteAllText": true,
+															"fileExtension": ".txt"
+														}
+													},
+													"enableStaging": false,
+													"translator": {
+														"type": "TabularTranslator",
+														"typeConversion": true,
+														"typeConversionSettings": {
+															"allowDataTruncation": true,
+															"treatBooleanAsNumber": false
+														}
+													}
+												},
+												"inputs": [
+													{
+														"referenceName": "DsSourceNetworkPathFileNameCsv",
+														"type": "DatasetReference",
+														"parameters": {
+															"SourceNetworkPath": {
+																"value": "@pipeline().parameters.SourceNetworkPath",
+																"type": "Expression"
+															},
+															"SourceNetworkPathFileName": {
+																"value": "@item().name",
+																"type": "Expression"
+															}
+														}
+													}
+												],
+												"outputs": [
+													{
+														"referenceName": "DsDestinationAdlEdwInboundCsv",
+														"type": "DatasetReference",
+														"parameters": {
+															"DatalakeIngestRoot": {
+																"value": "@pipeline().parameters.DatalakeIngestRoot",
+																"type": "Expression"
+															},
+															"DatalakeIngestRootPath": {
+																"value": "@pipeline().parameters.DatalakeIngestRootPath",
+																"type": "Expression"
+															},
+															"DatalakeIngestRootPathFileName": {
+																"value": "@item().name",
+																"type": "Expression"
+															}
+														}
+													}
+												]
+											}
+										]
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "GetSourceNetworkFolder",
+						"type": "GetMetadata",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "DsSourceNetworkPathCsv",
+								"type": "DatasetReference",
+								"parameters": {
+									"SourceNetworkPath": {
+										"value": "@pipeline().parameters.SourceNetworkPath",
+										"type": "Expression"
+									}
+								}
+							},
+							"fieldList": [
+								"childItems"
+							],
+							"storeSettings": {
+								"type": "FileServerReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false
+							},
+							"formatSettings": {
+								"type": "DelimitedTextReadSettings"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"SourceNetworkPath": {
+						"type": "string",
+						"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\Staples\\2022"
+					},
+					"DatalakeIngestRoot": {
+						"type": "string",
+						"defaultValue": "finance"
+					},
+					"DatalakeIngestRootPath": {
+						"type": "string",
+						"defaultValue": "sales/sellthroughdatafiles/staples"
+					}
+				},
+				"folder": {
+					"name": "1-Ingest"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DsSourceNetworkPathFileNameCsv')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IngestTrueValue - Sales')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LoopingThroughtNetworkFolders",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GetSourceNetworkFolder",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetSourceNetworkFolder').output.childItems",
+								"type": "Expression"
+							},
+							"batchCount": 4,
+							"activities": [
+								{
+									"name": "GetFileLastModifiedDate",
+									"type": "GetMetadata",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"dataset": {
+											"referenceName": "DsSourceNetworkPathFileNameCsv",
+											"type": "DatasetReference",
+											"parameters": {
+												"SourceNetworkPath": {
+													"value": "@pipeline().parameters.SourceNetworkPath",
+													"type": "Expression"
+												},
+												"SourceNetworkPathFileName": {
+													"value": "@item().name",
+													"type": "Expression"
+												}
+											}
+										},
+										"fieldList": [
+											"lastModified",
+											"itemName"
+										],
+										"storeSettings": {
+											"type": "FileServerReadSettings",
+											"recursive": true,
+											"enablePartitionDiscovery": false
+										},
+										"formatSettings": {
+											"type": "DelimitedTextReadSettings"
+										}
+									}
+								},
+								{
+									"name": "If Condition1",
+									"type": "IfCondition",
+									"dependsOn": [
+										{
+											"activity": "GetFileLastModifiedDate",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"expression": {
+											"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-3))",
+											"type": "Expression"
+										},
+										"ifTrueActivities": [
+											{
+												"name": "CopyingCsvToDataLake",
+												"type": "Copy",
+												"dependsOn": [],
+												"policy": {
+													"timeout": "7.00:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"source": {
+														"type": "DelimitedTextSource",
+														"additionalColumns": [
+															{
+																"name": "SourceFileName",
+																"value": "$$FILEPATH"
+															},
+															{
+																"name": "PipelineName",
+																"value": {
+																	"value": "@pipeline().Pipeline",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "LoadDate",
+																"value": {
+																	"value": "@utcNow()",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "FileLastModifiedDate",
+																"value": {
+																	"value": "@activity('GetFileLastModifiedDate').output.lastModified",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "IsSourceDeleted",
+																"value": ""
+															},
+															{
+																"name": "IsSourceDeletedDate",
+																"value": ""
+															}
+														],
+														"storeSettings": {
+															"type": "FileServerReadSettings",
+															"recursive": true,
+															"enablePartitionDiscovery": false
+														},
+														"formatSettings": {
+															"type": "DelimitedTextReadSettings"
+														}
+													},
+													"sink": {
+														"type": "DelimitedTextSink",
+														"storeSettings": {
+															"type": "AzureBlobFSWriteSettings"
+														},
+														"formatSettings": {
+															"type": "DelimitedTextWriteSettings",
+															"quoteAllText": true,
+															"fileExtension": ".txt"
+														}
+													},
+													"enableStaging": false,
+													"translator": {
+														"type": "TabularTranslator",
+														"typeConversion": true,
+														"typeConversionSettings": {
+															"allowDataTruncation": true,
+															"treatBooleanAsNumber": false
+														}
+													}
+												},
+												"inputs": [
+													{
+														"referenceName": "DsSourceNetworkPathFileNameCsv",
+														"type": "DatasetReference",
+														"parameters": {
+															"SourceNetworkPath": {
+																"value": "@pipeline().parameters.SourceNetworkPath",
+																"type": "Expression"
+															},
+															"SourceNetworkPathFileName": {
+																"value": "@item().name",
+																"type": "Expression"
+															}
+														}
+													}
+												],
+												"outputs": [
+													{
+														"referenceName": "DsDestinationAdlEdwInboundCsv",
+														"type": "DatasetReference",
+														"parameters": {
+															"DatalakeIngestRoot": {
+																"value": "@pipeline().parameters.DatalakeIngestRoot",
+																"type": "Expression"
+															},
+															"DatalakeIngestRootPath": {
+																"value": "@pipeline().parameters.DatalakeIngestRootPath",
+																"type": "Expression"
+															},
+															"DatalakeIngestRootPathFileName": {
+																"value": "@item().name",
+																"type": "Expression"
+															}
+														}
+													}
+												]
+											}
+										]
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "GetSourceNetworkFolder",
+						"type": "GetMetadata",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "DsSourceNetworkPathCsv",
+								"type": "DatasetReference",
+								"parameters": {
+									"SourceNetworkPath": {
+										"value": "@pipeline().parameters.SourceNetworkPath",
+										"type": "Expression"
+									}
+								}
+							},
+							"fieldList": [
+								"childItems"
+							],
+							"storeSettings": {
+								"type": "FileServerReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false
+							},
+							"formatSettings": {
+								"type": "DelimitedTextReadSettings"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"SourceNetworkPath": {
+						"type": "string",
+						"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\True Value\\2022\\Sales"
+					},
+					"DatalakeIngestRoot": {
+						"type": "string",
+						"defaultValue": "finance"
+					},
+					"DatalakeIngestRootPath": {
+						"type": "string",
+						"defaultValue": "sales/sellthroughdatafiles/truevalue"
+					}
+				},
+				"folder": {
+					"name": "1-Ingest"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DsSourceNetworkPathFileNameCsv')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IngestUnis - Item Detail')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LoopingThroughtNetworkFolders",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GetSourceNetworkFolder",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetSourceNetworkFolder').output.childItems",
+								"type": "Expression"
+							},
+							"batchCount": 4,
+							"activities": [
+								{
+									"name": "GetFileLastModifiedDate",
+									"type": "GetMetadata",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"dataset": {
+											"referenceName": "DsSourceNetworkPathFileNameExcel",
+											"type": "DatasetReference",
+											"parameters": {
+												"SourceNetworkPath": {
+													"value": "@pipeline().parameters.SourceNetworkPath",
+													"type": "Expression"
+												},
+												"SourceNetworkPathFileName": {
+													"value": "@item().name",
+													"type": "Expression"
+												},
+												"SourceNetworkPathSheetName": {
+													"value": "@pipeline().parameters.SourceNetworkPathSheetName",
+													"type": "Expression"
+												}
+											}
+										},
+										"fieldList": [
+											"lastModified",
+											"itemName"
+										],
+										"storeSettings": {
+											"type": "FileServerReadSettings",
+											"recursive": true,
+											"enablePartitionDiscovery": false
+										}
+									}
+								},
+								{
+									"name": "If Condition1",
+									"type": "IfCondition",
+									"dependsOn": [
+										{
+											"activity": "GetFileLastModifiedDate",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"expression": {
+											"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-50))",
+											"type": "Expression"
+										},
+										"ifTrueActivities": [
+											{
+												"name": "CopyingCsvToDataLake",
+												"type": "Copy",
+												"dependsOn": [],
+												"policy": {
+													"timeout": "7.00:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"source": {
+														"type": "ExcelSource",
+														"additionalColumns": [
+															{
+																"name": "SourceFileName",
+																"value": "$$FILEPATH"
+															},
+															{
+																"name": "PipelineName",
+																"value": {
+																	"value": "@pipeline().Pipeline",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "LoadDate",
+																"value": {
+																	"value": "@utcNow()",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "FileLastModifiedDate",
+																"value": {
+																	"value": "@activity('GetFileLastModifiedDate').output.lastModified",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "IsSourceDeleted",
+																"value": ""
+															},
+															{
+																"name": "IsSourceDeletedDate",
+																"value": ""
+															}
+														],
+														"storeSettings": {
+															"type": "FileServerReadSettings",
+															"recursive": true,
+															"enablePartitionDiscovery": false
+														}
+													},
+													"sink": {
+														"type": "DelimitedTextSink",
+														"storeSettings": {
+															"type": "AzureBlobFSWriteSettings"
+														},
+														"formatSettings": {
+															"type": "DelimitedTextWriteSettings",
+															"quoteAllText": true,
+															"fileExtension": ".txt"
+														}
+													},
+													"enableStaging": false,
+													"translator": {
+														"type": "TabularTranslator",
+														"typeConversion": true,
+														"typeConversionSettings": {
+															"allowDataTruncation": true,
+															"treatBooleanAsNumber": false
+														}
+													}
+												},
+												"inputs": [
+													{
+														"referenceName": "DsSourceNetworkPathFileNameExcel",
+														"type": "DatasetReference",
+														"parameters": {
+															"SourceNetworkPath": {
+																"value": "@pipeline().parameters.SourceNetworkPath",
+																"type": "Expression"
+															},
+															"SourceNetworkPathFileName": {
+																"value": "@item().name",
+																"type": "Expression"
+															},
+															"SourceNetworkPathSheetName": {
+																"value": "@pipeline().parameters.SourceNetworkPathSheetName",
+																"type": "Expression"
+															}
+														}
+													}
+												],
+												"outputs": [
+													{
+														"referenceName": "DsDestinationAdlEdwInboundCsv",
+														"type": "DatasetReference",
+														"parameters": {
+															"DatalakeIngestRoot": {
+																"value": "@pipeline().parameters.DatalakeIngestRoot",
+																"type": "Expression"
+															},
+															"DatalakeIngestRootPath": {
+																"value": "@pipeline().parameters.DatalakeIngestRootPath",
+																"type": "Expression"
+															},
+															"DatalakeIngestRootPathFileName": {
+																"value": "@item().name",
+																"type": "Expression"
+															}
+														}
+													}
+												]
+											}
+										]
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "GetSourceNetworkFolder",
+						"type": "GetMetadata",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "DsSourceNetworkPathExcel",
+								"type": "DatasetReference",
+								"parameters": {
+									"SourceNetworkPath": {
+										"value": "@pipeline().parameters.SourceNetworkPath",
+										"type": "Expression"
+									},
+									"SourceNetworkPathSheetName": {
+										"value": "@pipeline().parameters.SourceNetworkPathSheetName",
+										"type": "Expression"
+									}
+								}
+							},
+							"fieldList": [
+								"childItems"
+							],
+							"storeSettings": {
+								"type": "FileServerReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"SourceNetworkPath": {
+						"type": "string",
+						"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\OReilly\\2022\\Inventory"
+					},
+					"DatalakeIngestRoot": {
+						"type": "string",
+						"defaultValue": "finance"
+					},
+					"DatalakeIngestRootPath": {
+						"type": "string",
+						"defaultValue": "sales/sellthroughdatafiles/oreilly"
+					},
+					"SourceNetworkPathSheetName": {
+						"type": "string",
+						"defaultValue": "Item Detail"
+					}
+				},
+				"folder": {
+					"name": "1-Ingest"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DsSourceNetworkPathExcel')]",
+				"[concat(variables('factoryId'), '/datasets/DsSourceNetworkPathFileNameExcel')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IngestUnis - Item Detail_copy1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LoopingThroughtNetworkFolders",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GetSourceNetworkFolder",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetSourceNetworkFolder').output.childItems",
+								"type": "Expression"
+							},
+							"batchCount": 4,
+							"activities": [
+								{
+									"name": "GetFileLastModifiedDate",
+									"type": "GetMetadata",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"dataset": {
+											"referenceName": "DsSourceNetworkPathFileNameExcel",
+											"type": "DatasetReference",
+											"parameters": {
+												"SourceNetworkPath": {
+													"value": "@pipeline().parameters.SourceNetworkPath",
+													"type": "Expression"
+												},
+												"SourceNetworkPathFileName": {
+													"value": "@item().name",
+													"type": "Expression"
+												},
+												"SourceNetworkPathSheetName": {
+													"value": "@pipeline().parameters.SourceNetworkPathSheetName",
+													"type": "Expression"
+												}
+											}
+										},
+										"fieldList": [
+											"lastModified",
+											"itemName"
+										],
+										"storeSettings": {
+											"type": "FileServerReadSettings",
+											"recursive": true,
+											"enablePartitionDiscovery": false
+										}
+									}
+								},
+								{
+									"name": "If Condition1",
+									"type": "IfCondition",
+									"dependsOn": [
+										{
+											"activity": "GetFileLastModifiedDate",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"expression": {
+											"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-50))",
+											"type": "Expression"
+										},
+										"ifTrueActivities": [
+											{
+												"name": "CopyingCsvToDataLake",
+												"type": "Copy",
+												"dependsOn": [],
+												"policy": {
+													"timeout": "7.00:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"source": {
+														"type": "ExcelSource",
+														"additionalColumns": [
+															{
+																"name": "SourceFileName",
+																"value": "$$FILEPATH"
+															},
+															{
+																"name": "PipelineName",
+																"value": {
+																	"value": "@pipeline().Pipeline",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "LoadDate",
+																"value": {
+																	"value": "@utcNow()",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "FileLastModifiedDate",
+																"value": {
+																	"value": "@activity('GetFileLastModifiedDate').output.lastModified",
+																	"type": "Expression"
+																}
+															},
+															{
+																"name": "IsSourceDeleted",
+																"value": ""
+															},
+															{
+																"name": "IsSourceDeletedDate",
+																"value": ""
+															}
+														],
+														"storeSettings": {
+															"type": "FileServerReadSettings",
+															"recursive": true,
+															"enablePartitionDiscovery": false
+														}
+													},
+													"sink": {
+														"type": "DelimitedTextSink",
+														"storeSettings": {
+															"type": "AzureBlobFSWriteSettings"
+														},
+														"formatSettings": {
+															"type": "DelimitedTextWriteSettings",
+															"quoteAllText": true,
+															"fileExtension": ".csv"
+														}
+													},
+													"enableStaging": false,
+													"translator": {
+														"type": "TabularTranslator",
+														"typeConversion": true,
+														"typeConversionSettings": {
+															"allowDataTruncation": true,
+															"treatBooleanAsNumber": false
+														}
+													}
+												},
+												"inputs": [
+													{
+														"referenceName": "DsSourceNetworkPathFileNameExcel",
+														"type": "DatasetReference",
+														"parameters": {
+															"SourceNetworkPath": {
+																"value": "@pipeline().parameters.SourceNetworkPath",
+																"type": "Expression"
+															},
+															"SourceNetworkPathFileName": {
+																"value": "@item().name",
+																"type": "Expression"
+															},
+															"SourceNetworkPathSheetName": {
+																"value": "@pipeline().parameters.SourceNetworkPathSheetName",
+																"type": "Expression"
+															}
+														}
+													}
+												],
+												"outputs": [
+													{
+														"referenceName": "DsDestinationAdlEdwInboundCsv",
+														"type": "DatasetReference",
+														"parameters": {
+															"DatalakeIngestRoot": {
+																"value": "@pipeline().parameters.DatalakeIngestRoot",
+																"type": "Expression"
+															},
+															"DatalakeIngestRootPath": {
+																"value": "@pipeline().parameters.DatalakeIngestRootPath",
+																"type": "Expression"
+															},
+															"DatalakeIngestRootPathFileName": {
+																"value": "@item().name",
+																"type": "Expression"
+															}
+														}
+													}
+												]
+											}
+										]
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "GetSourceNetworkFolder",
+						"type": "GetMetadata",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "DsSourceNetworkPathExcel",
+								"type": "DatasetReference",
+								"parameters": {
+									"SourceNetworkPath": {
+										"value": "@pipeline().parameters.SourceNetworkPath",
+										"type": "Expression"
+									},
+									"SourceNetworkPathSheetName": {
+										"value": "@pipeline().parameters.SourceNetworkPathSheetName",
+										"type": "Expression"
+									}
+								}
+							},
+							"fieldList": [
+								"childItems"
+							],
+							"storeSettings": {
+								"type": "FileServerReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"SourceNetworkPath": {
+						"type": "string",
+						"defaultValue": "General\\Ammex\\Power BI\\Supply Chain Data Project\\UNIS\\Invoice"
+					},
+					"DatalakeIngestRoot": {
+						"type": "string",
+						"defaultValue": "finance"
+					},
+					"DatalakeIngestRootPath": {
+						"type": "string",
+						"defaultValue": "warehouse/unis/"
+					},
+					"SourceNetworkPathSheetName": {
+						"type": "string",
+						"defaultValue": "Item Detail"
+					}
+				},
+				"folder": {
+					"name": "1-Ingest"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DsSourceNetworkPathExcel')]",
+				"[concat(variables('factoryId'), '/datasets/DsSourceNetworkPathFileNameExcel')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LoadAce')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LoopingThroughtDataLake",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GetListOfSourceFiles",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetListOfSourceFiles').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "ImportingCsvToEdw",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "AzureBlobFSReadSettings",
+												"recursive": true,
+												"wildcardFolderPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												},
+												"wildcardFileName": {
+													"value": "@{item().SourceNetworkPathFileName}",
+													"type": "Expression"
+												},
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "SqlDWSink",
+											"writeBehavior": "Insert",
+											"sqlWriterUseTableLock": false,
+											"tableOption": "autoCreate",
+											"disableMetricsCollection": false
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "DsAdlsInboundEdwCsv",
+											"type": "DatasetReference",
+											"parameters": {
+												"DatalakeIngestRoot": {
+													"value": "@{item().DatalakeIngestRoot}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPathFileName": {
+													"value": "@toLower('')",
+													"type": "Expression"
+												}
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+											"type": "DatasetReference",
+											"parameters": {
+												"SinkSchema": {
+													"value": "@{item().SinkSchema}",
+													"type": "Expression"
+												},
+												"SinkTable": {
+													"value": "@{item().SinkTable}",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								}
+							]
+						}
+					},
+					{
+						"name": "GetListOfSourceFiles",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlDWSource",
+								"sqlReaderQuery": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Inbound'\n\t  AND [IsLoad] = 1\n\t  AND [SourceDatabase] = 'Customer'\n\t  AND [SourceSchema] = 'Ace' \n      AND [SourceObject] = 'CustomerAceInventoryAndOrder'\nORDER BY [SourceObject]",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "2-Load"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LoadLowes')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LoopingThroughtDataLake",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GetListOfSourceFiles",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetListOfSourceFiles').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "ImportingCsvToEdw",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "AzureBlobFSReadSettings",
+												"recursive": true,
+												"wildcardFolderPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												},
+												"wildcardFileName": {
+													"value": "@{item().SourceNetworkPathFileName}",
+													"type": "Expression"
+												},
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "SqlDWSink",
+											"writeBehavior": "Insert",
+											"sqlWriterUseTableLock": false,
+											"tableOption": "autoCreate",
+											"disableMetricsCollection": false
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "DsAdlsInboundEdwCsv",
+											"type": "DatasetReference",
+											"parameters": {
+												"DatalakeIngestRoot": {
+													"value": "@{item().DatalakeIngestRoot}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPathFileName": {
+													"value": "@toLower('')",
+													"type": "Expression"
+												}
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+											"type": "DatasetReference",
+											"parameters": {
+												"SinkSchema": {
+													"value": "@{item().SinkSchema}",
+													"type": "Expression"
+												},
+												"SinkTable": {
+													"value": "@{item().SinkTable}",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								}
+							]
+						}
+					},
+					{
+						"name": "GetListOfSourceFiles",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlDWSource",
+								"sqlReaderQuery": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Inbound'\n\t  AND [IsLoad] = 1\n\t  AND [SourceDatabase] = 'Customer'\n\t  AND [SourceSchema] = 'Lowes' \nORDER BY [SourceObject]",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "2-Load"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LoadOReilly')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LoopingThroughtDataLake",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GetListOfSourceFiles",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetListOfSourceFiles').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "ImportingCsvToEdw",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "AzureBlobFSReadSettings",
+												"recursive": true,
+												"wildcardFolderPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												},
+												"wildcardFileName": {
+													"value": "@{item().SourceNetworkPathFileName}",
+													"type": "Expression"
+												},
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "SqlDWSink",
+											"writeBehavior": "Insert",
+											"sqlWriterUseTableLock": false,
+											"tableOption": "autoCreate",
+											"disableMetricsCollection": false
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "DsAdlsInboundEdwCsv",
+											"type": "DatasetReference",
+											"parameters": {
+												"DatalakeIngestRoot": {
+													"value": "@{item().DatalakeIngestRoot}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPathFileName": {
+													"value": "@toLower('')",
+													"type": "Expression"
+												}
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+											"type": "DatasetReference",
+											"parameters": {
+												"SinkSchema": {
+													"value": "@{item().SinkSchema}",
+													"type": "Expression"
+												},
+												"SinkTable": {
+													"value": "@{item().SinkTable}",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								}
+							]
+						}
+					},
+					{
+						"name": "GetListOfSourceFiles",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlDWSource",
+								"sqlReaderQuery": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Inbound'\n\t  AND [IsLoad] = 1\n\t  AND [SourceDatabase] = 'Customer'\n\t  AND [SourceSchema] = 'OReilly' \nORDER BY [SourceObject]\n",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "2-Load"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LoadOfficeDepot')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LoopingThroughtDataLake",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GetListOfSourceFiles",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetListOfSourceFiles').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "ImportingCsvToEdw",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "AzureBlobFSReadSettings",
+												"recursive": true,
+												"wildcardFolderPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												},
+												"wildcardFileName": {
+													"value": "@{item().SourceNetworkPathFileName}",
+													"type": "Expression"
+												},
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "SqlDWSink",
+											"preCopyScript": {
+												"value": "@{item().SinkPreCopyScript}",
+												"type": "Expression"
+											},
+											"writeBehavior": "Insert",
+											"sqlWriterUseTableLock": false,
+											"tableOption": "autoCreate",
+											"disableMetricsCollection": false
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "DsAdlsInboundEdwCsv",
+											"type": "DatasetReference",
+											"parameters": {
+												"DatalakeIngestRoot": {
+													"value": "@{item().DatalakeIngestRoot}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPathFileName": {
+													"value": "@toLower('')",
+													"type": "Expression"
+												}
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+											"type": "DatasetReference",
+											"parameters": {
+												"SinkSchema": {
+													"value": "@{item().SinkSchema}",
+													"type": "Expression"
+												},
+												"SinkTable": {
+													"value": "@{item().SinkTable}",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								}
+							]
+						}
+					},
+					{
+						"name": "GetListOfSourceFiles",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlDWSource",
+								"sqlReaderQuery": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Inbound'\n\t  AND [SourceSchema] = 'OfficeDepot'\n\t  AND [IsLoad] = 1\nORDER BY [SourceObject]",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "2-Load"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LoadStaples')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LoopingThroughtDataLake",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GetListOfSourceFiles",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetListOfSourceFiles').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "ImportingCsvToEdw",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "AzureBlobFSReadSettings",
+												"recursive": true,
+												"wildcardFolderPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												},
+												"wildcardFileName": {
+													"value": "@{item().SourceNetworkPathFileName}",
+													"type": "Expression"
+												},
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "SqlDWSink",
+											"writeBehavior": "Insert",
+											"sqlWriterUseTableLock": false,
+											"tableOption": "autoCreate",
+											"disableMetricsCollection": false
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "DsAdlsInboundEdwCsv",
+											"type": "DatasetReference",
+											"parameters": {
+												"DatalakeIngestRoot": {
+													"value": "@{item().DatalakeIngestRoot}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPathFileName": {
+													"value": "@toLower('')",
+													"type": "Expression"
+												}
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+											"type": "DatasetReference",
+											"parameters": {
+												"SinkSchema": {
+													"value": "@{item().SinkSchema}",
+													"type": "Expression"
+												},
+												"SinkTable": {
+													"value": "@{item().SinkTable}",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								}
+							]
+						}
+					},
+					{
+						"name": "GetListOfSourceFiles",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlDWSource",
+								"sqlReaderQuery": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Inbound'\n\t  AND [IsLoad] = 1\n\t  AND [SourceDatabase] = 'Customer'\n\t  AND [SourceSchema] = 'Staples' \nORDER BY [SourceObject]",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "2-Load"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LoadTrueValue')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LoopingThroughtDataLake",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GetListOfSourceFiles",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetListOfSourceFiles').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "ImportingCsvToEdw",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "AzureBlobFSReadSettings",
+												"recursive": true,
+												"wildcardFolderPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												},
+												"wildcardFileName": {
+													"value": "@{item().SourceNetworkPathFileName}",
+													"type": "Expression"
+												},
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "SqlDWSink",
+											"writeBehavior": "Insert",
+											"sqlWriterUseTableLock": false,
+											"tableOption": "autoCreate",
+											"disableMetricsCollection": false
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "DsAdlsInboundEdwCsv",
+											"type": "DatasetReference",
+											"parameters": {
+												"DatalakeIngestRoot": {
+													"value": "@{item().DatalakeIngestRoot}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPathFileName": {
+													"value": "@toLower('')",
+													"type": "Expression"
+												}
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+											"type": "DatasetReference",
+											"parameters": {
+												"SinkSchema": {
+													"value": "@{item().SinkSchema}",
+													"type": "Expression"
+												},
+												"SinkTable": {
+													"value": "@{item().SinkTable}",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								}
+							]
+						}
+					},
+					{
+						"name": "GetListOfSourceFiles",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlDWSource",
+								"sqlReaderQuery": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Inbound'\n\t  AND [IsLoad] = 1\n\t  AND [SourceDatabase] = 'Customer'\n\t  AND [SourceSchema] = 'TrueValue' \nORDER BY [SourceObject]",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "2-Load"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		}
+	]
+}
