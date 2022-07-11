@@ -1,0 +1,127 @@
+{
+	"name": "SourceDataset_7hu",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAdfEdwFTPBR",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FtpServerLocation",
+				"folderPath": "IBPData"
+			},
+			"columnDelimiter": "\t",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "itemnumber",
+				"type": "String"
+			},
+			{
+				"name": "itemdescription",
+				"type": "String"
+			},
+			{
+				"name": "sourceidentifier",
+				"type": "String"
+			},
+			{
+				"name": "vendorname",
+				"type": "String"
+			},
+			{
+				"name": "shippointname",
+				"type": "String"
+			},
+			{
+				"name": "locationname",
+				"type": "String"
+			},
+			{
+				"name": "buyer",
+				"type": "String"
+			},
+			{
+				"name": "itemstatus",
+				"type": "String"
+			},
+			{
+				"name": "itemgroup01",
+				"type": "String"
+			},
+			{
+				"name": "itemgroup02",
+				"type": "String"
+			},
+			{
+				"name": "itemgroup03",
+				"type": "String"
+			},
+			{
+				"name": "itemgroup04",
+				"type": "String"
+			},
+			{
+				"name": "itemgroup05",
+				"type": "String"
+			},
+			{
+				"name": "itemgroup06",
+				"type": "String"
+			},
+			{
+				"name": "udf5",
+				"type": "String"
+			},
+			{
+				"name": "customer",
+				"type": "String"
+			},
+			{
+				"name": "fromvalue",
+				"type": "String"
+			},
+			{
+				"name": "tovalue",
+				"type": "String"
+			},
+			{
+				"name": "reasoncode",
+				"type": "String"
+			},
+			{
+				"name": "comments",
+				"type": "String"
+			},
+			{
+				"name": "modifieduser",
+				"type": "String"
+			},
+			{
+				"name": "modifieddate",
+				"type": "String"
+			},
+			{
+				"name": "timeseriesname",
+				"type": "String"
+			},
+			{
+				"name": "PeriodNumber",
+				"type": "String"
+			},
+			{
+				"name": "PeriodStart",
+				"type": "String"
+			},
+			{
+				"name": "PeriodEnd",
+				"type": "String"
+			}
+		]
+	}
+}
