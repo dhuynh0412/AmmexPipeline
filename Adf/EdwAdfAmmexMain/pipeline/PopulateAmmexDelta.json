@@ -50,9 +50,9 @@
 							"type": "SqlServerStoredProcedure",
 							"dependsOn": [
 								{
-									"activity": "Proc Execute FormatDatatype",
+									"activity": "Waitfor5Seconds",
 									"dependencyConditions": [
-										"Completed"
+										"Succeeded"
 									]
 								}
 							],
@@ -74,6 +74,22 @@
 								"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
 								"type": "LinkedServiceReference"
 							}
+						},
+						{
+							"name": "Waitfor5Seconds",
+							"type": "Wait",
+							"dependsOn": [
+								{
+									"activity": "Proc Execute FormatDatatype",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 5
+							}
 						}
 					]
 				}
@@ -94,7 +110,7 @@
 					"source": {
 						"type": "SqlDWSource",
 						"sqlReaderQuery": {
-							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = '[Ammex]'\n--\t  AND [SourceObjectType] = ''\n\t  AND [IsLoad] = 1\n--\t  AND [IsLoadTesting] = 0\nORDER BY [SourceObject] ASC",
+							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = '[Ammex]'\n--\t  AND [SourceObjectType] = ''\n--\t  AND [SourceObject] = '[EXT01100]'\n\t  AND [IsLoad] = 1\n--\t  AND [IsLoadTesting] = 0\nORDER BY [SourceObject] ASC",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",

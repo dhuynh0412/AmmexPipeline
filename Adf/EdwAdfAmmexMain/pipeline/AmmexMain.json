@@ -27,9 +27,9 @@
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "IngestAmmexDelta",
+						"activity": "Wait10Seconds",
 						"dependencyConditions": [
-							"Completed"
+							"Succeeded"
 						]
 					}
 				],
@@ -73,6 +73,22 @@
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Wait10Seconds",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "IngestAmmexDelta",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 10
 				}
 			}
 		],
