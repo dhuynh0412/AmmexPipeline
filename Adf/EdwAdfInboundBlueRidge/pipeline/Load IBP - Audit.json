@@ -83,6 +83,10 @@
 								},
 								"sink": {
 									"type": "SqlDWSink",
+									"preCopyScript": {
+										"value": "@{ITEM().SinkPreCopyScript}",
+										"type": "Expression"
+									},
 									"writeBehavior": "Insert",
 									"sqlWriterUseTableLock": false,
 									"tableOption": "autoCreate",
