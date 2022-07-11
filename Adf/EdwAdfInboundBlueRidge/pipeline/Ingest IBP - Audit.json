@@ -138,7 +138,7 @@
 												"additionalColumns": [
 													{
 														"name": "SourceFileName",
-														"value": "$$FILEPATH"
+														"value": ""
 													},
 													{
 														"name": "PipelineName",
@@ -258,12 +258,6 @@
 			"DatalakeIngestRootPath": {
 				"type": "string",
 				"defaultValue": "ibpdata"
-			}
-		},
-		"variables": {
-			"item": {
-				"type": "String",
-				"defaultValue": "IBP_Audit_Export.txt"
 			}
 		},
 		"folder": {
