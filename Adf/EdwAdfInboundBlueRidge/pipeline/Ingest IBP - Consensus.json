@@ -121,7 +121,7 @@
 								},
 								"ifTrueActivities": [
 									{
-										"name": "CopyingCsvToDataLake",
+										"name": "CopyingTxtToDataLake",
 										"type": "Copy",
 										"dependsOn": [],
 										"policy": {
