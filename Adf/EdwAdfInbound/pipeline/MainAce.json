@@ -40,13 +40,7 @@
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "LoadAce",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "IngestAce - Sales",
+						"activity": "WaitFor10Seconds",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -72,6 +66,28 @@
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "WaitFor10Seconds",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "IngestAce - Sales",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "LoadAce",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 10
 				}
 			}
 		],
