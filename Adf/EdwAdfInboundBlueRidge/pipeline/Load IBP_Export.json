@@ -84,7 +84,7 @@
 								"sink": {
 									"type": "SqlDWSink",
 									"preCopyScript": {
-										"value": "@{ITEM().SinkPreCopyScript}",
+										"value": "@{item().SinkPreCopyScript}",
 										"type": "Expression"
 									},
 									"writeBehavior": "Insert",
