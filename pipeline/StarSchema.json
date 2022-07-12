@@ -1,0 +1,21 @@
+{
+	"name": "StarSchema",
+	"properties": {
+		"activities": [
+			{
+				"name": "StarSchema",
+				"type": "WebHook",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"timeout": "00:10:00"
+				}
+			}
+		],
+		"folder": {
+			"name": "StarSchema"
+		},
+		"annotations": []
+	}
+}

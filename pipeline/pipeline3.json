@@ -1,0 +1,9 @@
+{
+	"name": "pipeline3",
+	"properties": {
+		"folder": {
+			"name": "AmmexMain"
+		},
+		"annotations": []
+	}
+}
