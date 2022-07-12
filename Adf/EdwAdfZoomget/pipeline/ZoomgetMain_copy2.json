@@ -1,0 +1,64 @@
+{
+	"name": "ZoomgetMain_copy2",
+	"properties": {
+		"activities": [
+			{
+				"name": "IngestZoomgetDelta",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "ArchiveZoomgetDelta",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "IngestZoomgetDelta",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "LoadZoomgetDelta",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "IngestZoomgetDelta",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadZoomgetDelta",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "ArchiveZoomgetDelta",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "ArchiveZoomgetDelta",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "4-Main"
+		},
+		"annotations": []
+	}
+}
