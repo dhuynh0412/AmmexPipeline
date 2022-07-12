@@ -74,6 +74,15 @@
 					},
 					"waitOnCompletion": true
 				}
+			},
+			{
+				"name": "WaitFor10Seconds",
+				"type": "Wait",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 10
+				}
 			}
 		],
 		"folder": {
