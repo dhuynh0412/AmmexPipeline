@@ -16,7 +16,11 @@
 				"userProperties": [],
 				"typeProperties": {
 					"url": "https://management.azure.com/subscriptions/cae64f29-6572-4d75-acf6-8f05b8d4e501/resourceGroups/EDWTeamResourceGroup/providers/Microsoft.DataFactory/factories/EdwAdfInbound/pipelines/MainInboundAll/createRun?api-version=2018-06-01",
-					"method": "POST"
+					"method": "POST",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://management.azure.com"
+					}
 				}
 			}
 		],
