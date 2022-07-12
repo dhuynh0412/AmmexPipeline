@@ -36,7 +36,8 @@
 				"userProperties": [],
 				"typeProperties": {
 					"functionName": "EdwAdfOrchestrationFunctionAppMichaelLe",
-					"method": "POST"
+					"method": "POST",
+					"body": " "
 				},
 				"linkedServiceName": {
 					"referenceName": "LSFunctionGetPipelineActivityMichaelLe",
