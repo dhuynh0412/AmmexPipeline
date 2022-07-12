@@ -47,7 +47,7 @@
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "LoadZoomgetDelta",
+						"activity": "WaitFor10Seconds",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -78,7 +78,14 @@
 			{
 				"name": "WaitFor10Seconds",
 				"type": "Wait",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "LoadZoomgetDelta",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
 					"waitTimeInSeconds": 10
