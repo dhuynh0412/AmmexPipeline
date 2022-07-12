@@ -12,8 +12,8 @@
 				}
 			},
 			{
-				"name": "Success",
-				"type": "WebActivity",
+				"name": "Azure Function1",
+				"type": "AzureFunctionActivity",
 				"dependsOn": [
 					{
 						"activity": "Wait1",
@@ -31,31 +31,22 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"url": {
-						"value": "@pipeline().parameters.dummyurl",
+					"functionName": {
+						"value": "TestSuccess",
 						"type": "Expression"
 					},
 					"method": "POST",
 					"body": {
-						"value": "{\"Name: Azure\"}",
+						"value": "{\n\"name\" : \"Azure\"\n}",
 						"type": "Expression"
-					},
-					"authentication": {
-						"type": "MSI",
-						"resource": {
-							"value": "https://management.core.windows.net/",
-							"type": "Expression"
-						}
 					}
+				},
+				"linkedServiceName": {
+					"referenceName": "LSFunctionTestSuccessMichaelLe",
+					"type": "LinkedServiceReference"
 				}
 			}
 		],
-		"parameters": {
-			"dummyurl": {
-				"type": "string",
-				"defaultValue": "dummy"
-			}
-		},
 		"annotations": []
 	}
 }
