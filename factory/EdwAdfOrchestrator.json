@@ -1,0 +1,9 @@
+{
+	"name": "EdwAdfOrchestrator",
+	"location": "westus2",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "4a0e02ce-5dc4-4184-ae25-d92fa9634f81",
+		"tenantId": "6fe8874b-b6a3-476c-9357-0389bdea5f53"
+	}
+}
