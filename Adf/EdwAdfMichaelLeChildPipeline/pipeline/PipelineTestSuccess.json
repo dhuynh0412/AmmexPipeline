@@ -12,7 +12,7 @@
 				}
 			},
 			{
-				"name": "Azure Function1",
+				"name": "FunctionTestSuccess",
 				"type": "AzureFunctionActivity",
 				"dependsOn": [
 					{
