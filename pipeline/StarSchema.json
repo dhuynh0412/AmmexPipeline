@@ -12,7 +12,8 @@
 					"method": "POST",
 					"timeout": "00:10:00",
 					"authentication": {
-						"type": "MSI"
+						"type": "MSI",
+						"resource": "https://management.azure.com"
 					}
 				}
 			}
