@@ -1,0 +1,39 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "EdwAdfZoomget"
+		},
+		"LsAdlsAmmexEdw_accountKey": {
+			"value": ""
+		},
+		"LsAsaAmmexEdw_EdwAdfPipelineReadOnly_connectionString": {
+			"value": ""
+		},
+		"LsAsaAmmexEdw_EdwAdfPipelineWrite_connectionString": {
+			"value": ""
+		},
+		"LsSqlEvansAmec_EdwAdfPipelineReadOnly_connectionString": {
+			"value": ""
+		},
+		"LsSqlMatterhornZoomgetStaging_EdwAdfPiplineReadOnly_connectionString": {
+			"value": ""
+		},
+		"EdwAdfKeyVault_properties_typeProperties_baseUrl": {
+			"value": "https://EdwAdfKeyVault.vault.azure.net/"
+		},
+		"LsAdlsAmmexEdw_properties_typeProperties_url": {
+			"value": "https://ammexedwsynapsestorage.dfs.core.windows.net"
+		},
+		"IrSqlMatterhorn_properties_typeProperties_linkedInfo_resourceId": {
+			"value": "/subscriptions/cae64f29-6572-4d75-acf6-8f05b8d4e501/resourcegroups/EDWTeamResourceGroup/providers/Microsoft.DataFactory/factories/EdwAdfMain/integrationruntimes/IrSqlMatterhorn"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
