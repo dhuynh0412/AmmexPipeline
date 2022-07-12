@@ -8,8 +8,12 @@
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
+					"url": "https://management.azure.com/subscriptions/cae64f29-6572-4d75-acf6-8f05b8d4e501/resourceGroups/EDWTeamResourceGroup/providers/Microsoft.DataFactory/factories/EdwAdfStarSchema/pipelines/MainStarSchema/createRun?api-version=2018-06-01",
 					"method": "POST",
-					"timeout": "00:10:00"
+					"timeout": "00:10:00",
+					"authentication": {
+						"type": "MSI"
+					}
 				}
 			}
 		],
