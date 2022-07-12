@@ -8,10 +8,6 @@
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
-					"pipeline": {
-						"referenceName": "Ingest IBP - Audit",
-						"type": "PipelineReference"
-					},
 					"waitOnCompletion": true
 				}
 			},
@@ -29,7 +25,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "Load IBP - Audit",
+						"referenceName": "Load IBP_Export",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
