@@ -3,16 +3,20 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "IngestIBPAudit",
+				"name": "IngestIBPExport",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Ingest IBP_Export",
+						"type": "PipelineReference"
+					},
 					"waitOnCompletion": true
 				}
 			},
 			{
-				"name": "LoadIBPAudit",
+				"name": "LoadIBPExport",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
@@ -32,11 +36,11 @@
 				}
 			},
 			{
-				"name": "PopulateIBPAudit",
+				"name": "PopulateIBPExport",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "LoadIBPAudit",
+						"activity": "LoadIBPExport",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -45,7 +49,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "Populate IBP - Audit",
+						"referenceName": "Populate IBP_Export",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
@@ -56,7 +60,7 @@
 				"type": "Wait",
 				"dependsOn": [
 					{
-						"activity": "IngestIBPAudit",
+						"activity": "IngestIBPExport",
 						"dependencyConditions": [
 							"Succeeded"
 						]
