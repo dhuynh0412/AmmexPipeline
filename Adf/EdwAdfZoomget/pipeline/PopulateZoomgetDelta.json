@@ -18,7 +18,7 @@
 					"source": {
 						"type": "SqlDWSource",
 						"sqlReaderQuery": {
-							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Zoomget'\n\t  AND IsLoad = 1\nORDER BY [SourceObject]",
+							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = '[AMEC]'\n--\t  AND [SourceObjectType] = ''\n--\t  AND [SourceObject] = '[EXT_SALES_ADDL]'\n\t  AND [IsLoad] = 1\n--\t  AND [IsLoadTesting] = 0\nORDER BY [SourceObject] ASC\n\n\n",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
