@@ -101,7 +101,7 @@
 										"sink": {
 											"type": "SqlDWSink",
 											"preCopyScript": {
-												"value": "@{ITEM().SinkPreCopyScript}",
+												"value": "@{item().SinkPreCopyScript}",
 												"type": "Expression"
 											},
 											"writeBehavior": "Insert",
@@ -294,7 +294,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Main - IBPAudit')]",
+			"name": "[concat(parameters('factoryName'), '/Main - IBPExport')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
