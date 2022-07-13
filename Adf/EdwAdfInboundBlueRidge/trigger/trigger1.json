@@ -1,0 +1,29 @@
+{
+	"name": "trigger1",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "Main - IBPExport",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Week",
+				"interval": 1,
+				"startTime": "2022-07-13T08:00:00Z",
+				"timeZone": "UTC",
+				"schedule": {
+					"weekDays": [
+						"Wednesday"
+					]
+				}
+			}
+		}
+	}
+}
