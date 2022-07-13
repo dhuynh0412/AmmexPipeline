@@ -7,7 +7,149 @@
 		},
 		"annotations": [],
 		"type": "AzureSqlDWTable",
-		"schema": [],
+		"schema": [
+			{
+				"name": "AdfLoadControlKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IsLoad",
+				"type": "bit"
+			},
+			{
+				"name": "IsLoadTesting",
+				"type": "bit"
+			},
+			{
+				"name": "SourceSystem",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SourceDatabase",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SourceSchema",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SourceObject",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SourceObjectType",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SourceNetworkRoot",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SourceNetworkPath",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SourceNetworkPathFileName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SinkSchema",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SinkTable",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SinkPreCopyScript",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LastModifiedDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "LastModifiedDateField",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LoadFrequency",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LoadStatus",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LoadStartDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "LoadEndDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "FormatDatatype",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Populate",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DatalakeIngestRoot",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DatalakeIngestRootPath",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DatalakeIngestRootPathFileName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ArchiveDatalakeIngestRoot",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ArchiveDatalakeIngestRootPath",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ArchiveDatalakeIngestRootPathFileName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IsSourceDeleted",
+				"type": "bit"
+			},
+			{
+				"name": "IsSourceDeletedDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "LastUpdatedDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "LoadDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
 		"typeProperties": {
 			"schema": "ETL",
 			"table": "AdfLoadControl"
