@@ -145,6 +145,7 @@
 						"frequency": "Hour",
 						"interval": 24,
 						"startTime": "2022-06-23T00:30:00",
+						"endTime": "2022-07-13T00:23:00",
 						"timeZone": "Pacific Standard Time"
 					}
 				}
