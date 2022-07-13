@@ -3,24 +3,11 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Lookup1",
-				"type": "Lookup",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": []
-			},
-			{
-				"name": "Azure Function1",
+				"name": "CallAzureFunction",
 				"type": "AzureFunctionActivity",
 				"dependsOn": [
 					{
-						"activity": "Lookup1",
+						"activity": "Wait1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -35,21 +22,28 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"functionName": "EdwAdfOrchestrationFunctionAppMichaelLe",
+					"functionName": {
+						"value": "GetActivityErrorDetails",
+						"type": "Expression"
+					},
 					"method": "POST",
 					"body": {
-						"tenantId": "1234-1234-1234-1234-1234",
-						"applicationId": "1234-1234-1234-1234-1234",
-						"authenticationKey": "Passw0rd123!",
-						"subscriptionId": "1234-1234-1234-1234-1234",
-						"resourceGroup": "CommunityDemos",
-						"factoryName": "EdwAdfOrchestrationMichaelLe",
-						"pipelineName": "WaitingPipeline"
+						"value": "{\n\"tenantId\" : \"6fe8874b-b6a3-476c-9357-0389bdea5f53\",\n\"applicationId\" : \"f13bf3c3-3c57-41ee-b557-a2d602ce2704\",\n\"authenticationKey\" : \"3bffec6f-f817-4d96-91ea-2dce780381dc\",\n\"subscriptionId\" : \"cae64f29-6572-4d75-acf6-8f05b8d4e501\",\n\"resourceGroup\" : \"EDWTeamResourceGroup\",\n\"factoryName\" : \"EdwAdfMichaelLeChildPipeline\"\n\"pipelineName\" : \"PipelineTestSuccess\",\n\"runId\" = \"229581c5-6cf4-4556-a2c3-254e52cf72cd\"\n}",
+						"type": "Expression"
 					}
 				},
 				"linkedServiceName": {
-					"referenceName": "LSFunctionGetPipelineDetailsMichaelLe",
+					"referenceName": "LSFunctionGetActivityErrorDetails",
 					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Wait1",
+				"type": "Wait",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 2
 				}
 			}
 		],
