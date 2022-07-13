@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "DsSourceNetworkPathTxt",
+						"referenceName": "DsSourceNetworkPathFTP",
 						"type": "DatasetReference",
 						"parameters": {
 							"SourceNetworkPath": {
@@ -73,7 +73,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"dataset": {
-									"referenceName": "DsSourceNetworkPathFileNameTxt",
+									"referenceName": "DsSourceNetworkPathFileNameFTP",
 									"type": "DatasetReference",
 									"parameters": {
 										"SourceNetworkPath": {
@@ -155,7 +155,7 @@
 														}
 													},
 													{
-														"name": "FileLastModifiedDate",
+														"name": "LastUpdatedDate",
 														"value": {
 															"value": "@activity('GetFileLastModifiedDate').output.lastModified",
 															"type": "Expression"
@@ -204,7 +204,7 @@
 										},
 										"inputs": [
 											{
-												"referenceName": "DsSourceNetworkPathFileNameTxt",
+												"referenceName": "DsSourceNetworkPathFileNameFTP",
 												"type": "DatasetReference",
 												"parameters": {
 													"SourceNetworkPath": {
