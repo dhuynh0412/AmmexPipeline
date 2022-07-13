@@ -1,6 +1,7 @@
 {
 	"name": "Ingest8x8 - CallDetailRecord",
 	"properties": {
+		"description": "This pipeline run at the root folder",
 		"activities": [
 			{
 				"name": "GetSourceNetworkFolder",
