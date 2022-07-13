@@ -1966,9 +1966,9 @@
 				"type": "ScheduleTrigger",
 				"typeProperties": {
 					"recurrence": {
-						"frequency": "Minute",
-						"interval": 30,
-						"startTime": "2022-06-23T10:05:00",
+						"frequency": "Hour",
+						"interval": 1,
+						"startTime": "2022-06-23T10:30:00",
 						"timeZone": "Pacific Standard Time"
 					}
 				}
