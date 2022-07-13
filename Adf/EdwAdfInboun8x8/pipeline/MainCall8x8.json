@@ -84,11 +84,30 @@
 						"dependencyConditions": [
 							"Succeeded"
 						]
+					},
+					{
+						"activity": "Ingest8x8 - CallDetailRecordArchive",
+						"dependencyConditions": [
+							"Succeeded"
+						]
 					}
 				],
 				"userProperties": [],
 				"typeProperties": {
 					"waitTimeInSeconds": 10
+				}
+			},
+			{
+				"name": "Ingest8x8 - CallDetailRecordArchive",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Ingest8x8 - CallDetailRecordArchive",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
 				}
 			}
 		],
