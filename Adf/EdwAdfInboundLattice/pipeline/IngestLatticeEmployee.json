@@ -53,10 +53,18 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "DsSourceNetworkPathLatticeEmployeeCsv",
-						"type": "DatasetReference"
+						"referenceName": "DsSourceDataLakePathCsv_Lattice",
+						"type": "DatasetReference",
+						"parameters": {
+							"SourceDataLakePath": {
+								"value": "@pipeline().parameters.SourceDataLakePath",
+								"type": "Expression"
+							}
+						}
 					},
-					"fieldList": [],
+					"fieldList": [
+						"childItems"
+					],
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
 						"enablePartitionDiscovery": false
@@ -83,10 +91,58 @@
 						"value": "@activity('GetSourceDataLakeFolder').output.childItems",
 						"type": "Expression"
 					},
-					"batchCount": 4
+					"batchCount": 4,
+					"activities": [
+						{
+							"name": "GetFileLastModifiedDate",
+							"type": "GetMetadata",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataset": {
+									"referenceName": "DsSourceDataLakePathFileNameCsv_Lattice",
+									"type": "DatasetReference",
+									"parameters": {
+										"SourceDataLakePath": {
+											"value": "@pipeline().parameters.SourceDataLakePath",
+											"type": "Expression"
+										},
+										"SourceDataLakePathFileName": {
+											"value": "@item().Name",
+											"type": "Expression"
+										}
+									}
+								},
+								"fieldList": [
+									"lastModified",
+									"itemName"
+								],
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							}
+						}
+					]
 				}
 			}
 		],
+		"parameters": {
+			"SourceDataLakePath": {
+				"type": "string",
+				"defaultValue": "lattice/employee/"
+			}
+		},
 		"annotations": []
 	}
 }
