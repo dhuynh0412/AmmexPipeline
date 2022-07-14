@@ -1,5 +1,5 @@
 {
-	"name": "DsSourceNetworkPathLatticeCsv",
+	"name": "DsSourceNetworkPathLatticeEmployeeCsv",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LsAdlEdwInbound",
