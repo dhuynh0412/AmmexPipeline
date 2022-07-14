@@ -17,7 +17,7 @@
 			"recurrence": {
 				"frequency": "Hour",
 				"interval": 1,
-				"startTime": "2022-07-13T12:30:00",
+				"startTime": "2022-07-13T12:15:00",
 				"timeZone": "Pacific Standard Time"
 			}
 		}
