@@ -1,16 +1,24 @@
 {
-	"name": "DsSourceNetworkPathLatticeEmployeeCsv",
+	"name": "DsSourceDataLakePathCsv_Lattice",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LsAdlEdwInbound",
 			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"SourceDataLakePath": {
+				"type": "string"
+			}
 		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"folderPath": "lattice/employee",
+				"folderPath": {
+					"value": "@dataset().SourceDataLakePath",
+					"type": "Expression"
+				},
 				"fileSystem": "humanresource"
 			},
 			"columnDelimiter": ",",
