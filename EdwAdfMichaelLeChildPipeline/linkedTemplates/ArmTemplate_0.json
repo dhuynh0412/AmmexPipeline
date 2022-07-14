@@ -1,0 +1,233 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "EdwAdfMichaelLeChildPipeline"
+		},
+		"LSFunctionGetPipelineActivityMichaelLe_functionKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'functionKey' of 'LSFunctionGetPipelineActivityMichaelLe'"
+		},
+		"LSFunctionTestSuccessMichaelLe_functionKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'functionKey' of 'LSFunctionTestSuccessMichaelLe'"
+		},
+		"LSFunctionGetPipelineActivityMichaelLe_properties_typeProperties_functionAppUrl": {
+			"type": "string",
+			"defaultValue": "https://edwadforchestrationfunctionappmichaelle.azurewebsites.net"
+		},
+		"LSFunctionTestSuccessMichaelLe_properties_typeProperties_functionAppUrl": {
+			"type": "string",
+			"defaultValue": "https://edwadforchestrationfunctionappmichaelle.azurewebsites.net"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/PipelineTestedFailure')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "FailedWait",
+						"type": "Wait",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 2
+						}
+					},
+					{
+						"name": "FailedActivities",
+						"type": "Fail",
+						"dependsOn": [
+							{
+								"activity": "FailedWait",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"message": {
+								"value": "This is a failed pipeline.",
+								"type": "Expression"
+							},
+							"errorCode": {
+								"value": "501",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "PostFailedWait",
+						"type": "Wait",
+						"dependsOn": [
+							{
+								"activity": "FailedActivities",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 1
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LSFunctionGetPipelineActivityMichaelLe')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureFunction",
+				"typeProperties": {
+					"functionAppUrl": "[parameters('LSFunctionGetPipelineActivityMichaelLe_properties_typeProperties_functionAppUrl')]",
+					"functionKey": {
+						"type": "SecureString",
+						"value": "[parameters('LSFunctionGetPipelineActivityMichaelLe_functionKey')]"
+					},
+					"authentication": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LSFunctionTestSuccessMichaelLe')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureFunction",
+				"typeProperties": {
+					"functionAppUrl": "[parameters('LSFunctionTestSuccessMichaelLe_properties_typeProperties_functionAppUrl')]",
+					"functionKey": {
+						"type": "SecureString",
+						"value": "[parameters('LSFunctionTestSuccessMichaelLe_functionKey')]"
+					},
+					"authentication": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PipelineCallAzureFunction')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Azure Function1",
+						"type": "AzureFunctionActivity",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"functionName": "EdwAdfOrchestrationFunctionAppMichaelLe",
+							"method": "POST",
+							"headers": {},
+							"body": " "
+						},
+						"linkedServiceName": {
+							"referenceName": "LSFunctionGetPipelineActivityMichaelLe",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LSFunctionGetPipelineActivityMichaelLe')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PipelineTestSuccess')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Wait1",
+						"type": "Wait",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 2
+						}
+					},
+					{
+						"name": "FunctionTestSuccess",
+						"type": "AzureFunctionActivity",
+						"dependsOn": [
+							{
+								"activity": "Wait1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"functionName": {
+								"value": "TestSuccess",
+								"type": "Expression"
+							},
+							"method": "POST",
+							"headers": {},
+							"body": {
+								"value": "{\n\"name\" : \"Azure\"\n}",
+								"type": "Expression"
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "LSFunctionTestSuccessMichaelLe",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LSFunctionTestSuccessMichaelLe')]"
+			]
+		}
+	]
+}

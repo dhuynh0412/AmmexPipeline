@@ -1,0 +1,21 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "EdwAdfMichaelLeChildPipeline"
+		},
+		"LSFunctionGetPipelineActivityMichaelLe_functionKey": {
+			"value": ""
+		},
+		"LSFunctionTestSuccessMichaelLe_functionKey": {
+			"value": ""
+		},
+		"LSFunctionGetPipelineActivityMichaelLe_properties_typeProperties_functionAppUrl": {
+			"value": "https://edwadforchestrationfunctionappmichaelle.azurewebsites.net"
+		},
+		"LSFunctionTestSuccessMichaelLe_properties_typeProperties_functionAppUrl": {
+			"value": "https://edwadforchestrationfunctionappmichaelle.azurewebsites.net"
+		}
+	}
+}
