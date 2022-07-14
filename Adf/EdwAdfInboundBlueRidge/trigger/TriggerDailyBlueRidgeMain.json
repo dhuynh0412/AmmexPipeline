@@ -1,21 +1,16 @@
 {
-	"name": "trigger1",
+	"name": "TriggerDailyBlueRidgeMain",
 	"properties": {
 		"annotations": [],
-		"runtimeState": "Started",
+		"runtimeState": "Stopped",
 		"pipelines": [],
 		"type": "ScheduleTrigger",
 		"typeProperties": {
 			"recurrence": {
-				"frequency": "Week",
-				"interval": 1,
+				"frequency": "Hour",
+				"interval": 24,
 				"startTime": "2022-07-13T08:00:00Z",
-				"timeZone": "UTC",
-				"schedule": {
-					"weekDays": [
-						"Wednesday"
-					]
-				}
+				"timeZone": "UTC"
 			}
 		}
 	}
