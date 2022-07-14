@@ -5,19 +5,13 @@
 			"referenceName": "LsAdlEdwInbound",
 			"type": "LinkedServiceReference"
 		},
-		"parameters": {
-			"SourceNetwork": {
-				"type": "string"
-			},
-			"SourceNetworkPath": {
-				"type": "string"
-			}
-		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
-				"type": "AzureBlobFSLocation"
+				"type": "AzureBlobFSLocation",
+				"folderPath": "lattice/employee",
+				"fileSystem": "humanresource"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
