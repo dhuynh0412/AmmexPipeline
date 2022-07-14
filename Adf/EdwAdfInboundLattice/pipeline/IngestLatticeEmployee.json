@@ -3,43 +3,6 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
-				"type": "Copy",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "DelimitedTextSource",
-						"storeSettings": {
-							"type": "AzureBlobFSReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
-						},
-						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
-						}
-					},
-					"enableStaging": false
-				},
-				"inputs": [
-					{
-						"referenceName": "DsAdlsInboundLatticeCsv",
-						"type": "DatasetReference",
-						"parameters": {
-							"DatalakeIngestRoot": "humanresource",
-							"DatalakeIngestRootPath": "lattice"
-						}
-					}
-				]
-			},
-			{
 				"name": "GetSourceDataLakeFolder",
 				"type": "GetMetadata",
 				"dependsOn": [],
@@ -132,6 +95,145 @@
 									"type": "DelimitedTextReadSettings"
 								}
 							}
+						},
+						{
+							"name": "If Condition1",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "GetFileLastModifiedDate",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-3))",
+									"type": "Expression"
+								},
+								"ifTrueActivities": [
+									{
+										"name": "CopyingDataLakeToDataLake",
+										"description": "Update CSV from Datalake with the additional field back to datalake",
+										"type": "Copy",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "7.00:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "DelimitedTextSource",
+												"additionalColumns": [
+													{
+														"name": "SourceFileName",
+														"value": "$$FILEPATH"
+													},
+													{
+														"name": "PipelineName",
+														"value": {
+															"value": "@pipeline().Pipeline",
+															"type": "Expression"
+														}
+													},
+													{
+														"name": "LoadDate",
+														"value": {
+															"value": "@utcNow()",
+															"type": "Expression"
+														}
+													},
+													{
+														"name": "FileLastModifiedDate",
+														"value": {
+															"value": "@activity('GetFileLastModifiedDate').output.lastModified",
+															"type": "Expression"
+														}
+													},
+													{
+														"name": "IsSourceDeleted",
+														"value": ""
+													},
+													{
+														"name": "IsSourceDeletedDate",
+														"value": ""
+													}
+												],
+												"storeSettings": {
+													"type": "AzureBlobFSReadSettings",
+													"recursive": true,
+													"enablePartitionDiscovery": false
+												},
+												"formatSettings": {
+													"type": "DelimitedTextReadSettings"
+												}
+											},
+											"sink": {
+												"type": "DelimitedTextSink",
+												"storeSettings": {
+													"type": "AzureBlobFSWriteSettings"
+												},
+												"formatSettings": {
+													"type": "DelimitedTextWriteSettings",
+													"quoteAllText": true,
+													"fileExtension": ".txt"
+												}
+											},
+											"enableStaging": false,
+											"translator": {
+												"type": "TabularTranslator",
+												"typeConversion": true,
+												"typeConversionSettings": {
+													"allowDataTruncation": true,
+													"treatBooleanAsNumber": false
+												}
+											}
+										},
+										"inputs": [
+											{
+												"referenceName": "DsSourceDataLakePathFileNameCsv_Lattice",
+												"type": "DatasetReference",
+												"parameters": {
+													"SourceDataLakePath": {
+														"value": "@pipeline().parameters.SourceDataLakePath",
+														"type": "Expression"
+													},
+													"SourceDataLakePathFileName": {
+														"value": "@item().name",
+														"type": "Expression"
+													}
+												}
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "DsAdlsInboundLatticeCsv",
+												"type": "DatasetReference",
+												"parameters": {
+													"DatalakeIngestRoot": {
+														"value": "@pipeline().parameters.DatalakeIngestRoot",
+														"type": "Expression"
+													},
+													"DatalakeIngestRootPath": {
+														"value": "@pipeline().parameters.DatalakeIngestRootPath",
+														"type": "Expression"
+													},
+													"DatalakeIngestRootPathFileName": {
+														"value": "@item().name",
+														"type": "Expression"
+													}
+												}
+											}
+										]
+									}
+								]
+							}
 						}
 					]
 				}
@@ -141,6 +243,14 @@
 			"SourceDataLakePath": {
 				"type": "string",
 				"defaultValue": "lattice/employee/"
+			},
+			"DatalakeIngestRoot": {
+				"type": "string",
+				"defaultValue": "humanresource"
+			},
+			"DatalakeIngestRootPath": {
+				"type": "string",
+				"defaultValue": "lattice/employee/updated/"
 			}
 		},
 		"annotations": []
