@@ -49,6 +49,7 @@
 						"value": "@activity('GetListOfSourceFiles').output.value",
 						"type": "Expression"
 					},
+					"isSequential": true,
 					"activities": [
 						{
 							"name": "GetSourceNetworkFolder",
@@ -125,7 +126,7 @@
 												"type": "DatasetReference",
 												"parameters": {
 													"SourceNetworkPath": {
-														"value": "@pipeline().parameters.SourceNetworkPath",
+														"value": "@{item().SourceNetworkPath}",
 														"type": "Expression"
 													},
 													"SourceNetworkPathFileName": {
@@ -256,7 +257,7 @@
 															"type": "DatasetReference",
 															"parameters": {
 																"SourceNetworkPath": {
-																	"value": "@pipeline().parameters.SourceNetworkPath",
+																	"value": "@{item().SourceNetworkPath}",
 																	"type": "Expression"
 																},
 																"SourceNetworkPathFileName": {
