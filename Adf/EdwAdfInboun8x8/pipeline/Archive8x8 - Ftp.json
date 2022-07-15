@@ -104,7 +104,13 @@
 							"outputs": [
 								{
 									"referenceName": "DsSourceNetworkFTPBinary_ArchiveHistory",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"SourceNetworkPathArchiveHistory": {
+											"value": "/shares/CallDetailRecord/ArchiveHistory",
+											"type": "Expression"
+										}
+									}
 								}
 							]
 						}
