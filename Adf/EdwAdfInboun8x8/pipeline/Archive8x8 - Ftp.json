@@ -107,7 +107,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"SourceNetworkPathArchiveHistory": {
-											"value": "'/shares/CallDetailRecord/ArchiveHistory'",
+											"value": "@pipeline().parameters.SourceNetworkPathArchiveHistory",
 											"type": "Expression"
 										}
 									}
@@ -118,6 +118,12 @@
 				}
 			}
 		],
+		"parameters": {
+			"SourceNetworkPathArchiveHistory": {
+				"type": "string",
+				"defaultValue": "/shares/CallDetailRecord/ArchiveHistory"
+			}
+		},
 		"folder": {
 			"name": "1 - Ingest"
 		},

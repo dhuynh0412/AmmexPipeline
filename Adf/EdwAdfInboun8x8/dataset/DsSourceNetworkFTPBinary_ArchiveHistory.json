@@ -8,8 +8,7 @@
 		},
 		"parameters": {
 			"SourceNetworkPathArchiveHistory": {
-				"type": "string",
-				"defaultValue": "/shares/CallDetailRecord/ArchiveHistory"
+				"type": "string"
 			}
 		},
 		"annotations": [],
