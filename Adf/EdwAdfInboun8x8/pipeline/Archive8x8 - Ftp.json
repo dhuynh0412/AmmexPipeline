@@ -107,7 +107,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"SourceNetworkPathArchiveHistory": {
-											"value": "/shares/CallDetailRecord/ArchiveHistory",
+											"value": "'/shares/CallDetailRecord/ArchiveHistory'",
 											"type": "Expression"
 										}
 									}
