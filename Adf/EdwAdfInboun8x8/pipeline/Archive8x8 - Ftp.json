@@ -70,6 +70,7 @@
 										"type": "FtpReadSettings",
 										"recursive": true,
 										"useBinaryTransfer": true,
+										"deleteFilesAfterCompletion": false,
 										"disableChunking": false
 									},
 									"formatSettings": {
