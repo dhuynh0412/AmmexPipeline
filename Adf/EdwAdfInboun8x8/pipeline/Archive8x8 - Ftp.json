@@ -91,6 +91,10 @@
 									"referenceName": "DsSourceNetworkFTPBinary",
 									"type": "DatasetReference",
 									"parameters": {
+										"SourceNetworkRoot": {
+											"value": "@{item().SourceNetworkRoot}",
+											"type": "Expression"
+										},
 										"SourceNetworkPath": {
 											"value": "@{item().SourceNetworkPath}",
 											"type": "Expression"
@@ -103,6 +107,10 @@
 									"referenceName": "DsSourceNetworkFTPBinary",
 									"type": "DatasetReference",
 									"parameters": {
+										"SourceNetworkRoot": {
+											"value": "@{item().SourceNetworkRoot}",
+											"type": "Expression"
+										},
 										"SourceNetworkPath": {
 											"value": "\"@{item().SourceNetworkPath}History\"",
 											"type": "Expression"
