@@ -66,9 +66,10 @@
 								"source": {
 									"type": "BinarySource",
 									"storeSettings": {
-										"type": "AzureBlobFSReadSettings",
+										"type": "FtpReadSettings",
 										"recursive": true,
-										"deleteFilesAfterCompletion": true
+										"useBinaryTransfer": true,
+										"disableChunking": false
 									},
 									"formatSettings": {
 										"type": "BinaryReadSettings"
@@ -85,15 +86,11 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "DsAdlsAmmexEdwBinary",
+									"referenceName": "DsSourceNetworkFTPBinary",
 									"type": "DatasetReference",
 									"parameters": {
-										"DatalakeRoot": {
-											"value": "@{item().DatalakeIngestRoot}",
-											"type": "Expression"
-										},
-										"DatalakeRootPath": {
-											"value": "@{item().DatalakeIngestRootPath}",
+										"SourceNetworkPath": {
+											"value": "@{item().SourceNetworkPath}",
 											"type": "Expression"
 										}
 									}
@@ -101,18 +98,8 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "DsAdlsAmmexEdwBinary",
-									"type": "DatasetReference",
-									"parameters": {
-										"DatalakeRoot": {
-											"value": "@{item().ArchiveDatalakeIngestRoot}",
-											"type": "Expression"
-										},
-										"DatalakeRootPath": {
-											"value": "@{item().ArchiveDatalakeIngestRootPath}",
-											"type": "Expression"
-										}
-									}
+									"referenceName": "DsSourceNetworkFTPBinary",
+									"type": "DatasetReference"
 								}
 							]
 						}
