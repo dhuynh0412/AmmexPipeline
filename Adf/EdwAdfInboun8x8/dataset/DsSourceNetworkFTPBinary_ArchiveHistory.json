@@ -7,11 +7,9 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"SourceNetworkRoot": {
-				"type": "string"
-			},
-			"SourceNetworkPath": {
-				"type": "string"
+			"SourceNetworkPathArchiveHistory": {
+				"type": "string",
+				"defaultValue": "/shares/CallDetailRecord/ArchiveHistory"
 			}
 		},
 		"annotations": [],
@@ -20,7 +18,7 @@
 			"location": {
 				"type": "FtpServerLocation",
 				"folderPath": {
-					"value": "@dataset().SourceNetworkPath",
+					"value": "@dataset().SourceNetworkPathArchiveHistory",
 					"type": "Expression"
 				}
 			}
