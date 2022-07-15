@@ -1,6 +1,7 @@
 {
-	"name": "Archive8x8",
+	"name": "Archive8x8 - DataLake",
 	"properties": {
+		"description": "Move file from delta to archive",
 		"activities": [
 			{
 				"name": "LkGetSourceObjects",

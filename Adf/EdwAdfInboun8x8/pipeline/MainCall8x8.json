@@ -69,7 +69,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "Archive8x8",
+						"referenceName": "Archive8x8 - DataLake",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
