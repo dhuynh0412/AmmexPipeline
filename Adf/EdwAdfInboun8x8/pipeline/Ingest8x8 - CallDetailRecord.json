@@ -273,11 +273,11 @@
 															"type": "DatasetReference",
 															"parameters": {
 																"DatalakeIngestRoot": {
-																	"value": "@pipeline().parameters.DatalakeIngestRoot",
+																	"value": "@{item().DatalakeIngestRoot}",
 																	"type": "Expression"
 																},
 																"DatalakeIngestRootPath": {
-																	"value": "@pipeline().parameters.DatalakeIngestRootPath",
+																	"value": "@{item().DatalakeIngestRootPath}",
 																	"type": "Expression"
 																},
 																"DatalakeIngestRootPathFileName": {
@@ -298,20 +298,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"SourceNetworkPath": {
-				"type": "string",
-				"defaultValue": "/shares/CallDetailRecord"
-			},
-			"DatalakeIngestRoot": {
-				"type": "string",
-				"defaultValue": "8x8"
-			},
-			"DatalakeIngestRootPath": {
-				"type": "string",
-				"defaultValue": "shares/calldetailrecord"
-			}
-		},
 		"folder": {
 			"name": "1 - Ingest"
 		},

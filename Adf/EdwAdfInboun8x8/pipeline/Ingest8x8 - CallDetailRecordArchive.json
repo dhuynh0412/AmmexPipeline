@@ -225,11 +225,11 @@
 												"type": "DatasetReference",
 												"parameters": {
 													"DatalakeIngestRoot": {
-														"value": "@pipeline().parameters.DatalakeIngestRoot",
+														"value": "@{item().DatalakeIngestRoot}",
 														"type": "Expression"
 													},
 													"DatalakeIngestRootPath": {
-														"value": "@pipeline().parameters.DatalakeIngestRootPath",
+														"value": "@{item().DatalakeIngestRootPath}",
 														"type": "Expression"
 													},
 													"DatalakeIngestRootPathFileName": {
