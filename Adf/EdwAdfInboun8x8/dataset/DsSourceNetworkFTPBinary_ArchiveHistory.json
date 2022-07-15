@@ -7,9 +7,11 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"SourceNetworkPathArchiveHistory": {
-				"type": "string",
-				"defaultValue": "/shares/CallDetailRecord/ArchiveHistory"
+			"SourceNetworkRoot": {
+				"type": "string"
+			},
+			"SourceNetworkPath": {
+				"type": "string"
 			}
 		},
 		"annotations": [],
