@@ -100,11 +100,11 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "DsSourceNetworkFTPBinary_ArchiveHistory",
+									"referenceName": "DsSourceNetworkFTPBinary",
 									"type": "DatasetReference",
 									"parameters": {
-										"SourceNetworkPathArchiveHistory": {
-											"value": "@{item().SourceNetworkPath}",
+										"SourceNetworkPath": {
+											"value": "\"@{item().SourceNetworkPath}History\"",
 											"type": "Expression"
 										}
 									}
