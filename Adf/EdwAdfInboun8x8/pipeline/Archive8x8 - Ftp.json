@@ -91,10 +91,6 @@
 									"referenceName": "DsSourceNetworkFTPBinary",
 									"type": "DatasetReference",
 									"parameters": {
-										"SourceNetworkRoot": {
-											"value": "@{item().SourceNetworkRoot}",
-											"type": "Expression"
-										},
 										"SourceNetworkPath": {
 											"value": "@{item().SourceNetworkPath}",
 											"type": "Expression"
