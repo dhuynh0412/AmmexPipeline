@@ -6,9 +6,6 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"SourceNetworkRoot": {
-				"type": "string"
-			},
 			"SourceNetworkPath": {
 				"type": "string"
 			}
