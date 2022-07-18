@@ -46,7 +46,7 @@
 					},
 					"activities": [
 						{
-							"name": "Copy data1",
+							"name": "Archiving",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
