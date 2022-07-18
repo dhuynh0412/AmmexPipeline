@@ -26,6 +26,25 @@
 						"type": "DatasetReference"
 					}
 				}
+			},
+			{
+				"name": "FetchingTableForArchiving",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "LkGetSourceObjects",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('LkGetSourceObjects').output.value",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"folder": {
