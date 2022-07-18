@@ -1,0 +1,9 @@
+{
+	"name": "ArchiveLatticeEmployee",
+	"properties": {
+		"folder": {
+			"name": "0-Archive"
+		},
+		"annotations": []
+	}
+}
