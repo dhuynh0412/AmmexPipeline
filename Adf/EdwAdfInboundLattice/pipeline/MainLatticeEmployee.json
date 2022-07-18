@@ -28,6 +28,10 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadLatticeEmployee",
+						"type": "PipelineReference"
+					},
 					"waitOnCompletion": true
 				}
 			},
