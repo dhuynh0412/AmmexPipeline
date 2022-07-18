@@ -1,0 +1,9 @@
+{
+	"name": "MainLattice",
+	"properties": {
+		"folder": {
+			"name": "Orchestration"
+		},
+		"annotations": []
+	}
+}
