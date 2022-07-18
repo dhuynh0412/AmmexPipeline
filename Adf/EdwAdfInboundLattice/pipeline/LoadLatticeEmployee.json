@@ -1,0 +1,9 @@
+{
+	"name": "LoadLatticeEmployee",
+	"properties": {
+		"folder": {
+			"name": "Load"
+		},
+		"annotations": []
+	}
+}
