@@ -1,0 +1,32 @@
+{
+	"name": "DsAdlsAmmexEdwBinary",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAdlEdwInbound",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"DatalakeRoot": {
+				"type": "string"
+			},
+			"DatalakeRootPath": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": {
+					"value": "@dataset().DatalakeRootPath",
+					"type": "Expression"
+				},
+				"fileSystem": {
+					"value": "@dataset().DatalakeRoot",
+					"type": "Expression"
+				}
+			}
+		}
+	}
+}
