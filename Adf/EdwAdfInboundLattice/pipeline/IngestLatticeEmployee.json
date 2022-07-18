@@ -255,6 +255,9 @@
 				"defaultValue": "lattice/employee/updated/"
 			}
 		},
+		"folder": {
+			"name": "Ingest"
+		},
 		"annotations": []
 	}
 }
