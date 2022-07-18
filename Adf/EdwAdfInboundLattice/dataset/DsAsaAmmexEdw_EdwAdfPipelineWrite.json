@@ -1,5 +1,5 @@
 {
-	"name": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
+	"name": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
