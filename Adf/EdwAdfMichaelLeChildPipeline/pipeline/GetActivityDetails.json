@@ -43,7 +43,7 @@
 					"authentication": {
 						"type": "MSI",
 						"resource": {
-							"value": "https://management.azure.com",
+							"value": "https://management.core.windows.net/",
 							"type": "Expression"
 						}
 					}
