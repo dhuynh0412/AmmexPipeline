@@ -1,0 +1,19 @@
+{
+	"name": "LsSourceNetworkRoot_OneDrive",
+	"properties": {
+		"annotations": [],
+		"type": "FileServer",
+		"typeProperties": {
+			"host": "https://ammex0-my.sharepoint.com/personal/hdrive_ammex_com/_layouts/15/onedrive.aspx",
+			"userId": "ammexcorp\\EdwAdfPipelineSvc",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "EdwAdfKeyVault",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "SourceNetworkConnection-EdwAdfPipelineSvc"
+			}
+		}
+	}
+}
