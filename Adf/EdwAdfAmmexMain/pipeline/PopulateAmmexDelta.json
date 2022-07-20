@@ -50,7 +50,7 @@
 							"type": "SqlServerStoredProcedure",
 							"dependsOn": [
 								{
-									"activity": "Waitfor5Seconds",
+									"activity": "Waitfor3Seconds",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -76,7 +76,7 @@
 							}
 						},
 						{
-							"name": "Waitfor5Seconds",
+							"name": "Waitfor3Seconds",
 							"type": "Wait",
 							"dependsOn": [
 								{
