@@ -1,9 +1,9 @@
 {
-	"name": "PipelineCallAzureFunction_copy1",
+	"name": "GetActivityDetails",
 	"properties": {
 		"activities": [
 			{
-				"name": "Web1",
+				"name": "GetActivityDetails",
 				"type": "WebActivity",
 				"dependsOn": [],
 				"policy": {
@@ -16,10 +16,18 @@
 				"userProperties": [],
 				"typeProperties": {
 					"url": {
-						"value": "https://management.azure.com/subscriptions/cae64f29-6572-4d75-acf6-8f05b8d4e501/resourceGroups/EDWTeamResourceGroup/providers/Microsoft.DataFactory/factories/EdwAdfMichaelLeChildPipeline/pipelines/PipelineTestSuccess/createRun?api-version=2018-06-01",
+						"value": "https://management.azure.com/subscriptions/cae64f29-6572-4d75-acf6-8f05b8d4e501/resourceGroups/EDWTeamResourceGroup/providers/Microsoft.DataFactory/factories/EdwAdfMichaelLeChildPipeline/pipelineruns/24153f0c-6356-41a2-888f-1f2e3573a7c7/queryActivityruns?api-version=2018-06-01",
 						"type": "Expression"
 					},
-					"method": "POST"
+					"method": "POST",
+					"body": {
+						"value": "{\n\tlastUpdatedAfter: \"2022-07-10\",\n\tlastUpdatedBefore: \"2022-07-15\"\n}",
+						"type": "Expression"
+					},
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://management.azure.com"
+					}
 				}
 			}
 		],
