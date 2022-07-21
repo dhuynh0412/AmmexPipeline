@@ -1971,97 +1971,34 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AmmexMain_copy1')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
+			"name": "[concat(parameters('factoryName'), '/TriggerDailyLoadAmmexDelta')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"activities": [
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
 					{
-						"name": "IngestAmmexDelta",
-						"type": "ExecutePipeline",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "IngestAmmexDelta",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "LoadAmmexDelta",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "Wait10Seconds",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "LoadAmmexDelta",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "PopulateAmmexDelta",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "LoadAmmexDelta",
-								"dependencyConditions": [
-									"Completed"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "PopulateAmmexDelta",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "Wait10Seconds",
-						"type": "Wait",
-						"dependsOn": [
-							{
-								"activity": "IngestAmmexDelta",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"waitTimeInSeconds": 10
-						}
+						"pipelineReference": {
+							"referenceName": "AmmexMain",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
 					}
 				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "4-Orchestration"
-				},
-				"annotations": []
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Hour",
+						"interval": 24,
+						"startTime": "2022-06-21T04:00:00",
+						"endTime": "2022-07-13T00:20:12",
+						"timeZone": "Pacific Standard Time"
+					}
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/IngestAmmexDelta')]",
-				"[concat(variables('factoryId'), '/pipelines/LoadAmmexDelta')]",
-				"[concat(variables('factoryId'), '/pipelines/PopulateAmmexDelta')]"
+				"[concat(variables('factoryId'), '/pipelines/AmmexMain')]"
 			]
 		}
 	]
