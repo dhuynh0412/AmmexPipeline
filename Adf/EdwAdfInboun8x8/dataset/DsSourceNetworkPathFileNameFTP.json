@@ -7,10 +7,12 @@
 		},
 		"parameters": {
 			"SourceNetworkPath": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "/shares/CallDetailRecord/Archive"
 			},
 			"SourceNetworkPathFileName": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "cdr*.csv"
 			}
 		},
 		"annotations": [],
