@@ -7,7 +7,7 @@
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "Archive8x8",
+						"activity": "Archive8x8 - DataLake",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -63,7 +63,7 @@
 				}
 			},
 			{
-				"name": "Archive8x8",
+				"name": "Archive8x8 - DataLake",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"userProperties": [],
@@ -102,7 +102,7 @@
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "Archive8x8",
+						"activity": "Archive8x8 - DataLake",
 						"dependencyConditions": [
 							"Succeeded"
 						]
