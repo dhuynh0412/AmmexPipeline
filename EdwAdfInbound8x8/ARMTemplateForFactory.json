@@ -41,10 +41,11 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/Archive8x8')]",
+			"name": "[concat(parameters('factoryName'), '/Archive8x8 - DataLake')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"description": "Move file from delta to archive",
 				"activities": [
 					{
 						"name": "LkGetSourceObjects",
@@ -186,8 +187,8 @@
 				"description": "This pipeline run at the root folder",
 				"activities": [
 					{
-						"name": "GetSourceNetworkFolder",
-						"type": "GetMetadata",
+						"name": "GetListOfSourceFiles",
+						"type": "Lookup",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "7.00:00:00",
@@ -198,37 +199,29 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
+							"source": {
+								"type": "SqlDWSource",
+								"sqlReaderQuery": {
+									"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Inbound'\n      AND [SourceDatabase] = 'Call'\n\t  AND [SourceSchema] = '8x8'\n\t  AND [IsLoad] = 1\nORDER BY [SourceObject]",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
 							"dataset": {
-								"referenceName": "DsSourceNetworkPathFTP",
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
 								"type": "DatasetReference",
-								"parameters": {
-									"SourceNetworkPath": {
-										"value": "@pipeline().parameters.SourceNetworkPath",
-										"type": "Expression"
-									}
-								}
+								"parameters": {}
 							},
-							"fieldList": [
-								"childItems"
-							],
-							"storeSettings": {
-								"type": "FtpReadSettings",
-								"recursive": true,
-								"enablePartitionDiscovery": false,
-								"useBinaryTransfer": false,
-								"disableChunking": false
-							},
-							"formatSettings": {
-								"type": "DelimitedTextReadSettings"
-							}
+							"firstRowOnly": false
 						}
 					},
 					{
-						"name": "LoopingThroughNetworkFolders",
+						"name": "LoopingThroughSourceNetworkPathFTP",
 						"type": "ForEach",
 						"dependsOn": [
 							{
-								"activity": "GetSourceNetworkFolder",
+								"activity": "GetListOfSourceFiles",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -237,13 +230,13 @@
 						"userProperties": [],
 						"typeProperties": {
 							"items": {
-								"value": "@activity('GetSourceNetworkFolder').output.childItems",
+								"value": "@activity('GetListOfSourceFiles').output.value",
 								"type": "Expression"
 							},
 							"isSequential": true,
 							"activities": [
 								{
-									"name": "GetFileLastModifiedDate",
+									"name": "GetSourceNetworkFolder",
 									"type": "GetMetadata",
 									"dependsOn": [],
 									"policy": {
@@ -256,22 +249,17 @@
 									"userProperties": [],
 									"typeProperties": {
 										"dataset": {
-											"referenceName": "DsSourceNetworkPathFileNameFTP",
+											"referenceName": "DsSourceNetworkPathFTP",
 											"type": "DatasetReference",
 											"parameters": {
 												"SourceNetworkPath": {
-													"value": "@pipeline().parameters.SourceNetworkPath",
-													"type": "Expression"
-												},
-												"SourceNetworkPathFileName": {
-													"value": "@item().name",
+													"value": "@{item().SourceNetworkPath}",
 													"type": "Expression"
 												}
 											}
 										},
 										"fieldList": [
-											"lastModified",
-											"itemName"
+											"childItems"
 										],
 										"storeSettings": {
 											"type": "FtpReadSettings",
@@ -286,11 +274,11 @@
 									}
 								},
 								{
-									"name": "If Condition1",
-									"type": "IfCondition",
+									"name": "LoopingThroughNetworkFolders",
+									"type": "ForEach",
 									"dependsOn": [
 										{
-											"activity": "GetFileLastModifiedDate",
+											"activity": "GetSourceNetworkFolder",
 											"dependencyConditions": [
 												"Succeeded"
 											]
@@ -298,14 +286,15 @@
 									],
 									"userProperties": [],
 									"typeProperties": {
-										"expression": {
-											"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-7))",
+										"items": {
+											"value": "@activity('GetSourceNetworkFolder').output.childItems",
 											"type": "Expression"
 										},
-										"ifTrueActivities": [
+										"isSequential": true,
+										"activities": [
 											{
-												"name": "CopyingCsvToDataLake",
-												"type": "Copy",
+												"name": "GetFileLastModifiedDate",
+												"type": "GetMetadata",
 												"dependsOn": [],
 												"policy": {
 													"timeout": "7.00:00:00",
@@ -316,82 +305,12 @@
 												},
 												"userProperties": [],
 												"typeProperties": {
-													"source": {
-														"type": "DelimitedTextSource",
-														"additionalColumns": [
-															{
-																"name": "SourceFileName",
-																"value": "$$FILEPATH"
-															},
-															{
-																"name": "PipelineName",
-																"value": {
-																	"value": "@pipeline().Pipeline",
-																	"type": "Expression"
-																}
-															},
-															{
-																"name": "LoadDate",
-																"value": {
-																	"value": "@utcNow()",
-																	"type": "Expression"
-																}
-															},
-															{
-																"name": "LastUpdatedDate",
-																"value": {
-																	"value": "@activity('GetFileLastModifiedDate').output.lastModified",
-																	"type": "Expression"
-																}
-															},
-															{
-																"name": "IsSourceDeleted",
-																"value": ""
-															},
-															{
-																"name": "IsSourceDeletedDate",
-																"value": ""
-															}
-														],
-														"storeSettings": {
-															"type": "FtpReadSettings",
-															"recursive": true,
-															"enablePartitionDiscovery": false,
-															"useBinaryTransfer": false,
-															"disableChunking": false
-														},
-														"formatSettings": {
-															"type": "DelimitedTextReadSettings"
-														}
-													},
-													"sink": {
-														"type": "DelimitedTextSink",
-														"storeSettings": {
-															"type": "AzureBlobFSWriteSettings"
-														},
-														"formatSettings": {
-															"type": "DelimitedTextWriteSettings",
-															"quoteAllText": true,
-															"fileExtension": ".csv"
-														}
-													},
-													"enableStaging": false,
-													"translator": {
-														"type": "TabularTranslator",
-														"typeConversion": true,
-														"typeConversionSettings": {
-															"allowDataTruncation": true,
-															"treatBooleanAsNumber": false
-														}
-													}
-												},
-												"inputs": [
-													{
+													"dataset": {
 														"referenceName": "DsSourceNetworkPathFileNameFTP",
 														"type": "DatasetReference",
 														"parameters": {
 															"SourceNetworkPath": {
-																"value": "@pipeline().parameters.SourceNetworkPath",
+																"value": "@{item().SourceNetworkPath}",
 																"type": "Expression"
 															},
 															"SourceNetworkPathFileName": {
@@ -399,28 +318,162 @@
 																"type": "Expression"
 															}
 														}
+													},
+													"fieldList": [
+														"lastModified",
+														"itemName"
+													],
+													"storeSettings": {
+														"type": "FtpReadSettings",
+														"recursive": true,
+														"enablePartitionDiscovery": false,
+														"useBinaryTransfer": false,
+														"disableChunking": false
+													},
+													"formatSettings": {
+														"type": "DelimitedTextReadSettings"
+													}
+												}
+											},
+											{
+												"name": "If Condition1",
+												"type": "IfCondition",
+												"dependsOn": [
+													{
+														"activity": "GetFileLastModifiedDate",
+														"dependencyConditions": [
+															"Succeeded"
+														]
 													}
 												],
-												"outputs": [
-													{
-														"referenceName": "DsDestinationAdlEdwInbound8x8Csv",
-														"type": "DatasetReference",
-														"parameters": {
-															"DatalakeIngestRoot": {
-																"value": "@pipeline().parameters.DatalakeIngestRoot",
-																"type": "Expression"
+												"userProperties": [],
+												"typeProperties": {
+													"expression": {
+														"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-7))",
+														"type": "Expression"
+													},
+													"ifTrueActivities": [
+														{
+															"name": "CopyingCsvToDataLake",
+															"type": "Copy",
+															"dependsOn": [],
+															"policy": {
+																"timeout": "7.00:00:00",
+																"retry": 0,
+																"retryIntervalInSeconds": 30,
+																"secureOutput": false,
+																"secureInput": false
 															},
-															"DatalakeIngestRootPath": {
-																"value": "@pipeline().parameters.DatalakeIngestRootPath",
-																"type": "Expression"
+															"userProperties": [],
+															"typeProperties": {
+																"source": {
+																	"type": "DelimitedTextSource",
+																	"additionalColumns": [
+																		{
+																			"name": "SourceFileName",
+																			"value": "$$FILEPATH"
+																		},
+																		{
+																			"name": "PipelineName",
+																			"value": {
+																				"value": "@pipeline().Pipeline",
+																				"type": "Expression"
+																			}
+																		},
+																		{
+																			"name": "LoadDate",
+																			"value": {
+																				"value": "@utcNow()",
+																				"type": "Expression"
+																			}
+																		},
+																		{
+																			"name": "LastUpdatedDate",
+																			"value": {
+																				"value": "@activity('GetFileLastModifiedDate').output.lastModified",
+																				"type": "Expression"
+																			}
+																		},
+																		{
+																			"name": "IsSourceDeleted",
+																			"value": ""
+																		},
+																		{
+																			"name": "IsSourceDeletedDate",
+																			"value": ""
+																		}
+																	],
+																	"storeSettings": {
+																		"type": "FtpReadSettings",
+																		"recursive": true,
+																		"enablePartitionDiscovery": false,
+																		"useBinaryTransfer": false,
+																		"disableChunking": false
+																	},
+																	"formatSettings": {
+																		"type": "DelimitedTextReadSettings"
+																	}
+																},
+																"sink": {
+																	"type": "DelimitedTextSink",
+																	"storeSettings": {
+																		"type": "AzureBlobFSWriteSettings"
+																	},
+																	"formatSettings": {
+																		"type": "DelimitedTextWriteSettings",
+																		"quoteAllText": true,
+																		"fileExtension": ".csv"
+																	}
+																},
+																"enableStaging": false,
+																"translator": {
+																	"type": "TabularTranslator",
+																	"typeConversion": true,
+																	"typeConversionSettings": {
+																		"allowDataTruncation": true,
+																		"treatBooleanAsNumber": false
+																	}
+																}
 															},
-															"DatalakeIngestRootPathFileName": {
-																"value": "@item().name",
-																"type": "Expression"
-															}
+															"inputs": [
+																{
+																	"referenceName": "DsSourceNetworkPathFileNameFTP",
+																	"type": "DatasetReference",
+																	"parameters": {
+																		"SourceNetworkPath": {
+																			"value": "@{item().SourceNetworkPath}",
+																			"type": "Expression"
+																		},
+																		"SourceNetworkPathFileName": {
+																			"value": "@item().name",
+																			"type": "Expression"
+																		}
+																	}
+																}
+															],
+															"outputs": [
+																{
+																	"referenceName": "DsDestinationAdlEdwInbound8x8Csv",
+																	"type": "DatasetReference",
+																	"parameters": {
+																		"DatalakeIngestRoot": {
+																			"value": "@{item().DatalakeIngestRoot}",
+																			"type": "Expression"
+																		},
+																		"DatalakeIngestRootPath": {
+																			"value": "@{item().DatalakeIngestRootPath}",
+																			"type": "Expression"
+																		},
+																		"DatalakeIngestRootPathFileName": {
+																			"value": "@item().name",
+																			"type": "Expression"
+																		}
+																	}
+																}
+															]
 														}
-													}
-												]
+													]
+												}
 											}
 										]
 									}
@@ -433,26 +486,13 @@
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
 				},
-				"parameters": {
-					"SourceNetworkPath": {
-						"type": "string",
-						"defaultValue": "/shares/CallDetailRecord"
-					},
-					"DatalakeIngestRoot": {
-						"type": "string",
-						"defaultValue": "8x8"
-					},
-					"DatalakeIngestRootPath": {
-						"type": "string",
-						"defaultValue": "shares/calldetailrecord"
-					}
-				},
 				"folder": {
 					"name": "1 - Ingest"
 				},
 				"annotations": []
 			},
 			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DsAsaAmmexEdw_EdwAdfPipelineReadONly')]",
 				"[concat(variables('factoryId'), '/datasets/DsSourceNetworkPathFTP')]",
 				"[concat(variables('factoryId'), '/datasets/DsSourceNetworkPathFileNameFTP')]",
 				"[concat(variables('factoryId'), '/datasets/DsDestinationAdlEdwInbound8x8Csv')]"
@@ -520,7 +560,7 @@
 								"value": "@activity('GetSourceNetworkFolder').output.childItems",
 								"type": "Expression"
 							},
-							"isSequential": true,
+							"isSequential": false,
 							"activities": [
 								{
 									"name": "GetFileLastModifiedDate",
@@ -687,11 +727,11 @@
 														"type": "DatasetReference",
 														"parameters": {
 															"DatalakeIngestRoot": {
-																"value": "@pipeline().parameters.DatalakeIngestRoot",
+																"value": "@{item().DatalakeIngestRoot}",
 																"type": "Expression"
 															},
 															"DatalakeIngestRootPath": {
-																"value": "@pipeline().parameters.DatalakeIngestRootPath",
+																"value": "@{item().DatalakeIngestRootPath}",
 																"type": "Expression"
 															},
 															"DatalakeIngestRootPathFileName": {
@@ -715,16 +755,7 @@
 				},
 				"parameters": {
 					"SourceNetworkPath": {
-						"type": "string",
-						"defaultValue": "/shares/CallDetailRecord/Archive"
-					},
-					"DatalakeIngestRoot": {
-						"type": "string",
-						"defaultValue": "8x8"
-					},
-					"DatalakeIngestRootPath": {
-						"type": "string",
-						"defaultValue": "shares/calldetailrecord"
+						"type": "string"
 					}
 				},
 				"folder": {
@@ -977,7 +1008,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "Archive8x8",
+								"referenceName": "Archive8x8 - DataLake",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -1034,7 +1065,7 @@
 				"[concat(variables('factoryId'), '/pipelines/Ingest8x8 - CallDetailRecord')]",
 				"[concat(variables('factoryId'), '/pipelines/Load8x8')]",
 				"[concat(variables('factoryId'), '/pipelines/Populate8x8')]",
-				"[concat(variables('factoryId'), '/pipelines/Archive8x8')]",
+				"[concat(variables('factoryId'), '/pipelines/Archive8x8 - DataLake')]",
 				"[concat(variables('factoryId'), '/pipelines/Ingest8x8 - CallDetailRecordArchive')]"
 			]
 		},
@@ -1871,6 +1902,39 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/LsAdlEdwInbound8x8')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DsSourceNetworkFTPBinary')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LsAdfEdwFtp",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"SourceNetworkRoot": {
+						"type": "string"
+					},
+					"SourceNetworkPath": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "FtpServerLocation",
+						"folderPath": {
+							"value": "@dataset().SourceNetworkPath",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LsAdfEdwFtp')]"
 			]
 		},
 		{
