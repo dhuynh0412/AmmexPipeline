@@ -43,26 +43,6 @@
 				}
 			},
 			{
-				"name": "PopulateAmmexDelta",
-				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "LoadAmmexDelta",
-						"dependencyConditions": [
-							"Completed"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"pipeline": {
-						"referenceName": "PopulateAmmexDelta",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true
-				}
-			},
-			{
 				"name": "Wait10Seconds",
 				"type": "Wait",
 				"dependsOn": [
