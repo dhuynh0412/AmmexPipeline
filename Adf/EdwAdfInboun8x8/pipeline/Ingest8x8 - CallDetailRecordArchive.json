@@ -249,7 +249,8 @@
 		],
 		"parameters": {
 			"SourceNetworkPath": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "/shares/CallDetailRecord/Archive"
 			}
 		},
 		"folder": {
