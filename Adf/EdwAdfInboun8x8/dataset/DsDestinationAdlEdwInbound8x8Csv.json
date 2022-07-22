@@ -8,14 +8,15 @@
 		"parameters": {
 			"DatalakeIngestRoot": {
 				"type": "string",
-				"defaultValue": "ingest"
+				"defaultValue": "8x8"
 			},
 			"DatalakeIngestRootPath": {
 				"type": "string",
 				"defaultValue": "/shares/calldetailrecord"
 			},
 			"DatalakeIngestRootPathFileName": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "cdr.csv"
 			}
 		},
 		"annotations": [],
