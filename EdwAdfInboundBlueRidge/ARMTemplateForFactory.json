@@ -629,7 +629,14 @@
 					{
 						"name": "IngestIBPExport",
 						"type": "ExecutePipeline",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "ArchiveBR",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
@@ -697,6 +704,20 @@
 						"typeProperties": {
 							"waitTimeInSeconds": 10
 						}
+					},
+					{
+						"name": "ArchiveBR",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "ArchiveBR",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
 					}
 				],
 				"policy": {
@@ -711,7 +732,8 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/Ingest IBP_Export')]",
 				"[concat(variables('factoryId'), '/pipelines/Load IBP_Export')]",
-				"[concat(variables('factoryId'), '/pipelines/Populate IBP_Export')]"
+				"[concat(variables('factoryId'), '/pipelines/Populate IBP_Export')]",
+				"[concat(variables('factoryId'), '/pipelines/ArchiveBR')]"
 			]
 		},
 		{

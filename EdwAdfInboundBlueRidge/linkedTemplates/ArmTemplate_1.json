@@ -21,7 +21,14 @@
 					{
 						"name": "IngestIBPExport",
 						"type": "ExecutePipeline",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "ArchiveBR",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
@@ -88,6 +95,20 @@
 						"userProperties": [],
 						"typeProperties": {
 							"waitTimeInSeconds": 10
+						}
+					},
+					{
+						"name": "ArchiveBR",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "ArchiveBR",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
 						}
 					}
 				],
