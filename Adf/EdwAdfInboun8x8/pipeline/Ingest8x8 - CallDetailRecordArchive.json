@@ -23,6 +23,10 @@
 							"SourceNetworkPath": {
 								"value": "@pipeline().parameters.SourceNetworkPath",
 								"type": "Expression"
+							},
+							"SourceNetworkPathFileName": {
+								"value": "@pipeline().parameters.SourceNetworkPathFileName",
+								"type": "Expression"
 							}
 						}
 					},
@@ -58,7 +62,7 @@
 						"value": "@activity('GetSourceNetworkFolder').output.childItems",
 						"type": "Expression"
 					},
-					"isSequential": false,
+					"isSequential": true,
 					"activities": [
 						{
 							"name": "GetFileLastModifiedDate",
@@ -252,13 +256,9 @@
 				"type": "string",
 				"defaultValue": "/shares/CallDetailRecord/Archive"
 			},
-			"DatalakeIngestRoot": {
+			"SourceNetworkPathFileName": {
 				"type": "string",
-				"defaultValue": "8x8"
-			},
-			"DatalakeIngestRootPath": {
-				"type": "string",
-				"defaultValue": "/shares/calldetailrecord"
+				"defaultValue": "cdr*.csv"
 			}
 		},
 		"folder": {
