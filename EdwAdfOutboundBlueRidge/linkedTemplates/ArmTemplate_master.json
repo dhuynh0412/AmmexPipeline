@@ -7,9 +7,37 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "EdwAdfOutboundBlueRidge"
 		},
+		"LsAsaAmmexEdw_EdwAdfPipelineReadOnly_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LsAsaAmmexEdw_EdwAdfPipelineReadOnly'"
+		},
+		"LsAsaAmmexEdw_EdwAdfPipelineWrite_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LsAsaAmmexEdw_EdwAdfPipelineWrite'"
+		},
+		"LsSqlDenaliAmmex_EdwAdfPipelineReadOnly_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LsSqlDenaliAmmex_EdwAdfPipelineReadOnly'"
+		},
 		"EdwAdfKeyVault_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://EdwAdfKeyVault.vault.azure.net/"
+		},
+		"LsAdfEdwFTPBR_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "ftp.brinv.com"
+		},
+		"LsAdfEdwFTPBR_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Ammex_Prod"
+		},
+		"LsAdlsAmmexEdw_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://ammexedwsynapsestorage.dfs.core.windows.net"
+		},
+		"IrlSqlMatterhorn_properties_typeProperties_linkedInfo_resourceId": {
+			"type": "string",
+			"defaultValue": "/subscriptions/cae64f29-6572-4d75-acf6-8f05b8d4e501/resourcegroups/EDWTeamResourceGroup/providers/Microsoft.DataFactory/factories/EdwAdfMain/integrationruntimes/IrSqlMatterhorn"
 		},
 		"containerUri": {
 			"type": "string",
@@ -38,8 +66,29 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"LsAsaAmmexEdw_EdwAdfPipelineReadOnly_connectionString": {
+						"value": "[parameters('LsAsaAmmexEdw_EdwAdfPipelineReadOnly_connectionString')]"
+					},
+					"LsAsaAmmexEdw_EdwAdfPipelineWrite_connectionString": {
+						"value": "[parameters('LsAsaAmmexEdw_EdwAdfPipelineWrite_connectionString')]"
+					},
+					"LsSqlDenaliAmmex_EdwAdfPipelineReadOnly_connectionString": {
+						"value": "[parameters('LsSqlDenaliAmmex_EdwAdfPipelineReadOnly_connectionString')]"
+					},
 					"EdwAdfKeyVault_properties_typeProperties_baseUrl": {
 						"value": "[parameters('EdwAdfKeyVault_properties_typeProperties_baseUrl')]"
+					},
+					"IrlSqlMatterhorn_properties_typeProperties_linkedInfo_resourceId": {
+						"value": "[parameters('IrlSqlMatterhorn_properties_typeProperties_linkedInfo_resourceId')]"
+					},
+					"LsAdfEdwFTPBR_properties_typeProperties_host": {
+						"value": "[parameters('LsAdfEdwFTPBR_properties_typeProperties_host')]"
+					},
+					"LsAdfEdwFTPBR_properties_typeProperties_userName": {
+						"value": "[parameters('LsAdfEdwFTPBR_properties_typeProperties_userName')]"
+					},
+					"LsAdlsAmmexEdw_properties_typeProperties_url": {
+						"value": "[parameters('LsAdlsAmmexEdw_properties_typeProperties_url')]"
 					}
 				}
 			},
