@@ -13,7 +13,18 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DsSqlDenaliAmmex_EdwAdfPipelineReadOnly",
+						"type": "DatasetReference"
+					}
+				}
 			}
 		],
 		"folder": {
