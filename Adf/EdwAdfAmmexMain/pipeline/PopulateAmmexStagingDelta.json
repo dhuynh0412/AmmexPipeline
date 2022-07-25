@@ -1,5 +1,5 @@
 {
-	"name": "PopulateAmmexDelta_Staging",
+	"name": "PopulateAmmexStagingDelta",
 	"properties": {
 		"activities": [
 			{
