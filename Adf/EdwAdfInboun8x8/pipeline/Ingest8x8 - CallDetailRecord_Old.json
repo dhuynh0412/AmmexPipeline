@@ -1,5 +1,5 @@
 {
-	"name": "Ingest8x8 - CallDetailRecord",
+	"name": "Ingest8x8 - CallDetailRecord_Old",
 	"properties": {
 		"description": "This pipeline run at the root folder",
 		"activities": [
