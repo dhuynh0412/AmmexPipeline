@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "Ingest8x8 - CallDetailRecord",
+						"referenceName": "Ingest8x8 - CallDetailRecord_Old",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
