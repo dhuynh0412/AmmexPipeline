@@ -1,0 +1,12 @@
+{
+	"name": "DsSqlDenaliAmmex_EdwAdfPipelineReadOnly",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsSqlDenaliAmmex_EdwAdfPipelineReadOnly",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	}
+}
