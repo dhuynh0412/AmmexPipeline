@@ -349,7 +349,8 @@
 					},
 					"columnDelimiter": "|",
 					"escapeChar": "\\",
-					"quoteChar": "\""
+					"firstRowAsHeader": true,
+					"quoteChar": ""
 				},
 				"schema": []
 			},
