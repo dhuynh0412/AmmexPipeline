@@ -121,7 +121,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-7))",
+									"value": "@greaterOrEquals(activity('GetFileLastModifiedDate').output.lastModified,adddays(utcnow(),-3))",
 									"type": "Expression"
 								},
 								"ifTrueActivities": [
@@ -229,11 +229,11 @@
 												"type": "DatasetReference",
 												"parameters": {
 													"DatalakeIngestRoot": {
-														"value": "@{item().DatalakeIngestRoot}",
+														"value": "@pipeline().parameters.DatalakeIngestRoot",
 														"type": "Expression"
 													},
 													"DatalakeIngestRootPath": {
-														"value": "@{item().DatalakeIngestRootPath}",
+														"value": "@pipeline().parameters.DatalakeIngestRootPath",
 														"type": "Expression"
 													},
 													"DatalakeIngestRootPathFileName": {
