@@ -12,11 +12,11 @@
 			},
 			"DatalakeIngestRootPath": {
 				"type": "string",
-				"defaultValue": "/shares/calldetailrecord"
+				"defaultValue": "shares/calldetailrecord"
 			},
 			"DatalakeIngestRootPathFileName": {
 				"type": "string",
-				"defaultValue": "cdr.csv"
+				"defaultValue": "cdr*.csv"
 			}
 		},
 		"annotations": [],
