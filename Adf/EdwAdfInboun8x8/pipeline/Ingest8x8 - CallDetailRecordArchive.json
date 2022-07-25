@@ -259,6 +259,18 @@
 			"SourceNetworkPathFileName": {
 				"type": "string",
 				"defaultValue": "cdr*.csv"
+			},
+			"DatalakeIngestRoot": {
+				"type": "string",
+				"defaultValue": "8x8"
+			},
+			"DatalakeIngestRootPath": {
+				"type": "string",
+				"defaultValue": "shares/calldetailrecord"
+			},
+			"DatalakeIngestRootPathFileName": {
+				"type": "string",
+				"defaultValue": "cdr*.csv"
 			}
 		},
 		"folder": {
