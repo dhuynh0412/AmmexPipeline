@@ -1,5 +1,5 @@
 {
-	"name": "PopulateAmmexDelta",
+	"name": "PopulateAmmexStagingDelta",
 	"properties": {
 		"activities": [
 			{
@@ -110,7 +110,7 @@
 					"source": {
 						"type": "SqlDWSource",
 						"sqlReaderQuery": {
-							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = '[Ammex]'\n--\t  AND [SourceObjectType] = ''\n--\t  AND [SourceObject] = '[EXT01100]'\n\t  AND [IsLoad] = 1\n--\t  AND [IsLoadTesting] = 0\nORDER BY [SourceObject] ASC",
+							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Ammex_Staging'\n\t  AND IsLoad = 1\n\t  AND SourceObject = '[STG_GPAX_OutboundDates]'\nORDER BY [SourceObject]",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",

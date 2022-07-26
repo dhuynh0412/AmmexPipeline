@@ -1,5 +1,5 @@
 {
-	"name": "LoadAmmexDelta_Staging",
+	"name": "ArchiveAmmexStagingDelta",
 	"properties": {
 		"activities": [
 			{
@@ -18,7 +18,7 @@
 					"source": {
 						"type": "SqlDWSource",
 						"sqlReaderQuery": {
-							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Ammex_Staging'\n\t  AND IsLoad = 1\nORDER BY [SourceObject]",
+							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Ammex_Staging'\n\t  AND IsLoad = 1\n\t  AND SourceObject = '[STG_GPAX_OutboundDates]'\nORDER BY [SourceObject]",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -32,7 +32,7 @@
 				}
 			},
 			{
-				"name": "LoopingLkGetSourceObjects",
+				"name": "FetchingTableForArchiving",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -48,10 +48,9 @@
 						"value": "@activity('LkGetSourceObjects').output.value",
 						"type": "Expression"
 					},
-					"batchCount": 8,
 					"activities": [
 						{
-							"name": "ImportingCsvToEdw",
+							"name": "Archiving",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -64,57 +63,35 @@
 							"userProperties": [],
 							"typeProperties": {
 								"source": {
-									"type": "DelimitedTextSource",
+									"type": "BinarySource",
 									"storeSettings": {
 										"type": "AzureBlobFSReadSettings",
 										"recursive": true,
-										"wildcardFolderPath": {
-											"value": "@{item().DatalakeIngestRootPath}",
-											"type": "Expression"
-										},
-										"wildcardFileName": "*.*",
-										"enablePartitionDiscovery": false
+										"deleteFilesAfterCompletion": true
 									},
 									"formatSettings": {
-										"type": "DelimitedTextReadSettings"
+										"type": "BinaryReadSettings"
 									}
 								},
 								"sink": {
-									"type": "SqlDWSink",
-									"preCopyScript": {
-										"value": "@{item().SinkPreCopyScript}",
-										"type": "Expression"
-									},
-									"writeBehavior": "Insert",
-									"sqlWriterUseTableLock": false,
-									"tableOption": "autoCreate",
-									"disableMetricsCollection": false
-								},
-								"enableStaging": false,
-								"translator": {
-									"type": "TabularTranslator",
-									"typeConversion": true,
-									"typeConversionSettings": {
-										"allowDataTruncation": true,
-										"treatBooleanAsNumber": false
+									"type": "BinarySink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
 									}
-								}
+								},
+								"enableStaging": false
 							},
 							"inputs": [
 								{
-									"referenceName": "DsAdlAmmexEdwDestinationCsv",
+									"referenceName": "DsAdlsAmmexEdwBinary",
 									"type": "DatasetReference",
 									"parameters": {
-										"DatalakeIngestRoot": {
+										"DatalakeRoot": {
 											"value": "@{item().DatalakeIngestRoot}",
 											"type": "Expression"
 										},
-										"DatalakeIngestRootPath": {
+										"DatalakeRootPath": {
 											"value": "@{item().DatalakeIngestRootPath}",
-											"type": "Expression"
-										},
-										"DatalakeIngestRootPathFileName": {
-											"value": "@toLower('')",
 											"type": "Expression"
 										}
 									}
@@ -122,15 +99,15 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+									"referenceName": "DsAdlsAmmexEdwBinary",
 									"type": "DatasetReference",
 									"parameters": {
-										"Schema": {
-											"value": "@{item().SinkSchema}",
+										"DatalakeRoot": {
+											"value": "@{item().ArchiveDatalakeIngestRoot}",
 											"type": "Expression"
 										},
-										"Table": {
-											"value": "@{item().SinkTable}",
+										"DatalakeRootPath": {
+											"value": "@{item().ArchiveDatalakeIngestRootPath}",
 											"type": "Expression"
 										}
 									}
@@ -142,7 +119,7 @@
 			}
 		],
 		"folder": {
-			"name": "2-Load"
+			"name": "1-Ingest"
 		},
 		"annotations": []
 	}

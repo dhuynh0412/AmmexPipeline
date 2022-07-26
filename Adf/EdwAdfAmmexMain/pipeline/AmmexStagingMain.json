@@ -1,13 +1,13 @@
 {
-	"name": "AmmexMain",
+	"name": "AmmexStagingMain",
 	"properties": {
 		"activities": [
 			{
-				"name": "IngestAmmexDelta",
+				"name": "IngestAmmexStagingDelta",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "ArchiveAmmexDelta",
+						"activity": "ArchiveAmmexStagingDelta",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -16,14 +16,14 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "IngestAmmexDelta",
+						"referenceName": "IngestAmmexStagingDelta",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
 				}
 			},
 			{
-				"name": "LoadAmmexDelta",
+				"name": "LoadAmmexStagingDelta",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
@@ -36,18 +36,18 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "LoadAmmexDelta",
+						"referenceName": "LoadAmmexStagingDelta",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
 				}
 			},
 			{
-				"name": "PopulateAmmexDelta",
+				"name": "PopulateAmmexStagingDelta",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "LoadAmmexDelta",
+						"activity": "LoadAmmexStagingDelta",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -56,7 +56,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "PopulateAmmexDelta",
+						"referenceName": "PopulateAmmexStagingDelta",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
@@ -67,7 +67,7 @@
 				"type": "Wait",
 				"dependsOn": [
 					{
-						"activity": "IngestAmmexDelta",
+						"activity": "IngestAmmexStagingDelta",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -79,33 +79,13 @@
 				}
 			},
 			{
-				"name": "ArchiveAmmexDelta",
+				"name": "ArchiveAmmexStagingDelta",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "ArchiveAmmexDelta",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true
-				}
-			},
-			{
-				"name": "AmmexStagingMain",
-				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "Wait10Seconds",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"pipeline": {
-						"referenceName": "AmmexStagingMain",
+						"referenceName": "ArchiveAmmexStagingDelta",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
