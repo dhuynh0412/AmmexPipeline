@@ -199,7 +199,7 @@
 													"type": "Expression"
 												},
 												"DatalakeIngestRootPathFileName": {
-													"value": "@{item().DatalakeIngestRootPathFileName}_@{utcNow('MMddyyyy HH:Mmm')}.txt",
+													"value": "@{item().DatalakeIngestRootPathFileName}_@{utcNow('MMddyyyyHHmm')}.txt",
 													"type": "Expression"
 												}
 											}
