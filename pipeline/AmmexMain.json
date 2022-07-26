@@ -4,6 +4,7 @@
 		"activities": [
 			{
 				"name": "AmmexMain",
+				"description": "",
 				"type": "WebActivity",
 				"dependsOn": [],
 				"policy": {
