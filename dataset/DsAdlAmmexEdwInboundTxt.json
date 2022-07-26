@@ -1,0 +1,21 @@
+{
+	"name": "DsAdlAmmexEdwInboundTxt",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAdfEdwFtp",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FtpServerLocation",
+				"folderPath": "Inbound"
+			},
+			"columnDelimiter": "|",
+			"escapeChar": "\\",
+			"quoteChar": ""
+		},
+		"schema": []
+	}
+}
