@@ -136,22 +136,8 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "DsAdlAmmexEdwDestinationTxt",
-									"type": "DatasetReference",
-									"parameters": {
-										"DatalakeIngestRoot": {
-											"value": "@{item().DatalakeIngestRoot}",
-											"type": "Expression"
-										},
-										"DatalakeIngestRootPath": {
-											"value": "@{item().DatalakeIngestRootPath}",
-											"type": "Expression"
-										},
-										"DatalakeIngestRootPathFileName": {
-											"value": "@{item().DatalakeIngestRootPathFileName}_@{utcNow('s')}.txt",
-											"type": "Expression"
-										}
-									}
+									"referenceName": "DsAdlAmmexEdwDestinationDAILYDEMANDINVOICE",
+									"type": "DatasetReference"
 								}
 							]
 						}
