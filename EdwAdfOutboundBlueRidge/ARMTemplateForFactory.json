@@ -368,7 +368,7 @@
 									],
 									"outputs": [
 										{
-											"referenceName": "DsAdlAmmexEdwDestinationTxt",
+											"referenceName": "DsAdlAmmexEdwDestinationDAILYDEMANDINVOICE",
 											"type": "DatasetReference",
 											"parameters": {
 												"DatalakeIngestRoot": {
@@ -380,7 +380,7 @@
 													"type": "Expression"
 												},
 												"DatalakeIngestRootPathFileName": {
-													"value": "@{item().DatalakeIngestRootPathFileName}_@{utcNow('s')}.txt",
+													"value": "@{item().DatalakeIngestRootPathFileName}_@{formatDateTime(utcNow(),'MMddyyyyHHmm'}.txt",
 													"type": "Expression"
 												}
 											}
@@ -403,7 +403,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DsAsaAmmexEdw_EdwAdfPipelineReadONly')]",
 				"[concat(variables('factoryId'), '/datasets/DsSqlDenaliAmmex_EdwAdfPipelineReadOnly')]",
-				"[concat(variables('factoryId'), '/datasets/DsAdlAmmexEdwDestinationTxt')]"
+				"[concat(variables('factoryId'), '/datasets/DsAdlAmmexEdwDestinationDAILYDEMANDINVOICE')]"
 			]
 		},
 		{
