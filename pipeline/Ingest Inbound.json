@@ -138,7 +138,21 @@
 							"outputs": [
 								{
 									"referenceName": "DsAdlAmmexEdwInboundTxt",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"DatalakeIngestRoot": {
+											"value": "@{item().DatalakeIngestRoot}",
+											"type": "Expression"
+										},
+										"DatalakeIngestRootPath": {
+											"value": "@{item().DatalakeIngestRootPath}",
+											"type": "Expression"
+										},
+										"DatalakeIngestRootPathFileName": {
+											"value": "@{item().DatalakeIngestRootPathFileName}_@{utcNow('MMddyyyyHHmm')}.txt",
+											"type": "Expression"
+										}
+									}
 								}
 							]
 						}
