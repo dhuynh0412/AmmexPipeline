@@ -16,16 +16,16 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "SqlServerSource",
+						"type": "SqlDWSource",
 						"sqlReaderQuery": {
-							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = '[Ammex]'\n\t  AND [IsLoadTesting] = 1\n-- \t  AND [AdfLoadControlKey] in (1312,1555,1609,1796,1801,2116,2726) \nORDER BY [SourceObject] ASC",
+							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = '[Ammex]'\n\t  AND [IsLoadTesting] = 1\n--\t  AND [AdfLoadControlKey] in (1312,1555,1609,1796,1801,2116,2726)\t  \nORDER BY [SourceObject] ASC",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "DsSqlDenaliAmmex_EdwAdfPipelineReadOnly",
+						"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
