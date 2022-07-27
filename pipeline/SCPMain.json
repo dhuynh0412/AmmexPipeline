@@ -1,0 +1,60 @@
+{
+	"name": "SCPMain",
+	"properties": {
+		"activities": [
+			{
+				"name": "IngestSCP",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Ingest SCP",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Wait10Seconds",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "IngestSCP",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 10
+				}
+			},
+			{
+				"name": "LoadSCP",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Wait10Seconds",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Load SCP",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "4 - Orchestration"
+		},
+		"annotations": []
+	}
+}
