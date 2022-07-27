@@ -51,7 +51,7 @@
 					"batchCount": 4,
 					"activities": [
 						{
-							"name": "ImportingTxtToEdw",
+							"name": "ImportingCsvToEdw",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -102,7 +102,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "DsAdlAmmexEdwDestinationTxt",
+									"referenceName": "DsAdlAmmexEdwDestinationCsv",
 									"type": "DatasetReference",
 									"parameters": {
 										"DatalakeIngestRoot": {
