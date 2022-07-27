@@ -9,7 +9,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "Ingest SCP",
+						"referenceName": "Ingest Inbound",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
