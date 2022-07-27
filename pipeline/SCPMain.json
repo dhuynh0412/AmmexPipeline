@@ -45,7 +45,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "Load SCP",
+						"referenceName": "Load SCP_Invoice_Daily_Demand",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
