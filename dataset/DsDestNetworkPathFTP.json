@@ -1,15 +1,15 @@
 {
-	"name": "DsSourceNetworkPathFTP",
+	"name": "DsDestNetworkPathFTP",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LsAdfEdwFtp",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"SourceNetworkPath": {
+			"DatalakeIngestRootPath": {
 				"type": "string"
 			},
-			"SourceNetworkPathFileName": {
+			"DatalakeIngestRootPathFileName": {
 				"type": "string"
 			}
 		},
@@ -19,7 +19,7 @@
 			"location": {
 				"type": "FtpServerLocation",
 				"folderPath": {
-					"value": "@dataset().SourceNetworkPath",
+					"value": "@dataset().DatalakeIngestRootPath",
 					"type": "Expression"
 				}
 			},
