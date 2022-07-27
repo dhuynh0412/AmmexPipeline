@@ -72,7 +72,7 @@
 											"value": "@{item().DatalakeIngestRootPath}",
 											"type": "Expression"
 										},
-										"wildcardFileName": "SCP_Invoice_Daily_Demand*.*",
+										"wildcardFileName": "SCP_Invoice_Daily_Demand*.csv",
 										"enablePartitionDiscovery": false
 									},
 									"formatSettings": {
