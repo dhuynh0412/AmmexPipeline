@@ -31,6 +31,14 @@
 			"type": "string",
 			"defaultValue": "Ammex_Prod"
 		},
+		"LsAdfEdwFtp_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "ftp.smartfile.com"
+		},
+		"LsAdfEdwFtp_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "ammexcorporation"
+		},
 		"LsAdlsAmmexEdw_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://ammexedwsynapsestorage.dfs.core.windows.net"
@@ -87,12 +95,38 @@
 					"LsAdfEdwFTPBR_properties_typeProperties_userName": {
 						"value": "[parameters('LsAdfEdwFTPBR_properties_typeProperties_userName')]"
 					},
+					"LsAdfEdwFtp_properties_typeProperties_host": {
+						"value": "[parameters('LsAdfEdwFtp_properties_typeProperties_host')]"
+					},
+					"LsAdfEdwFtp_properties_typeProperties_userName": {
+						"value": "[parameters('LsAdfEdwFtp_properties_typeProperties_userName')]"
+					},
 					"LsAdlsAmmexEdw_properties_typeProperties_url": {
 						"value": "[parameters('LsAdlsAmmexEdw_properties_typeProperties_url')]"
 					}
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "EdwAdfOutboundBlueRidge_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'EdwAdfOutboundBlueRidge_ArmTemplate_0')]"
+			]
 		}
 	]
 }

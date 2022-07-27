@@ -23,6 +23,12 @@
 		"LsAdfEdwFTPBR_properties_typeProperties_userName": {
 			"value": "Ammex_Prod"
 		},
+		"LsAdfEdwFtp_properties_typeProperties_host": {
+			"value": "ftp.smartfile.com"
+		},
+		"LsAdfEdwFtp_properties_typeProperties_userName": {
+			"value": "ammexcorporation"
+		},
 		"LsAdlsAmmexEdw_properties_typeProperties_url": {
 			"value": "https://ammexedwsynapsestorage.dfs.core.windows.net"
 		},

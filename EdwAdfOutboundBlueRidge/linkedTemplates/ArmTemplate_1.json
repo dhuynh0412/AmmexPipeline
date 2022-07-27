@@ -1,0 +1,173 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "EdwAdfOutboundBlueRidge"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Load SCP')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "LkGetSourceObjects",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlDWSource",
+								"sqlReaderQuery": {
+									"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = '[Ammex]'\n\t  AND [IsLoadTesting] = 1\n\t  AND [AdfLoadControlKey] in (1312,1555,1609,1796,1801,2116,2726)\t  \nORDER BY [SourceObject] ASC",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "LoopingLkGetSourceObjects",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "LkGetSourceObjects",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('LkGetSourceObjects').output.value",
+								"type": "Expression"
+							},
+							"batchCount": 4,
+							"activities": [
+								{
+									"name": "ImportingTxtToEdw",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "AzureBlobFSReadSettings",
+												"recursive": true,
+												"wildcardFolderPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												},
+												"wildcardFileName": "*.*",
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "SqlDWSink",
+											"preCopyScript": {
+												"value": "@{item().SinkPreCopyScript}",
+												"type": "Expression"
+											},
+											"writeBehavior": "Insert",
+											"sqlWriterUseTableLock": false,
+											"tableOption": "autoCreate",
+											"disableMetricsCollection": false
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "DsAdlAmmexEdwDestinationTxt",
+											"type": "DatasetReference",
+											"parameters": {
+												"DatalakeIngestRoot": {
+													"value": "@{item().DatalakeIngestRoot}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPath": {
+													"value": "@{item().DatalakeIngestRootPath}",
+													"type": "Expression"
+												},
+												"DatalakeIngestRootPathFileName": {
+													"value": "@toLower('')",
+													"type": "Expression"
+												}
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineWrite",
+											"type": "DatasetReference",
+											"parameters": {
+												"Schema": {
+													"value": "@{item().SinkSchema}",
+													"type": "Expression"
+												},
+												"Table": {
+													"value": "@{item().SinkTable}",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "2 - Load"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		}
+	]
+}
