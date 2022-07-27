@@ -415,7 +415,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Load SCP')]",
+			"name": "[concat(parameters('factoryName'), '/Load SCP_Invoice_Daily_Demand')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -491,7 +491,7 @@
 													"value": "@{item().DatalakeIngestRootPath}",
 													"type": "Expression"
 												},
-												"wildcardFileName": "*.*",
+												"wildcardFileName": "SCP_Invoice_Daily_Demand*.*",
 												"enablePartitionDiscovery": false
 											},
 											"formatSettings": {
@@ -533,7 +533,7 @@
 													"type": "Expression"
 												},
 												"DatalakeIngestRootPathFileName": {
-													"value": "@toLower('')",
+													"value": "@{item().DatalakeIngestRootPathFileName}",
 													"type": "Expression"
 												}
 											}
@@ -625,7 +625,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "Load SCP",
+								"referenceName": "Load SCP_Invoice_Daily_Demand",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -644,7 +644,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/Ingest Inbound')]",
-				"[concat(variables('factoryId'), '/pipelines/Load SCP')]"
+				"[concat(variables('factoryId'), '/pipelines/Load SCP_Invoice_Daily_Demand')]"
 			]
 		},
 		{
