@@ -136,21 +136,11 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "DsAdlAmmexEdwInboundTxt",
+									"referenceName": "DsDestNetworkPathFTP",
 									"type": "DatasetReference",
 									"parameters": {
-										"DatalakeIngestRoot": {
-											"value": "@{item().DatalakeIngestRoot}",
-											"type": "Expression"
-										},
-										"DatalakeIngestRootPath": {
-											"value": "@{item().DatalakeIngestRootPath}",
-											"type": "Expression"
-										},
-										"DatalakeIngestRootPathFileName": {
-											"value": "@{item().DatalakeIngestRootPathFileName}_@{utcNow('MMddyyyyHHmm')}.txt",
-											"type": "Expression"
-										}
+										"DatalakeIngestRootPath": "scp",
+										"DatalakeIngestRootPathFileName": "SCP_Invoice_Daily_Demand"
 									}
 								}
 							]
