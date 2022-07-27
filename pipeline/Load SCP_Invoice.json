@@ -139,7 +139,6 @@
 									"referenceName": "DsDestNetworkPathFTP",
 									"type": "DatasetReference",
 									"parameters": {
-										"DatalakeIngestRootPath": "scp",
 										"DatalakeIngestRootPathFileName": "SCP_Invoice_Daily_Demand"
 									}
 								}

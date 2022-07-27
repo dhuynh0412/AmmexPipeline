@@ -6,9 +6,6 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"DatalakeIngestRootPath": {
-				"type": "string"
-			},
 			"DatalakeIngestRootPathFileName": {
 				"type": "string"
 			}
@@ -18,10 +15,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "FtpServerLocation",
-				"folderPath": {
-					"value": "@dataset().DatalakeIngestRootPath",
-					"type": "Expression"
-				}
+				"folderPath": "Inbound"
 			},
 			"columnDelimiter": "|",
 			"escapeChar": "\\",
