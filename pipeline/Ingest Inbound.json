@@ -18,7 +18,7 @@
 					"source": {
 						"type": "SqlDWSource",
 						"sqlReaderQuery": {
-							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = 'Forecast'\n\t  AND [IsLoad] = 1\n\t  AND [SourceSystem] = 'Outbound'\t  \nORDER BY [SourceObject] ASC",
+							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = '[Ammex]'\n\t  AND [IsLoadTesting] = 1\n\t  AND [AdfLoadControlKey] in (1312,1555,1609,1796,1801,2116,2726)\t  \nORDER BY [SourceObject] ASC",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -63,7 +63,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"source": {
-									"type": "SqlDWSource",
+									"type": "SqlServerSource",
 									"sqlReaderQuery": {
 										"value": "@CONCAT(' DECLARE @SourceColumn VARCHAR(MAX),\n\t\t\t\t  @SourceTable VARCHAR(500) = ''', item().SourceObject, ''' \n\t\t  SELECT @SourceColumn = ISNULL(@SourceColumn + '', '', '''') + QUOTENAME(COLUMN_NAME) \n\t\t  FROM INFORMATION_SCHEMA.COLUMNS \n\t\t  WHERE QUOTENAME(TABLE_NAME) = @SourceTable SELECT ''SELECT '' + @SourceColumn + '' FROM '' + @SourceTable AS Query ')",
 										"type": "Expression"
@@ -72,7 +72,7 @@
 									"partitionOption": "None"
 								},
 								"dataset": {
-									"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+									"referenceName": "DsSqlDenaliAmmex_EdwAdfPipelineReadOnly",
 									"type": "DatasetReference"
 								},
 								"firstRowOnly": false
@@ -99,7 +99,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"source": {
-									"type": "SqlDWSource",
+									"type": "SqlServerSource",
 									"sqlReaderQuery": {
 										"value": "@activity('LkFixColumnWithSpace').output.firstRow.Query",
 										"type": "Expression"
@@ -131,7 +131,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
+									"referenceName": "DsSqlDenaliAmmex_EdwAdfPipelineReadOnly",
 									"type": "DatasetReference"
 								}
 							],
