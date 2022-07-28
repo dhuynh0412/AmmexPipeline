@@ -20,7 +20,8 @@
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
-				"type": "FtpServerLocation"
+				"type": "FtpServerLocation",
+				"folderPath": "Inbound"
 			},
 			"columnDelimiter": "|",
 			"escapeChar": "\\",
