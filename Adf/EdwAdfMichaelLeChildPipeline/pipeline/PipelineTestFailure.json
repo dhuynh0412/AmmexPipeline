@@ -33,22 +33,6 @@
 						"type": "Expression"
 					}
 				}
-			},
-			{
-				"name": "PostFailedWait",
-				"type": "Wait",
-				"dependsOn": [
-					{
-						"activity": "FailedActivities",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"waitTimeInSeconds": 1
-				}
 			}
 		],
 		"annotations": []
