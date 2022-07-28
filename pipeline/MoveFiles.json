@@ -226,6 +226,9 @@
 				"type": "String"
 			}
 		},
+		"folder": {
+			"name": "1 - Ingest"
+		},
 		"annotations": []
 	}
 }
