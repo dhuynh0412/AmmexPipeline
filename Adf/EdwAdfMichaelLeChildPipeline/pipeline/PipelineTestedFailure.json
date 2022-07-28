@@ -1,5 +1,5 @@
 {
-	"name": "PipelineTestFailure",
+	"name": "PipelineTestedFailure",
 	"properties": {
 		"activities": [
 			{
