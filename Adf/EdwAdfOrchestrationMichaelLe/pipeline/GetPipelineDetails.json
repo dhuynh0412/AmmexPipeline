@@ -45,6 +45,91 @@
 						"resource": "https://management.azure.com/"
 					}
 				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "GetPipelineDetails",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('GetPipelineDetails').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "StorePipelineDetails",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[ETL].[InsertPipelineDetailsMichaelLe]",
+								"storedProcedureParameters": {
+									"name": {
+										"value": {
+											"value": "@item().pipelineName",
+											"type": "Expression"
+										}
+									},
+									"runId": {
+										"value": {
+											"value": "@item().runId",
+											"type": "Expression"
+										}
+									},
+									"status": {
+										"value": {
+											"value": "@item().status",
+											"type": "Expression"
+										}
+									},
+									"runStart": {
+										"value": {
+											"value": "@item().runStart",
+											"type": "Expression"
+										}
+									},
+									"runEnd": {
+										"value": {
+											"value": "@item().runEnd",
+											"type": "Expression"
+										}
+									},
+									"duration": {
+										"value": {
+											"value": "@item().durationInMs",
+											"type": "Expression"
+										}
+									},
+									"message": {
+										"value": {
+											"value": "@item().message",
+											"type": "Expression"
+										}
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
+				}
 			}
 		],
 		"annotations": []
