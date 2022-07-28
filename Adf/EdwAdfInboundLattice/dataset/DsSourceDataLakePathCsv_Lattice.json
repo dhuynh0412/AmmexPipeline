@@ -2,7 +2,7 @@
 	"name": "DsSourceDataLakePathCsv_Lattice",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "LsAdlEdwInbound",
+			"referenceName": "LsAdlEdwFileExchange",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
