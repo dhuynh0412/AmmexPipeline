@@ -248,7 +248,7 @@
 			},
 			"DatalakeIngestRoot": {
 				"type": "string",
-				"defaultValue": "humanresource"
+				"defaultValue": "humanresource/"
 			},
 			"DatalakeIngestRootPath": {
 				"type": "string",
