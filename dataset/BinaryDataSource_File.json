@@ -21,9 +21,7 @@
 		"type": "Binary",
 		"typeProperties": {
 			"location": {
-				"type": "AzureBlobFSLocation",
-				"folderPath": "scp",
-				"fileSystem": "blueridge"
+				"type": "AzureBlobFSLocation"
 			}
 		}
 	}
