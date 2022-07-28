@@ -1,0 +1,30 @@
+{
+	"name": "BinaryDataSource_File",
+	"properties": {
+		"description": "It describes the file in the data source store.",
+		"linkedServiceName": {
+			"referenceName": "LsAdlsAmmexEdw",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"FolderPath": {
+				"type": "String"
+			},
+			"Directory": {
+				"type": "String"
+			},
+			"filename": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "scp",
+				"fileSystem": "blueridge"
+			}
+		}
+	}
+}
