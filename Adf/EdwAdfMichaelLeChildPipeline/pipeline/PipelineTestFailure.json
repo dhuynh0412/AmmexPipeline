@@ -37,14 +37,7 @@
 			{
 				"name": "PostFailedWait",
 				"type": "Wait",
-				"dependsOn": [
-					{
-						"activity": "FailedActivities",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
 					"waitTimeInSeconds": 1
