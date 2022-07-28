@@ -45,6 +45,22 @@
 					"referenceName": "LSFunctionTestSuccessMichaelLe",
 					"type": "LinkedServiceReference"
 				}
+			},
+			{
+				"name": "Wait2",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "FunctionTestSuccess",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 2
+				}
 			}
 		],
 		"annotations": []
