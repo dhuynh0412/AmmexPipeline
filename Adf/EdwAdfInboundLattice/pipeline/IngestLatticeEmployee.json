@@ -252,7 +252,7 @@
 			},
 			"DatalakeIngestRootPath": {
 				"type": "string",
-				"defaultValue": "lattice/employee/updated/"
+				"defaultValue": "lattice/employee/"
 			}
 		},
 		"folder": {
