@@ -1,5 +1,5 @@
 {
-	"name": "GetAllPipelineActivityDetails",
+	"name": "GetAllActivityDetails",
 	"properties": {
 		"activities": [
 			{
