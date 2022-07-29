@@ -1,11 +1,18 @@
 {
-	"name": "GetActivityDetails",
+	"name": "GetOnePipelineActivityDetails",
 	"properties": {
 		"activities": [
 			{
 				"name": "GetActivityDetails",
 				"type": "WebActivity",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Wait1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -16,7 +23,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"url": {
-						"value": "https://management.azure.com/subscriptions/cae64f29-6572-4d75-acf6-8f05b8d4e501/resourceGroups/EDWTeamResourceGroup/providers/Microsoft.DataFactory/factories/EdwAdfMichaelLeChildPipeline/pipelineruns/24153f0c-6356-41a2-888f-1f2e3573a7c7/queryActivityruns?api-version=2018-06-01",
+						"value": "https://management.azure.com/subscriptions/cae64f29-6572-4d75-acf6-8f05b8d4e501/resourceGroups/EDWTeamResourceGroup/providers/Microsoft.DataFactory/factories/EdwAdfMichaelLeChildPipeline/pipelineruns/6876bfe8-0894-4a47-925f-3c6fb590e541/queryActivityruns?api-version=2018-06-01",
 						"type": "Expression"
 					},
 					"method": "POST",
@@ -28,6 +35,15 @@
 						"type": "MSI",
 						"resource": "https://management.azure.com"
 					}
+				}
+			},
+			{
+				"name": "Wait1",
+				"type": "Wait",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 1
 				}
 			}
 		],

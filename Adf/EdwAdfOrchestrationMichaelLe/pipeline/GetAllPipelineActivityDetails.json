@@ -1,5 +1,5 @@
 {
-	"name": "TestGetActivityDetails",
+	"name": "GetAllPipelineActivityDetails",
 	"properties": {
 		"activities": [
 			{
@@ -48,20 +48,8 @@
 						"value": "@activity('Lookup1').output.value",
 						"type": "Expression"
 					},
+					"isSequential": true,
 					"activities": [
-						{
-							"name": "Set variable1",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "RunId",
-								"value": {
-									"value": "@item().RunId",
-									"type": "Expression"
-								}
-							}
-						},
 						{
 							"name": "Web1",
 							"type": "WebActivity",
@@ -94,6 +82,19 @@
 								"authentication": {
 									"type": "MSI",
 									"resource": "https://management.azure.com"
+								}
+							}
+						},
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "RunId",
+								"value": {
+									"value": "@item().RunId",
+									"type": "Expression"
 								}
 							}
 						}

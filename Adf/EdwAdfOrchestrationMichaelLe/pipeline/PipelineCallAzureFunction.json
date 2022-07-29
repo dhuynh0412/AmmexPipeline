@@ -3,41 +3,6 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "CallAzureFunction",
-				"type": "AzureFunctionActivity",
-				"dependsOn": [
-					{
-						"activity": "Wait1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"functionName": {
-						"value": "GetActivityErrorDetails",
-						"type": "Expression"
-					},
-					"method": "POST",
-					"body": {
-						"value": "{\n\"tenantId\" : \"6fe8874b-b6a3-476c-9357-0389bdea5f53\",\n\"applicationId\" : \"f13bf3c3-3c57-41ee-b557-a2d602ce2704\",\n\"authenticationKey\" : \"3bffec6f-f817-4d96-91ea-2dce780381dc\",\n\"subscriptionId\" : \"cae64f29-6572-4d75-acf6-8f05b8d4e501\",\n\"resourceGroup\" : \"EDWTeamResourceGroup\",\n\"factoryName\" : \"EdwAdfMichaelLeChildPipeline\"\n\"pipelineName\" : \"PipelineTestSuccess\",\n\"runId\" = \"229581c5-6cf4-4556-a2c3-254e52cf72cd\"\n}",
-						"type": "Expression"
-					}
-				},
-				"linkedServiceName": {
-					"referenceName": "LSFunctionGetActivityErrorDetails",
-					"type": "LinkedServiceReference"
-				}
-			},
-			{
 				"name": "Wait1",
 				"type": "Wait",
 				"dependsOn": [],
@@ -47,6 +12,15 @@
 				}
 			}
 		],
+		"variables": {
+			"Countries": {
+				"type": "Array",
+				"defaultValue": [
+					"Asia",
+					"Europe"
+				]
+			}
+		},
 		"annotations": []
 	}
 }
