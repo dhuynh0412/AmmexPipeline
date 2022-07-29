@@ -118,7 +118,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "DsAdlAmmexEdwDestinationCsv",
+									"referenceName": "DsAdlAmmexEdwDestCsv",
 									"type": "DatasetReference",
 									"parameters": {
 										"DatalakeIngestRoot": {
