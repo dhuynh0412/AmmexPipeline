@@ -8,6 +8,10 @@
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
+					"items": {
+						"value": "@activity('GetAllActivityDetails').output.value",
+						"type": "Expression"
+					},
 					"activities": [
 						{
 							"name": "Stored procedure1",
