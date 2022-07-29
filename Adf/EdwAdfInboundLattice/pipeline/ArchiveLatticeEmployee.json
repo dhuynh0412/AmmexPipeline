@@ -24,7 +24,8 @@
 					"dataset": {
 						"referenceName": "DsAsaAmmexEdw_EdwAdfPipelineReadONly",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			},
 			{

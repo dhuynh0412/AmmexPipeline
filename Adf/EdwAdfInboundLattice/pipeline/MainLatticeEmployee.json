@@ -5,7 +5,14 @@
 			{
 				"name": "IngestLatticeEmployee",
 				"type": "ExecutePipeline",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "ArchiveLatticeEmployee",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
@@ -66,6 +73,19 @@
 				"typeProperties": {
 					"pipeline": {
 						"referenceName": "PopulateLatticeEmployee",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "ArchiveLatticeEmployee",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "ArchiveLatticeEmployee",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
