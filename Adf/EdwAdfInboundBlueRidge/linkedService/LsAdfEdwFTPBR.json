@@ -18,6 +18,10 @@
 				},
 				"secretName": "FtpBlueRidge-AmmexCorporation"
 			}
+		},
+		"connectVia": {
+			"referenceName": "IrSqlMatterhorn",
+			"type": "IntegrationRuntimeReference"
 		}
 	}
 }
