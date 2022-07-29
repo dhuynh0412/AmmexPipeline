@@ -55,7 +55,7 @@
 							"type": "WebActivity",
 							"dependsOn": [
 								{
-									"activity": "Set variable1",
+									"activity": "Set CurrentRunId",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -86,7 +86,7 @@
 							}
 						},
 						{
-							"name": "Set variable1",
+							"name": "Set CurrentRunId",
 							"type": "SetVariable",
 							"dependsOn": [],
 							"userProperties": [],
