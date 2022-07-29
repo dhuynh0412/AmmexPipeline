@@ -51,7 +51,7 @@
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Web1",
+							"name": "GetActivityDetails",
 							"type": "WebActivity",
 							"dependsOn": [
 								{
