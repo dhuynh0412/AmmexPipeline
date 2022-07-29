@@ -18,6 +18,10 @@
 				},
 				"secretName": "FtpSmartfile-AmmexCorporation"
 			}
+		},
+		"connectVia": {
+			"referenceName": "IrlSqlMatterhorn",
+			"type": "IntegrationRuntimeReference"
 		}
 	}
 }
