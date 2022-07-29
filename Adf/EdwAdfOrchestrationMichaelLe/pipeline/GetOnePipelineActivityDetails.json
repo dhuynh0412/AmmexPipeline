@@ -47,6 +47,9 @@
 				}
 			}
 		],
+		"folder": {
+			"name": "Activity Details"
+		},
 		"annotations": []
 	}
 }

@@ -1,6 +1,67 @@
 {
 	"name": "StoreAllActivityDetails",
 	"properties": {
+		"activities": [
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"activities": [
+						{
+							"name": "Stored procedure1",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[ETL].[InsertActivityDetailsMichaelLe]",
+								"storedProcedureParameters": {
+									"pipelineName": {
+										"value": {
+											"value": "@item().pipelineName",
+											"type": "Expression"
+										}
+									},
+									"pipelineRunId": {
+										"value": {
+											"value": "@item().pipelineRunId",
+											"type": "Expression"
+										}
+									},
+									"activityName": {
+										"value": {
+											"value": "@item().activityName",
+											"type": "Expression"
+										}
+									},
+									"activityRunId": {
+										"value": {
+											"value": "@item().activityRunId",
+											"type": "Expression"
+										}
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "LsAsaAmmexEdw_EdwAdfPipelineWrite",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
+				}
+			}
+		],
+		"folder": {
+			"name": "Activity Details"
+		},
 		"annotations": []
 	}
 }

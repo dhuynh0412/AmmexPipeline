@@ -132,6 +132,9 @@
 				}
 			}
 		],
+		"folder": {
+			"name": "Pipeline Details"
+		},
 		"annotations": []
 	}
 }
