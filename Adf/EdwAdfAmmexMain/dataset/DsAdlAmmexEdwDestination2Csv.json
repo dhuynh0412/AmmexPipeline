@@ -1,5 +1,5 @@
 {
-	"name": "DsAdlAmmexEdwDestinationCsv",
+	"name": "DsAdlAmmexEdwDestination2Csv",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LsAdlsAmmexEdw",
