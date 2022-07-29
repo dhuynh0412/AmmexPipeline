@@ -90,26 +90,6 @@
 					},
 					"waitOnCompletion": true
 				}
-			},
-			{
-				"name": "AmmexStagingMain",
-				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "Wait11Seconds",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"pipeline": {
-						"referenceName": "AmmexStagingMain",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true
-				}
 			}
 		],
 		"folder": {
