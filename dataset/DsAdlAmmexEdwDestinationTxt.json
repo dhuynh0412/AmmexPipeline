@@ -1,5 +1,5 @@
 {
-	"name": "DsAdlAmmexEdwDestinationCsv",
+	"name": "DsAdlAmmexEdwDestinationTxt",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LsAdlsAmmexEdw",
@@ -34,10 +34,10 @@
 					"type": "Expression"
 				}
 			},
-			"columnDelimiter": ",",
+			"columnDelimiter": "|",
 			"escapeChar": "\\",
-			"firstRowAsHeader": true,
-			"quoteChar": "\""
+			"firstRowAsHeader": false,
+			"quoteChar": ""
 		},
 		"schema": []
 	}

@@ -1,5 +1,5 @@
 {
-	"name": "LoadAmmexDelta_Staging",
+	"name": "LoadAmmexDelta_IsTesting",
 	"properties": {
 		"activities": [
 			{
@@ -18,7 +18,7 @@
 					"source": {
 						"type": "SqlDWSource",
 						"sqlReaderQuery": {
-							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Ammex_Staging'\n\t  AND IsLoad = 1\nORDER BY [SourceObject]",
+							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = '[Ammex]'\n\t  AND [IsLoadTesting] = 1\n--\t  AND [AdfLoadControlKey] in (1312,1555,1609,1796,1801,2116,2726)\t  \nORDER BY [SourceObject] ASC",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",

@@ -1,7 +1,6 @@
 {
-	"name": "IngestAmmexDelta_Staging",
+	"name": "Ingest SCP",
 	"properties": {
-		"description": "Get data from Ammex_Staging database on Matterhorn",
 		"activities": [
 			{
 				"name": "LkGetSourceObjects",
@@ -18,7 +17,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlDWSource",
-						"sqlReaderQuery": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceSystem] = 'Ammex_Staging'\n\t  AND IsLoad = 1\nORDER BY [SourceObject]",
+						"sqlReaderQuery": {
+							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = '[Ammex]'\n\t  AND [IsLoadTesting] = 1\n\t  AND [AdfLoadControlKey] in (1312,1555,1609,1796,1801,2116,2726)\t  \nORDER BY [SourceObject] ASC",
+							"type": "Expression"
+						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -46,94 +48,7 @@
 						"value": "@activity('LkGetSourceObjects').output.value",
 						"type": "Expression"
 					},
-					"isSequential": false,
-					"batchCount": 4,
 					"activities": [
-						{
-							"name": "CdTableToDataLake",
-							"type": "Copy",
-							"dependsOn": [
-								{
-									"activity": "LkFixColumnWithSpace",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "7.00:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "SqlServerSource",
-									"additionalColumns": [
-										{
-											"name": "PipelineName",
-											"value": {
-												"value": "@pipeline().Pipeline",
-												"type": "Expression"
-											}
-										},
-										{
-											"name": "LoadDate",
-											"value": {
-												"value": "@utcNow()",
-												"type": "Expression"
-											}
-										}
-									],
-									"sqlReaderQuery": {
-										"value": "@activity('LkFixColumnWithSpace').output.firstRow.Query",
-										"type": "Expression"
-									},
-									"queryTimeout": "02:00:00",
-									"partitionOption": "None"
-								},
-								"sink": {
-									"type": "DelimitedTextSink",
-									"storeSettings": {
-										"type": "AzureBlobFSWriteSettings"
-									},
-									"formatSettings": {
-										"type": "DelimitedTextWriteSettings",
-										"quoteAllText": true,
-										"fileExtension": ".txt"
-									}
-								},
-								"enableStaging": false
-							},
-							"inputs": [
-								{
-									"referenceName": "DsSqlMatterhornAmmexStaging_EdwAdfPiplineReadOnly",
-									"type": "DatasetReference"
-								}
-							],
-							"outputs": [
-								{
-									"referenceName": "DsAdlAmmexEdwDestinationCsv",
-									"type": "DatasetReference",
-									"parameters": {
-										"DatalakeIngestRoot": {
-											"value": "@{item().DatalakeIngestRoot}",
-											"type": "Expression"
-										},
-										"DatalakeIngestRootPath": {
-											"value": "@{item().DatalakeIngestRootPath}",
-											"type": "Expression"
-										},
-										"DatalakeIngestRootPathFileName": {
-											"value": "@{item().DatalakeIngestRootPathFileName}_@{utcNow('s')}.csv",
-											"type": "Expression"
-										}
-									}
-								}
-							]
-						},
 						{
 							"name": "LkFixColumnWithSpace",
 							"type": "Lookup",
@@ -157,21 +72,96 @@
 									"partitionOption": "None"
 								},
 								"dataset": {
-									"referenceName": "DsSqlMatterhornAmmexStaging_EdwAdfPiplineReadOnly",
+									"referenceName": "DsSqlDenaliAmmex_EdwAdfPipelineReadOnly",
 									"type": "DatasetReference"
-								},
-								"firstRowOnly": true
+								}
 							}
+						},
+						{
+							"name": "CdTableToDataLake",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "LkFixColumnWithSpace",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": {
+										"value": "@activity('LkFixColumnWithSpace').output.firstRow.Query",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings",
+										"maxConcurrentConnections": 4
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "DsSqlDenaliAmmex_EdwAdfPipelineReadOnly",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DsAdlAmmexEdwDestinationTxt",
+									"type": "DatasetReference",
+									"parameters": {
+										"DatalakeIngestRoot": {
+											"value": "@{item().DatalakeIngestRoot}",
+											"type": "Expression"
+										},
+										"DatalakeIngestRootPath": {
+											"value": "@{item().DatalakeIngestRootPath}",
+											"type": "Expression"
+										},
+										"DatalakeIngestRootPathFileName": {
+											"value": "@{item().DatalakeIngestRootPathFileName}_@{utcNow('MMddyyyyHHmm')}.txt",
+											"type": "Expression"
+										}
+									}
+								}
+							]
 						}
 					]
 				}
 			}
 		],
 		"folder": {
-			"name": "1-Ingest"
+			"name": "1 - Ingest"
 		},
-		"annotations": [],
-		"lastPublishTime": "2022-04-15T17:17:33Z"
-	},
-	"type": "Microsoft.DataFactory/factories/pipelines"
+		"annotations": []
+	}
 }

@@ -1,5 +1,5 @@
 {
-	"name": "PopulateAmmexDelta",
+	"name": "PopulateAmmexDelta_IsTesting",
 	"properties": {
 		"activities": [
 			{
@@ -9,7 +9,7 @@
 					{
 						"activity": "LkGetSourceObjects",
 						"dependencyConditions": [
-							"Succeeded"
+							"Completed"
 						]
 					}
 				],
@@ -110,7 +110,7 @@
 					"source": {
 						"type": "SqlDWSource",
 						"sqlReaderQuery": {
-							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = '[Ammex]'\n--\t  AND [SourceObjectType] = ''\n--\t  AND [SourceObject] = '[EXT01100]'\n\t  AND [IsLoad] = 1\n--\t  AND [IsLoadTesting] = 0\nORDER BY [SourceObject] ASC",
+							"value": "SELECT *\nFROM [ETL].[AdfLoadControl]\nWHERE [SourceDatabase] = '[Ammex]'\n\t  AND [IsLoadTesting] = 1\n--\t  AND [AdfLoadControlKey] in (1312,1555,1609,1796,1801,2116,2726)\t  \nORDER BY [SourceObject] ASC",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",

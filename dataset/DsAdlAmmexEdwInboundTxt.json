@@ -1,15 +1,18 @@
 {
-	"name": "DsSourceNetworkPathFTP",
+	"name": "DsAdlAmmexEdwInboundTxt",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LsAdfEdwFtp",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"SourceNetworkPath": {
+			"DatalakeIngestRoot": {
 				"type": "string"
 			},
-			"SourceNetworkPathFileName": {
+			"DatalakeIngestRootPath": {
+				"type": "string"
+			},
+			"DatalakeIngestRootPathFileName": {
 				"type": "string"
 			}
 		},
@@ -18,15 +21,11 @@
 		"typeProperties": {
 			"location": {
 				"type": "FtpServerLocation",
-				"folderPath": {
-					"value": "@dataset().SourceNetworkPath",
-					"type": "Expression"
-				}
+				"folderPath": "Inbound"
 			},
-			"columnDelimiter": ",",
+			"columnDelimiter": "|",
 			"escapeChar": "\\",
-			"firstRowAsHeader": true,
-			"quoteChar": "\""
+			"quoteChar": ""
 		},
 		"schema": []
 	}

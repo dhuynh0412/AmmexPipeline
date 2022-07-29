@@ -1,22 +1,38 @@
 {
-	"name": "AmmexMainTestingPipeline",
+	"name": "SCPMain",
 	"properties": {
 		"activities": [
 			{
-				"name": "IngestAmmexDeltaByQuery",
+				"name": "IngestSCP",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "IngestAmmexDelta_IsTesting",
+						"referenceName": "Ingest Inbound",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
 				}
 			},
 			{
-				"name": "LoadAmmexDelta",
+				"name": "Wait10Seconds",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "IngestSCP",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 10
+				}
+			},
+			{
+				"name": "LoadSCP",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
@@ -29,43 +45,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "LoadAmmexDelta_IsTesting",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true
-				}
-			},
-			{
-				"name": "Wait10Seconds",
-				"type": "Wait",
-				"dependsOn": [
-					{
-						"activity": "IngestAmmexDeltaByQuery",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"waitTimeInSeconds": 10
-				}
-			},
-			{
-				"name": "PopulateAmmexDelta",
-				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "LoadAmmexDelta",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"pipeline": {
-						"referenceName": "PopulateAmmexDelta_IsTesting",
+						"referenceName": "Load SCP_Invoice_Daily_Demand",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
@@ -73,7 +53,7 @@
 			}
 		],
 		"folder": {
-			"name": "4-Orchestration"
+			"name": "4 - Orchestration"
 		},
 		"annotations": []
 	}

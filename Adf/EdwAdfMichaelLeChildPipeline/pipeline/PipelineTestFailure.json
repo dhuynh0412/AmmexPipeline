@@ -1,5 +1,5 @@
 {
-	"name": "PipelineTestedFailure",
+	"name": "PipelineTestFailure",
 	"properties": {
 		"activities": [
 			{
@@ -47,7 +47,7 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"waitTimeInSeconds": 1
+					"waitTimeInSeconds": 2
 				}
 			}
 		],

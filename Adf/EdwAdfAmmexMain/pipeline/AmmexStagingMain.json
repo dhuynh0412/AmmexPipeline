@@ -1,13 +1,13 @@
 {
-	"name": "Main - IBPExport",
+	"name": "AmmexStagingMain",
 	"properties": {
 		"activities": [
 			{
-				"name": "IngestIBPExport",
+				"name": "IngestAmmexStagingDelta",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "ArchiveBR",
+						"activity": "ArchiveAmmexStagingDelta",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -16,14 +16,14 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "Ingest IBP_Export",
+						"referenceName": "IngestAmmexStagingDelta",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
 				}
 			},
 			{
-				"name": "LoadIBPExport",
+				"name": "LoadAmmexStagingDelta",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
@@ -36,18 +36,18 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "Load IBP_Export",
+						"referenceName": "LoadAmmexStagingDelta",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
 				}
 			},
 			{
-				"name": "PopulateIBPExport",
+				"name": "PopulateAmmexStagingDelta",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "LoadIBPExport",
+						"activity": "LoadAmmexStagingDelta",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -56,7 +56,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "Populate IBP_Export",
+						"referenceName": "PopulateAmmexStagingDelta",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
@@ -67,7 +67,7 @@
 				"type": "Wait",
 				"dependsOn": [
 					{
-						"activity": "IngestIBPExport",
+						"activity": "IngestAmmexStagingDelta",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -79,13 +79,13 @@
 				}
 			},
 			{
-				"name": "ArchiveBR",
+				"name": "ArchiveAmmexStagingDelta",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "ArchiveBR",
+						"referenceName": "ArchiveAmmexStagingDelta",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
@@ -93,7 +93,7 @@
 			}
 		],
 		"folder": {
-			"name": "4 - Orchestration"
+			"name": "4-Orchestration"
 		},
 		"annotations": []
 	}
