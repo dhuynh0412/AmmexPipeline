@@ -22,6 +22,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"fileName": "*_Export.txt",
 				"folderPath": {
 					"value": "@dataset().DatalakeRootPath",
 					"type": "Expression"
