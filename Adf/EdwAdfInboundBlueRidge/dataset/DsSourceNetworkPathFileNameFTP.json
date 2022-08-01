@@ -19,7 +19,7 @@
 			"location": {
 				"type": "FtpServerLocation",
 				"fileName": {
-					"value": "@dataset().SourceNetworkPathFileName",
+					"value": "@{dataset().SourceNetworkPathFileName}_@{utcNow('s')}.txt",
 					"type": "Expression"
 				},
 				"folderPath": {
