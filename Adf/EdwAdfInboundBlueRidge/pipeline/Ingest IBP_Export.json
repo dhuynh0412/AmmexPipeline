@@ -81,7 +81,7 @@
 											"type": "Expression"
 										},
 										"SourceNetworkPathFileName": {
-											"value": "@item().name",
+											"value": "@item().name_@{utcNow('s')\n",
 											"type": "Expression"
 										}
 									}
