@@ -11,6 +11,10 @@
 			},
 			"DatalakeRootPath": {
 				"type": "string"
+			},
+			"DatalakeRootPathFileName": {
+				"type": "string",
+				"defaultValue": "*_Export.txt"
 			}
 		},
 		"annotations": [],
