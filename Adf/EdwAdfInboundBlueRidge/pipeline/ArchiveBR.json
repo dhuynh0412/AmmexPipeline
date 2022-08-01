@@ -94,7 +94,8 @@
 										"DatalakeRootPath": {
 											"value": "@{item().DatalakeIngestRootPath}",
 											"type": "Expression"
-										}
+										},
+										"DatalakeRootPathFileName": "@{item().DatalakeIngestRootPathFileName}"
 									}
 								}
 							],
@@ -109,6 +110,10 @@
 										},
 										"DatalakeRootPath": {
 											"value": "@{item().ArchiveDatalakeIngestRootPath}",
+											"type": "Expression"
+										},
+										"DatalakeRootPathFileName": {
+											"value": "@{item().ArchiveDatalakeIngestRootPathFileName}",
 											"type": "Expression"
 										}
 									}
