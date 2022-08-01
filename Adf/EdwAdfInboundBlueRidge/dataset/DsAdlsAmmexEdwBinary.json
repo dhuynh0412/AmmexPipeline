@@ -11,6 +11,9 @@
 			},
 			"DatalakeRootPath": {
 				"type": "string"
+			},
+			"DatalakeRootPathFileName": {
+				"type": "string"
 			}
 		},
 		"annotations": [],
