@@ -22,7 +22,7 @@
 					{
 						"activity": "IngestStaples",
 						"dependencyConditions": [
-							"Succeeded"
+							"Completed"
 						]
 					}
 				],
