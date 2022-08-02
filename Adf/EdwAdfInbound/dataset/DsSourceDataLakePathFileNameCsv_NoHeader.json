@@ -1,5 +1,5 @@
 {
-	"name": "DsSourceDataLakePathFileNameCsv_NoHeader_copy1",
+	"name": "DsSourceDataLakePathFileNameCsv_NoHeader",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LsAdlEdwFileExchange",
