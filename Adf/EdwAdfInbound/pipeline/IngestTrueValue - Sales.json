@@ -217,11 +217,11 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "DsSourceNetworkPathCsv",
+						"referenceName": "DsSourceDataLakePathCsv_Header",
 						"type": "DatasetReference",
 						"parameters": {
-							"SourceNetworkPath": {
-								"value": "@pipeline().parameters.SourceNetworkPath",
+							"SourceDataLakePath": {
+								"value": "@pipeline().parameters.SourceDataLakePath",
 								"type": "Expression"
 							}
 						}
@@ -230,8 +230,7 @@
 						"childItems"
 					],
 					"storeSettings": {
-						"type": "FileServerReadSettings",
-						"recursive": true,
+						"type": "AzureBlobFSReadSettings",
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
@@ -241,9 +240,9 @@
 			}
 		],
 		"parameters": {
-			"SourceNetworkPath": {
+			"SourceDataLakePath": {
 				"type": "string",
-				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\True Value\\2022\\Sales"
+				"defaultValue": "inbound/sales/truevalue/sales/"
 			},
 			"DatalakeIngestRoot": {
 				"type": "string",
