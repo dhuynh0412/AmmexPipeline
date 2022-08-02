@@ -35,15 +35,15 @@
 							"userProperties": [],
 							"typeProperties": {
 								"dataset": {
-									"referenceName": "DsSourceNetworkPathFileNameCsv",
+									"referenceName": "DsSourceDataLakePathFileNameCsv_Header",
 									"type": "DatasetReference",
 									"parameters": {
-										"SourceNetworkPath": {
+										"SourceDataLakePath": {
 											"value": "@pipeline().parameters.SourceDataLakePath",
 											"type": "Expression"
 										},
-										"SourceNetworkPathFileName": {
-											"value": "@item().name",
+										"SourceDataLakePathFileName": {
+											"value": "@item().Name",
 											"type": "Expression"
 										}
 									}
@@ -53,8 +53,7 @@
 									"itemName"
 								],
 								"storeSettings": {
-									"type": "FileServerReadSettings",
-									"recursive": true,
+									"type": "AzureBlobFSReadSettings",
 									"enablePartitionDiscovery": false
 								},
 								"formatSettings": {
