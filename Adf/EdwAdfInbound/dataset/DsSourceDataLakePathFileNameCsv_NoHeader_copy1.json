@@ -1,0 +1,38 @@
+{
+	"name": "DsSourceDataLakePathFileNameCsv_NoHeader_copy1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAdlEdwFileExchange",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"SourceDataLakePath": {
+				"type": "string"
+			},
+			"SourceDataLakePathFileName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().SourceDataLakePathFileName",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().SourceDataLakePath",
+					"type": "Expression"
+				},
+				"fileSystem": "finance"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": false,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
