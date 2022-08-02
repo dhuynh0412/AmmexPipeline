@@ -35,7 +35,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"dataset": {
-									"referenceName": "DsSourceDataLakePathFileNameCsv_Header",
+									"referenceName": "DsSourceDataLakePathFileNameCsv_NoHeader",
 									"type": "DatasetReference",
 									"parameters": {
 										"SourceDataLakePath": {
@@ -165,7 +165,7 @@
 										},
 										"inputs": [
 											{
-												"referenceName": "DsSourceDataLakePathFileNameCsv_Header",
+												"referenceName": "DsSourceDataLakePathFileNameCsv_NoHeader",
 												"type": "DatasetReference",
 												"parameters": {
 													"SourceDataLakePath": {
