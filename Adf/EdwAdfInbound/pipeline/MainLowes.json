@@ -22,7 +22,7 @@
 					{
 						"activity": "IngestLowes",
 						"dependencyConditions": [
-							"Succeeded"
+							"Completed"
 						]
 					}
 				],
