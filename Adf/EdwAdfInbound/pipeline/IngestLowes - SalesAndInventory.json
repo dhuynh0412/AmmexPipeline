@@ -3,11 +3,11 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "LoopingThroughtNetworkFolders",
+				"name": "LoopingThroughtDataLakeFolders",
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "GetSourceNetworkFolder",
+						"activity": "GetSourceDataLakeFolder",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('GetSourceNetworkFolder').output.childItems",
+						"value": "@activity('GetSourceDataLakeFolder').output.childItems",
 						"type": "Expression"
 					},
 					"batchCount": 4,
@@ -35,15 +35,15 @@
 							"userProperties": [],
 							"typeProperties": {
 								"dataset": {
-									"referenceName": "DsSourceNetworkPathFileNameCsv",
+									"referenceName": "DsSourceDataLakePathFileNameCsv_Header",
 									"type": "DatasetReference",
 									"parameters": {
-										"SourceNetworkPath": {
-											"value": "@pipeline().parameters.SourceNetworkPath",
+										"SourceDataLakePath": {
+											"value": "@pipeline().parameters.SourceDataLakePath",
 											"type": "Expression"
 										},
-										"SourceNetworkPathFileName": {
-											"value": "@item().name",
+										"SourceDataLakePathFileName": {
+											"value": "@item().Name",
 											"type": "Expression"
 										}
 									}
@@ -53,8 +53,7 @@
 									"itemName"
 								],
 								"storeSettings": {
-									"type": "FileServerReadSettings",
-									"recursive": true,
+									"type": "AzureBlobFSReadSettings",
 									"enablePartitionDiscovery": false
 								},
 								"formatSettings": {
@@ -131,7 +130,7 @@
 													}
 												],
 												"storeSettings": {
-													"type": "FileServerReadSettings",
+													"type": "AzureBlobFSReadSettings",
 													"recursive": true,
 													"enablePartitionDiscovery": false
 												},
@@ -163,15 +162,15 @@
 										},
 										"inputs": [
 											{
-												"referenceName": "DsSourceNetworkPathFileNameCsv",
+												"referenceName": "DsSourceDataLakePathFileNameCsv_Header",
 												"type": "DatasetReference",
 												"parameters": {
-													"SourceNetworkPath": {
-														"value": "@pipeline().parameters.SourceNetworkPath",
+													"SourceDataLakePath": {
+														"value": "@pipeline().parameters.SourceDataLakePath",
 														"type": "Expression"
 													},
-													"SourceNetworkPathFileName": {
-														"value": "@item().name",
+													"SourceDataLakePathFileName": {
+														"value": "@item().Name",
 														"type": "Expression"
 													}
 												}
@@ -205,7 +204,7 @@
 				}
 			},
 			{
-				"name": "GetSourceNetworkFolder",
+				"name": "GetSourceDataLakeFolder",
 				"type": "GetMetadata",
 				"dependsOn": [],
 				"policy": {
@@ -218,11 +217,11 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "DsSourceNetworkPathCsv",
+						"referenceName": "DsSourceDataLakePathCsv_Header",
 						"type": "DatasetReference",
 						"parameters": {
-							"SourceNetworkPath": {
-								"value": "@pipeline().parameters.SourceNetworkPath",
+							"SourceDataLakePath": {
+								"value": "@pipeline().parameters.SourceDataLakePath",
 								"type": "Expression"
 							}
 						}
@@ -231,8 +230,7 @@
 						"childItems"
 					],
 					"storeSettings": {
-						"type": "FileServerReadSettings",
-						"recursive": true,
+						"type": "AzureBlobFSReadSettings",
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
@@ -242,9 +240,9 @@
 			}
 		],
 		"parameters": {
-			"SourceNetworkPath": {
+			"SourceDataLakePath": {
 				"type": "string",
-				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\Lowes\\2022\\Sales and Inventory"
+				"defaultValue": "inbound/sales/officedepot/sales inquiry/"
 			},
 			"DatalakeIngestRoot": {
 				"type": "string",
