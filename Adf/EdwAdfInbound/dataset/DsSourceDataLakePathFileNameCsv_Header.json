@@ -1,0 +1,29 @@
+{
+	"name": "DsSourceDataLakePathFileNameCsv_Header",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAdlEdwFileExchange",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"SourceDataLakePath": {
+				"type": "string"
+			},
+			"SourceDataLakePathFileName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
