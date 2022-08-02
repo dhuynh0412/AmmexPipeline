@@ -7,7 +7,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "GetSourceNetworkFolder",
+						"activity": "GetSourceDataLakeFolder",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('GetSourceNetworkFolder').output.childItems",
+						"value": "@activity('GetSourceDataLakeFolder').output.childItems",
 						"type": "Expression"
 					},
 					"batchCount": 4,
@@ -39,7 +39,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"SourceNetworkPath": {
-											"value": "@pipeline().parameters.SourceNetworkPath",
+											"value": "@pipeline().parameters.SourceDataLakePath",
 											"type": "Expression"
 										},
 										"SourceNetworkPathFileName": {
@@ -81,7 +81,8 @@
 								},
 								"ifTrueActivities": [
 									{
-										"name": "CopyingCsvToDataLake",
+										"name": "CopyingDataLakeToDataLake",
+										"description": "",
 										"type": "Copy",
 										"dependsOn": [],
 										"policy": {
@@ -166,7 +167,7 @@
 												"type": "DatasetReference",
 												"parameters": {
 													"SourceNetworkPath": {
-														"value": "@pipeline().parameters.SourceNetworkPath",
+														"value": "@pipeline().parameters.SourceDataLakePath",
 														"type": "Expression"
 													},
 													"SourceNetworkPathFileName": {
@@ -204,7 +205,7 @@
 				}
 			},
 			{
-				"name": "GetSourceNetworkFolder",
+				"name": "GetSourceDataLakeFolder",
 				"type": "GetMetadata",
 				"dependsOn": [],
 				"policy": {
