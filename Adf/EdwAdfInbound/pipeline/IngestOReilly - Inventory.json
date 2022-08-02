@@ -7,7 +7,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "GetSourceNetworkFolder",
+						"activity": "GetSourceDataLakeFolder",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('GetSourceNetworkFolder').output.childItems",
+						"value": "@activity('GetSourceDataLakeFolder').output.childItems",
 						"type": "Expression"
 					},
 					"batchCount": 4,
@@ -39,7 +39,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"SourceNetworkPath": {
-											"value": "@pipeline().parameters.SourceNetworkPath",
+											"value": "@pipeline().parameters.SourceDataLakePath",
 											"type": "Expression"
 										},
 										"SourceNetworkPathFileName": {
@@ -131,7 +131,7 @@
 													}
 												],
 												"storeSettings": {
-													"type": "FileServerReadSettings",
+													"type": "AzureBlobFSReadSettings",
 													"recursive": true,
 													"enablePartitionDiscovery": false
 												},
@@ -162,14 +162,14 @@
 										},
 										"inputs": [
 											{
-												"referenceName": "DsSourceNetworkPathFileNameCsv",
+												"referenceName": "DsSourceDataLakePathFileNameCsv_Header",
 												"type": "DatasetReference",
 												"parameters": {
-													"SourceNetworkPath": {
-														"value": "@pipeline().parameters.SourceNetworkPath",
+													"SourceDataLakePath": {
+														"value": "@pipeline().parameters.SourceDataLakePath",
 														"type": "Expression"
 													},
-													"SourceNetworkPathFileName": {
+													"SourceDataLakePathFileName": {
 														"value": "@item().name",
 														"type": "Expression"
 													}
@@ -204,7 +204,7 @@
 				}
 			},
 			{
-				"name": "GetSourceNetworkFolder",
+				"name": "GetSourceDataLakeFolder",
 				"type": "GetMetadata",
 				"dependsOn": [],
 				"policy": {
@@ -217,11 +217,11 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "DsSourceNetworkPathCsv",
+						"referenceName": "DsSourceDataLakePathCsv_Header",
 						"type": "DatasetReference",
 						"parameters": {
-							"SourceNetworkPath": {
-								"value": "@pipeline().parameters.SourceNetworkPath",
+							"SourceDataLakePath": {
+								"value": "@pipeline().parameters.SourceDataLakePath",
 								"type": "Expression"
 							}
 						}
@@ -230,8 +230,7 @@
 						"childItems"
 					],
 					"storeSettings": {
-						"type": "FileServerReadSettings",
-						"recursive": true,
+						"type": "AzureBlobFSReadSettings",
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
@@ -241,9 +240,9 @@
 			}
 		],
 		"parameters": {
-			"SourceNetworkPath": {
+			"SourceDataLakePath": {
 				"type": "string",
-				"defaultValue": "General\\Ammex\\Sales\\Sell Through Data Files\\OReilly\\2022\\Inventory"
+				"defaultValue": "inbound/sales/oreilly/inventory/"
 			},
 			"DatalakeIngestRoot": {
 				"type": "string",
