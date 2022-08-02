@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "LoopingThroughtNetworkFolders",
+				"name": "LoopingThroughtDataLakeFolders",
 				"type": "ForEach",
 				"dependsOn": [
 					{
