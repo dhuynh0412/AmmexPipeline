@@ -242,7 +242,7 @@
 		"parameters": {
 			"SourceDataLakePath": {
 				"type": "string",
-				"defaultValue": "inbound/sales/officedepot/sales inquiry/"
+				"defaultValue": "inbound/sales/lowes/sales and inventory/"
 			},
 			"DatalakeIngestRoot": {
 				"type": "string",
